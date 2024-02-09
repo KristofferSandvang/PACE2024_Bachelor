@@ -38,7 +38,6 @@ int main() {
             edges.push_back(edge);
         }
     }
-
     inputFile.close();
     return 0;
 }
