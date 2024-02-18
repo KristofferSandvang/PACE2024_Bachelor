@@ -5,4 +5,5 @@ g++ Program.cpp Graph.cpp Vertex.cpp -o program.o
 rm *.o
 cd visualizer
 python visualizer.py ../tests/graphs/test.gr ../tests/solutions/test.sol
+pace2024verifier ../tests/graphs/test.gr ../tests/solutions/test.sol
 cd ..

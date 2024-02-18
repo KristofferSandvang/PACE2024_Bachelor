@@ -130,11 +130,13 @@ void Graph::minimizeNumberOfCrossings() {
     for (int i = 0; i < n1; i++) {
         for (int j = i + 1; j < n1; j++) {
             switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
-            if (Graph::countCrossings() < curCrossings) {
+            int newCrossings = Graph::countCrossings();
+            if (newCrossings < curCrossings) {
                 std::cout << "Swapped vertices " << B.at(i).getVertexID() << " and " << B.at(j).getVertexID() << std::endl;
-                continue;
+                curCrossings = newCrossings;
+            } else {
+                switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
             }
-            switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
         }
     }
 }
