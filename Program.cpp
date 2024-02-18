@@ -8,8 +8,8 @@ int main() {
     Graph graph(inputFile, "test");
     inputFile.close();
 
-    graph.switchVertices(4, 5);
-
+    graph.minimizeNumberOfCrossings();
+    
     graph.writeSolution();
     std::cout << graph.countCrossings() << std::endl;
     

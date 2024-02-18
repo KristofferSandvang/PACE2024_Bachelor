@@ -71,7 +71,6 @@ int Graph::findVertexIndex(int vertexID) {
     for (int i = 0; i < vertices.size(); i++)
     {
         if (vertices.at(i).getVertexID() == vertexID) {
-            std::cout << "Vertex (ID = " << vertexID << ") found at index " << i << std::endl;
             return i;
         }
     }
@@ -80,21 +79,21 @@ int Graph::findVertexIndex(int vertexID) {
 
 int Graph::countCrossings() {
     int crossings = 0;
-    for (int i = 0; i < B.size(); i++)
+    for (int i = 0; i < n1; i++)
     {
         Vertex currentVertex = B.at(i);
         for (Vertex endOfEdge : currentVertex.getEdges()) {
             // If the edge is a straghtline from either the start or end of B,
             // we can skip it, as it will not have any crossings.
             if (i == 0 && endOfEdge.getVertexID() == 0 || 
-                i == B.size() - 1 && endOfEdge.getVertexID() == A.size() - 1) {
+                i == n1 - 1 && endOfEdge.getVertexID() == n0 ) {
                     continue;
             }
             // If the edge has previously been checked, we skip it.
             if (endOfEdge.getVertexID() - 1 < i) {
                 continue;
             }
-            for (int j = i + 1; j < B.size(); j++)
+            for (int j = i + 1; j < n1; j++)
             {
                 Vertex nextVertex = B.at(j);
                 for (Vertex v2 : nextVertex.getEdges()) {
@@ -126,4 +125,17 @@ void Graph::switchVertices(int v1ID, int v2ID) {
     }
 }
 
+void Graph::minimizeNumberOfCrossings() {
+    int curCrossings = Graph::countCrossings();
+    for (int i = 0; i < n1; i++) {
+        for (int j = i + 1; j < n1; j++) {
+            switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
+            if (Graph::countCrossings() < curCrossings) {
+                std::cout << "Swapped vertices " << B.at(i).getVertexID() << " and " << B.at(j).getVertexID() << std::endl;
+                continue;
+            }
+            switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
+        }
+    }
+}
 
