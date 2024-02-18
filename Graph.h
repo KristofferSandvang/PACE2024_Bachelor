@@ -22,8 +22,8 @@ public:
     void writeSolution();
     int countCrossings();
     void minimizeNumberOfCrossings();
-
-    
+    int findVertexIndex(int vertexID);
+    void switchVertices(int v1ID, int v2ID);
     ~Graph();
 };
 

@@ -1,5 +1,9 @@
 #include "Graph.h"
 #include <iostream>
+#include <vector>
+#include <algorithm> 
+#include <utility>
+#include <stdexcept>
 
 // Constructor 
 Graph::Graph(std::ifstream& inputFile, std::string solutionFileName) {
@@ -30,8 +34,8 @@ Graph::Graph(std::ifstream& inputFile, std::string solutionFileName) {
         int x, y;
         if (std::sscanf(line.c_str(), "%d %d", &x, &y) == 2)
         {
-            A.at(x - 1).addEdge(y);
-            B.at(y - n0 - 1).addEdge(x);
+            A.at(x - 1).addEdge(Vertex(y));
+            B.at(y - n0 - 1).addEdge(Vertex(x));
         }
     
     }
@@ -57,44 +61,69 @@ void Graph::writeSolution() {
     return;
 };
 
+int Graph::findVertexIndex(int vertexID) {
+    std::vector<Vertex> vertices;
+    if (vertexID <= n0) {
+        vertices = Graph::A;
+    } else {
+        vertices = Graph::B;
+    }
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        if (vertices.at(i).getVertexID() == vertexID) {
+            std::cout << "Vertex (ID = " << vertexID << ") found at index " << i << std::endl;
+            return i;
+        }
+    }
+    throw std::runtime_error("Vertex (ID = " + std::to_string(vertexID) + ") not found.");
+}
+
 int Graph::countCrossings() {
     int crossings = 0;
-    for (int a_i = 0; a_i < n0; a_i++)
-    {   
-        Vertex aVertex = A.at(a_i);        
-        for (int b_i = 0; b_i < n1; b_i++)
-        {
-            Vertex bVertex = B.at(b_i);
-            for (int b: aVertex.getEdges()) {
-                for (int a: bVertex.getEdges()) {
-                    if ((a_i < a && b_i > b) ||  (a_i > a && b_i < b)){
+    for (int i = 0; i < B.size(); i++)
+    {
+        Vertex currentVertex = B.at(i);
+        for (Vertex endOfEdge : currentVertex.getEdges()) {
+            // If the edge is a straghtline from either the start or end of B,
+            // we can skip it, as it will not have any crossings.
+            if (i == 0 && endOfEdge.getVertexID() == 0 || 
+                i == B.size() - 1 && endOfEdge.getVertexID() == A.size() - 1) {
+                    continue;
+            }
+            // If the edge has previously been checked, we skip it.
+            if (endOfEdge.getVertexID() - 1 < i) {
+                continue;
+            }
+            for (int j = i + 1; j < B.size(); j++)
+            {
+                Vertex nextVertex = B.at(j);
+                for (Vertex v2 : nextVertex.getEdges()) {
+                    if (v2.getVertexID() < endOfEdge.getVertexID()) {
                         crossings++;
                     }
-                }
+                }            
             }
         }
-        
     }
-    std::cout << crossings << std::endl;
     return crossings;
 }
-/*In this corrected version, we iterate over all pairs of vertices in A. 
-For each pair of vertices, we then iterate over all pairs of edges from those vertices. 
-If the edges cross, we increment the crossings counter. 
-An edge from A[a_i] to B[b_i] crosses an edge from A[a_j] to B[b_j] if a_i < a_j and b_i > b_j or a_i > a_j and b_i < b_j.*/
-/* int Graph::countCrossings() {
-    int crossings = 0;
-    for (int a_i = 0; a_i < n0; a_i++) {
-        for (int a_j = a_i + 1; a_j < n0; a_j++) {
-            for (int b_i: A.at(a_i).getEdges()) {
-                for (int b_j: A.at(a_j).getEdges()) {
-                    if ((b_i < b_j && a_i > a_j) || (b_i > b_j && a_i < a_j)) {
-                        crossings++;
-                    }
-                }
-            }
-        }
+
+void Graph::switchVertices(int v1ID, int v2ID) {
+    if (v1ID < n1 || v2ID < n1) {
+        throw std::runtime_error("Vertices must be both be in the B graph");
     }
-    std::cout << crossings << std::endl;
-    return crossings;
-} */
+    try {
+        int v1_index = Graph::findVertexIndex(v1ID);
+        int v2_index = Graph::findVertexIndex(v2ID);
+        
+        Vertex tmp = Graph::B.at(v1_index);
+        Graph::B.at(v1_index) = Graph::B.at(v2_index);
+        Graph::B.at(v2_index) = tmp;
+    }
+    catch(const std::exception& e) {
+        std::cerr << e.what() << '\n';
+        return;
+    }
+}
+
+

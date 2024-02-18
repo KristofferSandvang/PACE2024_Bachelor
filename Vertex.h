@@ -7,14 +7,16 @@
 class Vertex
 {
 private:
-    int vertexNumber;
-    std::vector<int> edgeTo;
+    int id;
+    std::vector<Vertex> edgeTo;
 public:
-    Vertex(int vertexNumber);
+    Vertex(int vertexID);
     ~Vertex();
-    void addEdge(int vertex);
-    std::vector<int> getEdges();
+    void addEdge(Vertex vertex);
+    std::vector<Vertex> getEdges();
     std::string toString();
+    int getVertexID();
+    void switchVertices(Vertex v1, Vertex v2);
 };
 
 #endif
