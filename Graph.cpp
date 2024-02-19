@@ -89,10 +89,7 @@ int Graph::countCrossings() {
                 i == n1 - 1 && endOfEdge.getVertexID() == n0 ) {
                     continue;
             }
-            // If the edge has previously been checked, we skip it.
-            if (endOfEdge.getVertexID() - 1 < i) {
-                continue;
-            }
+            
             for (int j = i + 1; j < n1; j++)
             {
                 Vertex nextVertex = B.at(j);
@@ -108,7 +105,7 @@ int Graph::countCrossings() {
 }
 
 void Graph::switchVertices(int v1ID, int v2ID) {
-    if (v1ID < n1 || v2ID < n1) {
+    if (v1ID < n0 || v2ID < n0) {
         throw std::runtime_error("Vertices must be both be in the B graph");
     }
     try {
@@ -127,15 +124,19 @@ void Graph::switchVertices(int v1ID, int v2ID) {
 
 void Graph::minimizeNumberOfCrossings() {
     int curCrossings = Graph::countCrossings();
-    for (int i = 0; i < n1; i++) {
-        for (int j = i + 1; j < n1; j++) {
-            switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
-            int newCrossings = Graph::countCrossings();
-            if (newCrossings < curCrossings) {
-                std::cout << "Swapped vertices " << B.at(i).getVertexID() << " and " << B.at(j).getVertexID() << std::endl;
-                curCrossings = newCrossings;
-            } else {
+    bool canImprove = true;
+    while (canImprove) {
+        canImprove = false;
+        for (int i = 0; i < n1; i++) {
+            for (int j = i + 1; j < n1; j++) {
                 switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
+                int newCrossings = Graph::countCrossings();
+                if (newCrossings < curCrossings) {
+                    curCrossings = newCrossings;
+                    canImprove = true;
+                } else {
+                    switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
+                }
             }
         }
     }
