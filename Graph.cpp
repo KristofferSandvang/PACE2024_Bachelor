@@ -131,7 +131,7 @@ void Graph::minimizeNumberOfCrossings() {
                 switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
                 crossingNumberMatrix = calculateCrossingNumberMatrix();
                 int newCrossings = crossingNumberMatrix[i][j];
-                if (newCrossings > curCrossings) {
+                if (newCrossings < curCrossings) {
                     curCrossings = newCrossings;
                 } else {
                     switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
@@ -149,7 +149,10 @@ std::vector<std::vector<int>> Graph::calculateCrossingNumberMatrix() {
             int crossings = 0;
             for (Vertex v1 : B.at(i).getEdges()) {
                 for (Vertex v2 : B.at(j).getEdges()) {
-                    if (v1.getVertexID() < v2.getVertexID()) {
+                    
+                    if (v1.getVertexID() > v2.getVertexID()) {
+                        std::cout << "v1: " << v1.getVertexID() << " v2: " << v2.getVertexID() << std::endl;
+                        std::cout << "Crossing" << std::endl;
                         crossings++;
                     }
                 }
@@ -158,12 +161,13 @@ std::vector<std::vector<int>> Graph::calculateCrossingNumberMatrix() {
             crossingNumberMatrix[j][i] = crossings;
         }
     }
-    /* for (int i = 0; i < n1; i++) {
+
+    for (int i = 0; i < n1; i++) {
         for (int j = 0; j < n1; j++) {
             std::cout << crossingNumberMatrix[i][j] << " ";
         }
         std::cout << std::endl;
-    } */
+    }
     
     return crossingNumberMatrix;
 }
