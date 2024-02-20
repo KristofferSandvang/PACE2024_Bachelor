@@ -123,22 +123,47 @@ void Graph::switchVertices(int v1ID, int v2ID) {
 }
 
 void Graph::minimizeNumberOfCrossings() {
-    int curCrossings = Graph::countCrossings();
-    bool canImprove = true;
-    while (canImprove) {
-        canImprove = false;
-        for (int i = 0; i < n1; i++) {
+    //Crossing number matrix
+    std::vector<std::vector<int>> crossingNumberMatrix = calculateCrossingNumberMatrix();
+    for (int i = 0; i < n1; i++) {
             for (int j = i + 1; j < n1; j++) {
+                int curCrossings = crossingNumberMatrix[i][j];
                 switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
-                int newCrossings = Graph::countCrossings();
-                if (newCrossings < curCrossings) {
+                crossingNumberMatrix = calculateCrossingNumberMatrix();
+                int newCrossings = crossingNumberMatrix[i][j];
+                if (newCrossings > curCrossings) {
                     curCrossings = newCrossings;
-                    canImprove = true;
                 } else {
                     switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
+                    crossingNumberMatrix = calculateCrossingNumberMatrix();
                 }
             }
         }
-    }
 }
 
+std::vector<std::vector<int>> Graph::calculateCrossingNumberMatrix() {
+    std::vector<std::vector<int>> crossingNumberMatrix(n1, std::vector<int>(n1, 0));
+    // Calculate the number of crossings for each pair of vertices
+    for (int i = 0; i < n1; i++) {
+        for (int j = i + 1; j < n1; j++) {
+            int crossings = 0;
+            for (Vertex v1 : B.at(i).getEdges()) {
+                for (Vertex v2 : B.at(j).getEdges()) {
+                    if (v1.getVertexID() < v2.getVertexID()) {
+                        crossings++;
+                    }
+                }
+            }
+            crossingNumberMatrix[i][j] = crossings;
+            crossingNumberMatrix[j][i] = crossings;
+        }
+    }
+    /* for (int i = 0; i < n1; i++) {
+        for (int j = 0; j < n1; j++) {
+            std::cout << crossingNumberMatrix[i][j] << " ";
+        }
+        std::cout << std::endl;
+    } */
+    
+    return crossingNumberMatrix;
+}

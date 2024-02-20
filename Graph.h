@@ -15,7 +15,7 @@ private:
     std::vector<Vertex> A, B;
     int n0, n1, numberOfEdges;
     std::string solutionFileName;
-
+    
 public:
     Graph(std::ifstream& inputFile, std::string solutionFileName);
 
@@ -24,6 +24,7 @@ public:
     void minimizeNumberOfCrossings();
     int findVertexIndex(int vertexID);
     void switchVertices(int v1ID, int v2ID);
+    std::vector<std::vector<int>> calculateCrossingNumberMatrix();
     ~Graph();
 };
 
