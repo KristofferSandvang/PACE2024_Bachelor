@@ -6,9 +6,9 @@ int main() {
     auto start = std::chrono::system_clock::now();
     std::ifstream inputFile("tests/graphs/test.gr");
     Graph graph(inputFile, "test");
-    graph.calculateCrossingNumberMatrix();
-    //graph.minimizeNumberOfCrossings();
-    //graph.calculateCrossingNumberMatrix();
+    
+    graph.greedySwitching();
+    
     graph.writeSolution();
     std::cout << graph.countCrossings() << std::endl;
     inputFile.close();

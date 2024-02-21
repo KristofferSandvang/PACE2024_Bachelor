@@ -21,10 +21,10 @@ public:
 
     void writeSolution();
     int countCrossings();
-    void minimizeNumberOfCrossings();
+    void greedySwitching();
     int findVertexIndex(int vertexID);
     void switchVertices(int v1ID, int v2ID);
-    std::vector<std::vector<int>> calculateCrossingNumberMatrix();
+    std::vector<std::vector<int>> CrossingNumberMatrix();
     ~Graph();
 };
 
