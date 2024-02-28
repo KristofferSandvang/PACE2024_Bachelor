@@ -4,13 +4,12 @@
 #include <algorithm> 
 #include <utility>
 #include <stdexcept>
+#include <cmath>
 
 // Constructor 
-Graph::Graph(std::ifstream& inputFile, std::string solutionFileName) {
-    Graph::solutionFileName = SOLUTION_PATH + solutionFileName + ".sol";
-
+Graph::Graph(std::string inputFilename) {
+    std::ifstream inputFile(inputFilename);
     std::string line;
-
     while (std::getline(inputFile, line))
     {
         if (line[0] == 'c') {
@@ -18,8 +17,7 @@ Graph::Graph(std::ifstream& inputFile, std::string solutionFileName) {
         }
         if (line.substr(0, 5) == "p ocr") {            
             std::sscanf(line.c_str(),"p ocr %d %d %d", &n0, &n1, &numberOfEdges);
-            
-            // Skal måske laves til en funktion for sig?
+            // Ínitialzing the A and B sides of graph
             for (int a_i = 1; a_i <= std::max(n0, n1); a_i++)
             {
                 if (a_i <= n0) {
@@ -30,7 +28,7 @@ Graph::Graph(std::ifstream& inputFile, std::string solutionFileName) {
                 }
             }
         }
-    
+        // Adds edges to the corresponding vertexs.
         int x, y;
         if (std::sscanf(line.c_str(), "%d %d", &x, &y) == 2)
         {
@@ -39,6 +37,7 @@ Graph::Graph(std::ifstream& inputFile, std::string solutionFileName) {
         }
     
     }
+    inputFile.close();
 }
 
 // Destructor 
@@ -46,20 +45,14 @@ Graph::~Graph() {
     return;
 }
 
-// Write the current graph as a solution
-void Graph::writeSolution() {
-    std::ofstream solutionFile(solutionFileName);
-    if (!solutionFile.is_open()) {
-        std::cout << "Unable to write to " << solutionFileName << std::endl;
-        return;
-    }
-    for (auto vertex: B) {
-        solutionFile << vertex.toString() << std::endl;
-    }
-
-    solutionFile.close();
-    return;
-};
+double Graph::calculateGraphDensity() {
+    int V = n0 + n1;
+    int E = numberOfEdges;
+    double numerator = 2 * E;
+    double denominator = V * (V - 1);
+    //std::cout << numerator << "/" << denominator << std::endl;
+    return numerator / denominator;
+}
 
 int Graph::findVertexIndex(int vertexID) {
     std::vector<Vertex> vertices;
@@ -77,20 +70,20 @@ int Graph::findVertexIndex(int vertexID) {
     throw std::runtime_error("Vertex (ID = " + std::to_string(vertexID) + ") not found.");
 }
 
-int Graph::countCrossings() {
+int Graph::countCrossings(std::vector<Vertex> A, std::vector<Vertex> B) {
     int crossings = 0;
-    for (int i = 0; i < n1; i++)
+    for (int i = 0; i < B.size(); i++)
     {
         Vertex currentVertex = B.at(i);
         for (Vertex endOfEdge : currentVertex.getEdges()) {
             // If the edge is a straghtline from either the start or end of B,
             // we can skip it, as it will not have any crossings.
             if (i == 0 && endOfEdge.getVertexID() == 0 || 
-                i == n1 - 1 && endOfEdge.getVertexID() == n0 ) {
+                i == B.size() - 1 && endOfEdge.getVertexID() == A.size() ) {
                     continue;
             }
             
-            for (int j = i + 1; j < n1; j++)
+            for (int j = i + 1; j < B.size(); j++)
             {
                 Vertex nextVertex = B.at(j);
                 for (Vertex v2 : nextVertex.getEdges()) {
@@ -104,6 +97,24 @@ int Graph::countCrossings() {
     return crossings;
 }
 
+int Graph::countCrossings() {
+    return countCrossings(A, B);
+}
+
+int Graph::countCrossings(std::string B_file) {
+    std::vector<Vertex> newB;
+    std::ifstream inputFile(B_file);
+    std::string line;
+    
+    while (std::getline(inputFile, line)) {
+        int vertexID;
+        if (std::sscanf(line.c_str(),"%d", &vertexID)) {
+            newB.push_back(B.at(findVertexIndex(vertexID)));
+        }
+    }
+    return countCrossings(Graph::A, newB);
+}
+
 void Graph::switchVertices(int v1ID, int v2ID) {
     if (v1ID < n0 || v2ID < n0) {
         throw std::runtime_error("Vertices must be both be in the B graph");
@@ -111,10 +122,7 @@ void Graph::switchVertices(int v1ID, int v2ID) {
     try {
         int v1_index = Graph::findVertexIndex(v1ID);
         int v2_index = Graph::findVertexIndex(v2ID);
-        
-        Vertex tmp = Graph::B.at(v1_index);
-        Graph::B.at(v1_index) = Graph::B.at(v2_index);
-        Graph::B.at(v2_index) = tmp;
+        std::swap(B.at(v1_index), B.at(v2_index));
     }
     catch(const std::exception& e) {
         std::cerr << e.what() << '\n';
@@ -122,23 +130,6 @@ void Graph::switchVertices(int v1ID, int v2ID) {
     }
 }
 
-void Graph::minimizeNumberOfCrossings() {
-    int curCrossings = Graph::countCrossings();
-    bool canImprove = true;
-    while (canImprove) {
-        canImprove = false;
-        for (int i = 0; i < n1; i++) {
-            for (int j = i + 1; j < n1; j++) {
-                switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
-                int newCrossings = Graph::countCrossings();
-                if (newCrossings < curCrossings) {
-                    curCrossings = newCrossings;
-                    canImprove = true;
-                } else {
-                    switchVertices(B.at(i).getVertexID(), B.at(j).getVertexID());
-                }
-            }
-        }
-    }
+std::vector<Vertex> Graph::getB() {
+    return B;
 }
-

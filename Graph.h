@@ -6,8 +6,6 @@
 #include <string>
 #include "Vertex.h"
 
-const std::string SOLUTION_PATH = "./tests/solutions/";
-const std::string GRAPH_PATH = "./tests/graphs/";
 
 class Graph
 {
@@ -17,13 +15,16 @@ private:
     std::string solutionFileName;
 
 public:
-    Graph(std::ifstream& inputFile, std::string solutionFileName);
+    Graph(std::string inputFilename);
+    Graph() = default;
 
-    void writeSolution();
+    double calculateGraphDensity();
     int countCrossings();
-    void minimizeNumberOfCrossings();
+    int countCrossings(std::vector<Vertex> A, std::vector<Vertex> B);
+    int countCrossings(std::string B_order);    
     int findVertexIndex(int vertexID);
     void switchVertices(int v1ID, int v2ID);
+    std::vector<Vertex> getB();
     ~Graph();
 };
 

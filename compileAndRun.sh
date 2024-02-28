@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Skal have en make file, som compiler alle vores cpp filer :)
-g++ Program.cpp Graph.cpp Vertex.cpp -o program.o
-./program.o
+g++ Program.cpp Graph.cpp Vertex.cpp ./CrossingMinimizers/Crossingminimizer.cpp ./CrossingMinimizers/Barycenter.cpp ./CrossingMinimizers/Median.cpp -o program.o
+./program.o ./tests/graphs/test.gr
 rm *.o
 cd visualizer
 python visualizer.py ../tests/graphs/test.gr ../tests/solutions/test.sol
-pace2024verifier ../tests/graphs/test.gr ../tests/solutions/test.sol
 cd ..
+pace2024verifier ./tests/graphs/test.gr ./tests/solutions/test.sol -c
