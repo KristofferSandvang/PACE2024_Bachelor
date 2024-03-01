@@ -1,4 +1,4 @@
-#include "Crossingminimizer.h"
+#include "CrossingMinimizer.h"
 #include <iostream>
 
 CrossingMinimizer::CrossingMinimizer(Graph graph, std::string solutionFileName) {
