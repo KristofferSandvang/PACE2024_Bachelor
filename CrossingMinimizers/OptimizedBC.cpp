@@ -9,7 +9,7 @@ OptimizedBC::OptimizedBC(Graph graph, std::string solutionFileName) : CrossingMi
 
 void OptimizedBC::optimizeOrder(std::vector<Vertex> vertices) {
     int currentCrossings = graph.countCrossings(graph.getA(), B);
-    // Skal gemme de skiftede verticer
+    std::pair<int, int> swappedVerticeIndex = {-1, -1};
     for (int i = 0; i < vertices.size(); i++)
     {
         Vertex firstVertex = vertices.at(i);
@@ -23,6 +23,11 @@ void OptimizedBC::optimizeOrder(std::vector<Vertex> vertices) {
             int newCrossings = graph.countCrossings(graph.getA(), B);
             if (newCrossings < currentCrossings) {
                 currentCrossings = newCrossings;
+                swappedVerticeIndex = {i, j};
+                // Skal finde ud af hvordan vi så gør hvis size = 3
+                // og det giver mening at både bytte om på 1 og 2, også 3 og 2
+                // kunne evt. bytte rundt på dem igen, også køre en countcrossing() 
+                // og hvis det er mer end før, så bytte tilbage
             } else {
                 std::swap(B.at(i), B.at(j));
             }
@@ -71,7 +76,7 @@ void OptimizedBC::minimizeCrossings() {
 
     std::sort(barycenterValues.begin(), barycenterValues.end(), compareBarycenterValues);
 
-    B = handleSameBCVal(barycenterValues);
+    handleSameBCVal(barycenterValues);
 
     writeSolution(B);
 }
