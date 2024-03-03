@@ -21,18 +21,18 @@ int main(int argc, char* argv[]) {
     
     auto start = std::chrono::system_clock::now();
     Graph graph(inputFile);
-    //std::cout << "Number of crossings before: " << graph.countCrossings() << std::endl;
+    std::cout << "Number of crossings before: " << graph.countCrossings() << std::endl;
 
     std::cout << "Graph Density = " << std::setprecision(2) << graph.calculateGraphDensity() << std::endl;
     Barycenter barycenter(graph, outputFile); 
     barycenter.minimizeCrossings();
 
-    //std::cout << "Number of crossings after barycenter: " << graph.countCrossings(outputFile) << std::endl;
+    std::cout << "Number of crossings after barycenter: " << graph.countCrossings(outputFile) << std::endl;
 
     Median median(graph, outputFile);
     median.minimizeCrossings();
 
-    //std::cout << "Number of crossings after median: " << graph.countCrossings(outputFile) << std::endl;
+    std::cout << "Number of crossings after median: " << graph.countCrossings(outputFile) << std::endl;
 
     auto end = std::chrono::system_clock::now();
     double duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
