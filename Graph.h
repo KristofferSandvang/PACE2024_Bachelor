@@ -25,6 +25,7 @@ public:
     int findVertexIndex(int vertexID);
     void switchVertices(int v1ID, int v2ID);
     std::vector<Vertex> getB();
+    std::vector<Vertex> getA();
     ~Graph();
 };
 
