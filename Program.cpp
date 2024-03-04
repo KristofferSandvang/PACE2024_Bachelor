@@ -15,7 +15,6 @@ std::string getFileName(std::string filePath) {
     size_t prefixPath = filePath.find(INPUT_PATH);
 
     if (prefixPath != std::string::npos) {
-        std::cout << "Function: " << filePath << std::endl;
         return filePath.substr(INPUT_PATH.size(), filePath.length() - INPUT_PATH.size() - 3);
     }
     throw std::invalid_argument("The path does not contain the input File");
@@ -30,7 +29,6 @@ int main(int argc, char* argv[]) {
     {
         std::string inputFile = argv[1];
         std::string fileName = getFileName(inputFile);
-        std::cout << "main: " << fileName << std::endl;
         std::string outputFile = SOLUTION_PATH + fileName + ".sol";
 
         auto start = std::chrono::system_clock::now();
