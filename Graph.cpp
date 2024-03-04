@@ -46,11 +46,8 @@ Graph::~Graph() {
 }
 
 double Graph::calculateGraphDensity() {
-    int V = n0 + n1;
-    int E = numberOfEdges;
-    double numerator = 2 * E;
-    double denominator = V * (V - 1);
-    //std::cout << numerator << "/" << denominator << std::endl;
+    double numerator = numberOfEdges;
+    double denominator = n0 * n1;
     return numerator / denominator;
 }
 

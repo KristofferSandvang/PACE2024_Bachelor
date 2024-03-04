@@ -1,45 +1,54 @@
 #include "OptimizedBC.h"
 #include <algorithm>
 #include <map>
+#include <iostream>
 
 OptimizedBC::OptimizedBC(Graph graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
 {
     B = graph.getB();
 }
 
-void OptimizedBC::optimizeOrder(std::vector<Vertex> vertices) {
-    int currentCrossings = graph.countCrossings(graph.getA(), B);
-    for (int i = 0; i < vertices.size(); i++)
+void OptimizedBC::optimizeOrder(std::vector<int>& vertexIndices) {
+    std::cout << "Number of same bc val: " << vertexIndices.size() << std::endl;
+    if (vertexIndices.size() > 4) {
+        return;
+    }
+
+    int bestCrossings = graph.countCrossings(graph.getA(), B);
+    std::vector<Vertex> bestOrder = B;
+    std::vector<int> indices;
+
+    while (std::next_permutation(vertexIndices.begin(), vertexIndices.end()))
     {
-        Vertex firstVertex = vertices.at(i);
-        for (int j = 0; j < vertices.size(); j++)
+        std::vector<Vertex> tmpB = B;
+        for (int i = 0; i < vertexIndices.size(); i++)
         {
-            if (i == j) {
-                continue;
+            for (int j = i + 1; j < vertexIndices.size(); j++)
+            {
+                std::swap(tmpB.at(vertexIndices.at(i)), tmpB.at(vertexIndices.at(j)));
             }
-            Vertex secondVertex = vertices.at(j);
-            std::swap(B.at(i), B.at(j));
-            int newCrossings = graph.countCrossings(graph.getA(), B);
-            if (newCrossings < currentCrossings) {
-                currentCrossings = newCrossings;
-            } else {
-                std::swap(B.at(i), B.at(j));
-            }
+        }        
+        int newCrossings = graph.countCrossings(graph.getA(), tmpB);
+        if (newCrossings < bestCrossings) {
+            bestCrossings = newCrossings;
+            bestOrder = tmpB;
         }
     }
+
+    B = bestOrder;
 }
 
 
 void OptimizedBC::handleSameBCVal(std::vector<std::pair<float, Vertex> > bcValues) {
-    std::map<float, std::vector<Vertex> > BCmap;
+    std::map<float, std::vector<int> > BCmap;
     for (int i = 0; i < bcValues.size(); i++)
     {
         B.at(i) = bcValues.at(i).second;
-        BCmap[bcValues.at(i).first].push_back(bcValues.at(i).second); 
+        BCmap[bcValues.at(i).first].push_back(i); 
     }
 
     for (auto& entry : BCmap) {
-        std::vector<Vertex>& vertices = entry.second;
+        std::vector<int>& vertices = entry.second;
         if (vertices.size() == 1) {
             continue;
         }
