@@ -133,3 +133,7 @@ void Graph::switchVertices(int v1ID, int v2ID) {
 std::vector<Vertex> Graph::getB() {
     return B;
 }
+
+std::vector<Vertex> Graph::getA() {
+    return A;
+}

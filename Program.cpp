@@ -4,9 +4,9 @@
 #include "Graph.h"
 #include "CrossingMinimizers/Barycenter.h"
 #include "CrossingMinimizers/Median.h"
+#include "CrossingMinimizers/OptimizedBC.h"
 #include <iomanip>
 #include <stdexcept>
-
 
 const std::string INPUT_PATH = "./tests/graphs/";
 const std::string SOLUTION_PATH = "./tests/solutions/";
@@ -46,6 +46,12 @@ int main(int argc, char* argv[]) {
 
         std::cout << "Number of crossings after median: " << graph.countCrossings(outputFile) << std::endl;
 
+        OptimizedBaryCenter
+        OptimizedBC optimizedBC(graph, outputFile);
+        optimizedBC.minimizeCrossings();
+
+        std::cout << "Number of crossings after optimizedBC: " << graph.countCrossings(outputFile) << std::endl;
+
         auto end = std::chrono::system_clock::now();
         double duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration = "<< duration << std::endl;
@@ -56,6 +62,4 @@ int main(int argc, char* argv[]) {
         std::cout << "Invalid filepath" << std::endl;
         return 1;
     }
-    
-    
 }
