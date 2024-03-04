@@ -4,6 +4,7 @@
 #include "Graph.h"
 #include "CrossingMinimizers/Barycenter.h"
 #include "CrossingMinimizers/Median.h"
+#include "CrossingMinimizers/OptimizedBC.h"
 #include <iomanip>
 
 
@@ -33,6 +34,11 @@ int main(int argc, char* argv[]) {
     median.minimizeCrossings();
 
     std::cout << "Number of crossings after median: " << graph.countCrossings(outputFile) << std::endl;
+
+    OptimizedBC optimizedBC(graph, outputFile);
+    optimizedBC.minimizeCrossings();
+
+    std::cout << "Number of crossings after optimizedBC: " << graph.countCrossings(outputFile) << std::endl;
 
     auto end = std::chrono::system_clock::now();
     double duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();

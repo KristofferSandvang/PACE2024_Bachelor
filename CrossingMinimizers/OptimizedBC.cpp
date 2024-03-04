@@ -9,7 +9,6 @@ OptimizedBC::OptimizedBC(Graph graph, std::string solutionFileName) : CrossingMi
 
 void OptimizedBC::optimizeOrder(std::vector<Vertex> vertices) {
     int currentCrossings = graph.countCrossings(graph.getA(), B);
-    std::pair<int, int> swappedVerticeIndex = {-1, -1};
     for (int i = 0; i < vertices.size(); i++)
     {
         Vertex firstVertex = vertices.at(i);
@@ -23,23 +22,15 @@ void OptimizedBC::optimizeOrder(std::vector<Vertex> vertices) {
             int newCrossings = graph.countCrossings(graph.getA(), B);
             if (newCrossings < currentCrossings) {
                 currentCrossings = newCrossings;
-                swappedVerticeIndex = {i, j};
-                // Skal finde ud af hvordan vi så gør hvis size = 3
-                // og det giver mening at både bytte om på 1 og 2, også 3 og 2
-                // kunne evt. bytte rundt på dem igen, også køre en countcrossing() 
-                // og hvis det er mer end før, så bytte tilbage
             } else {
                 std::swap(B.at(i), B.at(j));
             }
         }
-        
     }
-    
 }
 
 
 void OptimizedBC::handleSameBCVal(std::vector<std::pair<float, Vertex> > bcValues) {
-    std::vector<Vertex> tempB;
     std::map<float, std::vector<Vertex> > BCmap;
     for (int i = 0; i < bcValues.size(); i++)
     {
@@ -53,12 +44,11 @@ void OptimizedBC::handleSameBCVal(std::vector<std::pair<float, Vertex> > bcValue
             continue;
         }
         optimizeOrder(vertices);
-        
     }
 }
 
 
-bool compareBarycenterValues(const std::pair<float, Vertex>& a, const std::pair<float, Vertex>& b) {
+bool compareBCVALS(const std::pair<float, Vertex>& a, const std::pair<float, Vertex>& b) {
     return a.first < b.first;
 }
 
@@ -74,7 +64,7 @@ void OptimizedBC::minimizeCrossings() {
         barycenterValues.push_back(std::make_pair(barycenterValue, B.at(i)));
     }
 
-    std::sort(barycenterValues.begin(), barycenterValues.end(), compareBarycenterValues);
+    std::sort(barycenterValues.begin(), barycenterValues.end(), compareBCVALS);
 
     handleSameBCVal(barycenterValues);
 
