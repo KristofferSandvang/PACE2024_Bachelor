@@ -13,6 +13,7 @@ private:
     std::vector<Vertex> A, B;
     int n0, n1, numberOfEdges;
     std::string solutionFileName;
+    std::vector<std::pair<int, int> > edges;
 
 public:
     Graph(std::string inputFilename);
@@ -20,8 +21,11 @@ public:
 
     double calculateGraphDensity();
     int countCrossings();
-    int countCrossings(std::vector<Vertex> A, std::vector<Vertex> B);
-    int countCrossings(std::string B_order);    
+    static int countCrossings(std::vector<Vertex> A, std::vector<Vertex> B);
+    int countCrossings(std::string B_file);
+    int countCrossingsSweep();
+    int countCrossingsSweep(std::string B_file);
+    static int countCrossingsSweep(std::vector<Vertex> A, std::vector<Vertex> B);    
     int findVertexIndex(int vertexID);
     void switchVertices(int v1ID, int v2ID);
     std::vector<Vertex> getB();

@@ -1,5 +1,5 @@
 #include "Vertex.h"
-
+#include <algorithm> 
 
 Vertex::Vertex(int vertexID) {
     Vertex::id = vertexID;
@@ -14,6 +14,7 @@ void Vertex::addEdge(Vertex vertex) {
 }
 
 std::vector<Vertex> Vertex::getEdges() {
+    std::sort(edgeTo.begin(), edgeTo.end());
     return edgeTo;
 }
 
@@ -24,3 +25,4 @@ std::string Vertex::toString() {
 int Vertex::getVertexID() {
     return id;
 }
+

@@ -17,6 +17,9 @@ public:
     std::string toString();
     int getVertexID();
     void switchVertices(Vertex v1, Vertex v2);
+    bool operator < (const Vertex& other) {
+        return this->id < other.id;
+    }
 };
 
 #endif
