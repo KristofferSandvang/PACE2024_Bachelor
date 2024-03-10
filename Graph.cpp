@@ -210,7 +210,7 @@ int Graph::countCrossingsSweep(std::vector<Vertex> A, std::vector<Vertex> B) {
 }
 
 int Graph::countCrossingsSweep() {
-    return countCrossings(A, B);
+    return countCrossingsSweep(A, B);
 }
 
 int Graph::countCrossingsSweep(std::string B_file) {
