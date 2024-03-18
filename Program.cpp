@@ -57,23 +57,24 @@ int main(int argc, char* argv[]) {
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of median: "<< duration << std::endl;
+        std::cout << "Number of crossings after median: " << graph.countCrossingsSweep(outputFile) << std::endl;
         std::cout << "Number of crossings after median: " << graph.countCrossings(outputFile) << std::endl;
-        
+
         start = std::chrono::system_clock::now();
         OptimizedMedian optimizedMedian(graph, outputFile);
         optimizedMedian.minimizeCrossings();
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of optimizedMedian: "<< duration << std::endl;
-        std::cout << "Number of crossings after optimizedMedian: " << graph.countCrossings(outputFile) << std::endl;
+        std::cout << "Number of crossings after optimizedMedian: " << graph.countCrossingsSweep(outputFile) << std::endl;
         
-        start = std::chrono::system_clock::now();
+        /* start = std::chrono::system_clock::now();
         Barycenter barycenter(graph, outputFile); 
         barycenter.minimizeCrossings();
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of barycenter: "<< duration << std::endl;
-        std::cout << "Number of crossings after barycenter: " << graph.countCrossings(outputFile) << std::endl;
+        std::cout << "Number of crossings after barycenter: " << graph.countCrossingsSweep(outputFile) << std::endl;
 
         start = std::chrono::system_clock::now();
         OptimizedBC optimizedBC(graph, outputFile);
@@ -81,6 +82,7 @@ int main(int argc, char* argv[]) {
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of optimizedBC: "<< duration << std::endl;
+        std::cout << "Number of crossings after optimizedBC: " << graph.countCrossingsSweep(outputFile) << std::endl; */
         std::cout << "Number of crossings after optimizedBC: " << graph.countCrossings(outputFile) << std::endl;
         return 0;
     }

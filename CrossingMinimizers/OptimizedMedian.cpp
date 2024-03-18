@@ -10,7 +10,7 @@ OptimizedMedian::OptimizedMedian(Graph graph, std::string solutionFileName) : Cr
 }
 void OptimizedMedian::optimizeOrder(std::vector<int>&  vertexIndices) {
     std::cout << "Number of same median val: " << vertexIndices.size() << std::endl;
-    if (vertexIndices.size() > 4) {
+    if (vertexIndices.size() > 2) {
         return;
     }
 

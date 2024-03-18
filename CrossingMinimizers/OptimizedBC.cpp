@@ -10,7 +10,7 @@ OptimizedBC::OptimizedBC(Graph graph, std::string solutionFileName) : CrossingMi
 
 void OptimizedBC::optimizeOrder(std::vector<int>& vertexIndices) {
     std::cout << "1Number of same bc val: " << vertexIndices.size() << std::endl;
-    if (vertexIndices.size() > 4) {
+    if (vertexIndices.size() > 5) {
         return;
     }
 
