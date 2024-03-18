@@ -10,11 +10,11 @@ OptimizedBC::OptimizedBC(Graph graph, std::string solutionFileName) : CrossingMi
 
 void OptimizedBC::optimizeOrder(std::vector<int>& vertexIndices) {
     std::cout << "1Number of same bc val: " << vertexIndices.size() << std::endl;
-    if (vertexIndices.size() > 10) {
+    if (vertexIndices.size() > 4) {
         return;
     }
 
-    int bestCrossings = graph.countCrossingsSweep(graph.getA(), B);
+    int bestCrossings = graph.countCrossings(graph.getA(), B);
     std::vector<Vertex> bestOrder = B;
 
     while (std::next_permutation(vertexIndices.begin(), vertexIndices.end()))
@@ -27,7 +27,7 @@ void OptimizedBC::optimizeOrder(std::vector<int>& vertexIndices) {
                 std::swap(tmpB.at(vertexIndices.at(i)), tmpB.at(vertexIndices.at(j)));
             }
         }
-        int newCrossings = graph.countCrossingsSweep(graph.getA(), tmpB);
+        int newCrossings = graph.countCrossings(graph.getA(), tmpB);
         if (newCrossings < bestCrossings) {
             bestCrossings = newCrossings;
             bestOrder = tmpB;
