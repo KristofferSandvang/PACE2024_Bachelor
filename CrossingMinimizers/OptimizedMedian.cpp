@@ -10,11 +10,11 @@ OptimizedMedian::OptimizedMedian(Graph graph, std::string solutionFileName) : Cr
 }
 void OptimizedMedian::optimizeOrder(std::vector<int>&  vertexIndices) {
     std::cout << "Number of same median val: " << vertexIndices.size() << std::endl;
-    if (vertexIndices.size() > 1) {
+    if (vertexIndices.size() > 4) {
         return;
     }
 
-    int bestCrossings = graph.countCrossings(graph.getA(), B);
+    int bestCrossings = graph.countCrossingsSweep(graph.getA(), B);
     std::vector<Vertex> bestOrder = B;
     std::map<std::vector<int>, int> crossingsMap;
 
@@ -23,7 +23,7 @@ void OptimizedMedian::optimizeOrder(std::vector<int>&  vertexIndices) {
             std::swap(B[i], B[vertexIndices[i]]);
         }
         if (crossingsMap.find(vertexIndices) == crossingsMap.end()) {
-            crossingsMap[vertexIndices] = graph.countCrossings(graph.getA(), B);
+            crossingsMap[vertexIndices] = graph.countCrossingsSweep(graph.getA(), B);
         }
         int newCrossings = crossingsMap[vertexIndices];
         if (newCrossings < bestCrossings) {
