@@ -1,14 +1,14 @@
-#include "OptimizedBC.h"
+#include "OptimizedBCRight.h"
 #include <algorithm>
 #include <map>
 #include <iostream>
 
-OptimizedBC::OptimizedBC(Graph graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
+OptimizedBCRight::OptimizedBCRight(Graph graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
 {
     B = graph.getB();
 }
 
-void OptimizedBC::optimizeOrder(std::vector<int>& vertexIndices) {
+void OptimizedBCRight::optimizeOrder(std::vector<int>& vertexIndices) {
     //std::cout << "1Number of same bc val: " << vertexIndices.size() << std::endl;
     if (vertexIndices.size() > 6) {
         return;
@@ -37,7 +37,7 @@ void OptimizedBC::optimizeOrder(std::vector<int>& vertexIndices) {
 }
 
 
-void OptimizedBC::handleSameBCVal(std::vector<std::pair<float, Vertex> > bcValues) {
+void OptimizedBCRight::handleSameBCVal(std::vector<std::pair<float, Vertex> > bcValues) {
     std::map<float, std::vector<int> > BCmap;
     for (int i = 0; i < bcValues.size(); i++)
     {
@@ -55,11 +55,11 @@ void OptimizedBC::handleSameBCVal(std::vector<std::pair<float, Vertex> > bcValue
 }
 
 
-bool compareBCVALS(const std::pair<float, Vertex>& a, const std::pair<float, Vertex>& b) {
+bool compareBCVALSRight(const std::pair<float, Vertex>& a, const std::pair<float, Vertex>& b) {
     return a.first < b.first;
 }
 
-void OptimizedBC::minimizeCrossings() {
+void OptimizedBCRight::minimizeCrossings() {
     std::vector <std::pair<float, Vertex> > barycenterValues;
     for (int i = 0; i < B.size(); i++)
     {
@@ -71,7 +71,22 @@ void OptimizedBC::minimizeCrossings() {
         barycenterValues.push_back(std::make_pair(barycenterValue, B.at(i)));
     }
 
-    std::sort(barycenterValues.begin(), barycenterValues.end(), compareBCVALS);
+    std::sort(barycenterValues.begin(), barycenterValues.end(), compareBCVALSRight);
+    //sorting the barycenter values and vertices to the right order if the barycenter values are the same
+    
+    bool swapped = true;
+    while (swapped) {
+        swapped = false;
+        for (int i = 0; i < barycenterValues.size(); i++) {
+            for (int j = i+1; j < barycenterValues.size(); j++) {
+                if (barycenterValues.at(j).first == barycenterValues.at(i).first && 
+                    barycenterValues.at(j).second.getVertexID() < barycenterValues.at(i).second.getVertexID()) {
+                    std::swap(barycenterValues.at(j), barycenterValues.at(i));
+                    swapped = true;
+                }
+            }
+        }
+    }
 
     handleSameBCVal(barycenterValues);
 
@@ -81,6 +96,6 @@ void OptimizedBC::minimizeCrossings() {
 
 
 
-OptimizedBC::~OptimizedBC()
+OptimizedBCRight::~OptimizedBCRight()
 {
 }
