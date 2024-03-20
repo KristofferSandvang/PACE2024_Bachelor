@@ -43,20 +43,20 @@ int main(int argc, char* argv[]) {
         auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of sweep: "<< duration << std::endl;
         std::cout << "Number of crossings sweep: " << crossings << std::endl;
-    
+        
         std::ofstream solutionFile(outputFile);
         for (auto vertex: *graph.getB()) {
             solutionFile << vertex.toString() << std::endl;
         }
-        solutionFile.close();
+
+        
         /* start = std::chrono::system_clock::now();
         Barycenter barycenter(graph, outputFile); 
         barycenter.minimizeCrossings();
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of barycenter: "<< duration << std::endl;
-        std::cout << "Number of crossings after barycenter: " << graph.countCrossingsSweep(outputFile) << std::endl;
-        std::cout << "Number of crossings Bary naive: " << graph.countCrossings(outputFile) << std::endl; */
+        std::cout << "Number of crossings after barycenter: " << graph.countCrossingsSweep(outputFile) << std::endl; */
 
 
         // start = std::chrono::system_clock::now();
