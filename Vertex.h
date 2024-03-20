@@ -8,15 +8,14 @@ class Vertex
 {
 private:
     int id;
-    std::vector<Vertex> edgeTo;
+    std::vector<Vertex> edges;
 public:
     Vertex(int vertexID);
     ~Vertex();
-    void addEdge(Vertex vertex);
+    void addEdge(Vertex Vertex);
     std::vector<Vertex> getEdges();
     std::string toString();
     int getVertexID();
-    void switchVertices(Vertex v1, Vertex v2);
     bool operator < (const Vertex& other) const {
         return this->id < other.id;
     }

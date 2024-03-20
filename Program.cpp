@@ -9,8 +9,8 @@
 #include <iomanip>
 #include <stdexcept>
 
-const std::string INPUT_PATH = "./tests/graphs/medium";
-const std::string SOLUTION_PATH = "./tests/solutions/medium";
+const std::string INPUT_PATH = "./tests/graphs/medium/";
+const std::string SOLUTION_PATH = "./tests/solutions/medium/";
 
 std::string getFileName(std::string filePath) {
     size_t prefixPath = filePath.find(INPUT_PATH);
@@ -32,15 +32,10 @@ int main(int argc, char* argv[]) {
         std::string inputFile = argv[1];
         std::string fileName = getFileName(inputFile);
         std::string outputFile = SOLUTION_PATH + fileName + ".sol";
-
+        std::cout << "TEST 1" << std::endl;
         Graph graph(inputFile);
+        std::cout << "TEST 2" << std::endl;
 
-        std::ofstream solutionFile(outputFile);
-        for (auto vertex: graph.getB()) {
-            solutionFile << vertex.toString() << std::endl;
-        }
-
-        solutionFile.close();
         std::cout << "Graph Density = " << std::setprecision(2) << graph.calculateGraphDensity() << std::endl;
         auto start = std::chrono::system_clock::now();
         int crossings = graph.countCrossingsSweep();
@@ -49,14 +44,19 @@ int main(int argc, char* argv[]) {
         std::cout << "Duration of sweep: "<< duration << std::endl;
         std::cout << "Number of crossings sweep: " << crossings << std::endl;
     
-        
-        // start = std::chrono::system_clock::now();
-        // Barycenter barycenter(graph, outputFile); 
-        // barycenter.minimizeCrossings();
-        // end = std::chrono::system_clock::now();
-        // duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        // std::cout << "Duration of barycenter: "<< duration << std::endl;
-        // std::cout << "Number of crossings after barycenter: " << graph.countCrossingsSweep(outputFile) << std::endl;
+        std::ofstream solutionFile(outputFile);
+        for (auto vertex: graph.getB()) {
+            solutionFile << vertex.toString() << std::endl;
+        }
+        solutionFile.close();
+        /* start = std::chrono::system_clock::now();
+        Barycenter barycenter(graph, outputFile); 
+        barycenter.minimizeCrossings();
+        end = std::chrono::system_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+        std::cout << "Duration of barycenter: "<< duration << std::endl;
+        std::cout << "Number of crossings after barycenter: " << graph.countCrossingsSweep(outputFile) << std::endl;
+        std::cout << "Number of crossings Bary naive: " << graph.countCrossings(outputFile) << std::endl; */
 
 
         // start = std::chrono::system_clock::now();
@@ -68,13 +68,14 @@ int main(int argc, char* argv[]) {
         // std::cout << "Number of crossings after median: " << graph.countCrossingsSweep(outputFile) << std::endl;
         
         
-        // start = std::chrono::system_clock::now();
-        // OptimizedBC optimizedBC(graph, outputFile);
-        // optimizedBC.minimizeCrossings();
-        // end = std::chrono::system_clock::now();
-        // duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        // std::cout << "Duration of optimizedBC: "<< duration << std::endl;
-        // std::cout << "Number of crossings after optimizedBC: " << graph.countCrossingsSweep(outputFile) << std::endl;
+       /*  start = std::chrono::system_clock::now();
+        OptimizedBC optimizedBC(graph, outputFile);
+        optimizedBC.minimizeCrossings();
+        end = std::chrono::system_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+        std::cout << "Duration of optimizedBC: "<< duration << std::endl;
+        std::cout << "Number of crossings after optimizedBC: " << graph.countCrossingsSweep(outputFile) << std::endl; */
+        
         return 0;
     }
     catch(const std::invalid_argument& e)

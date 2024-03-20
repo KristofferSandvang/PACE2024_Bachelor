@@ -10,12 +10,12 @@ Vertex::~Vertex()
 }
 
 void Vertex::addEdge(Vertex vertex) {
-    edgeTo.push_back(vertex);
+    edges.push_back(vertex);
+    std::sort(edges.begin(), edges.end());
 }
 
 std::vector<Vertex> Vertex::getEdges() {
-    std::sort(edgeTo.begin(), edgeTo.end());
-    return edgeTo;
+    return edges;
 }
 
 std::string Vertex::toString() {
