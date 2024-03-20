@@ -25,11 +25,11 @@ public:
     int countCrossings(std::string B_file);
     int countCrossingsSweep();
     int countCrossingsSweep(std::string B_file);
-    static int countCrossingsSweep(std::vector<Vertex> A, std::vector<Vertex> B);    
+    static int countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B);    
     int findVertexIndex(int vertexID);
     void switchVertices(int v1ID, int v2ID);
-    std::vector<Vertex> getB();
-    std::vector<Vertex> getA();
+    std::vector<Vertex>* getB();
+    std::vector<Vertex>* getA();
     ~Graph();
 };
 

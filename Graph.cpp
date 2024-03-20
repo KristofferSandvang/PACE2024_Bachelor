@@ -30,11 +30,13 @@ Graph::Graph(std::string inputFilename) {
             }
         }
         // Adds edges to the corresponding vertexs.
+        A.reserve(n0);
+        B.reserve(n1);
         int x, y;
         if (std::sscanf(line.c_str(), "%d %d", &x, &y) == 2)
         {
-            B.at(y - n0 - 1).addEdge(A.at(x - 1));
-            A.at(x - 1).addEdge(B.at(y - n0 - 1));
+            B.at(y - n0 - 1).addEdge(&A.at(x - 1));
+            A.at(x - 1).addEdge(&B.at(y - n0 - 1));
         }
     }
     inputFile.close();
@@ -72,18 +74,18 @@ int Graph::countCrossings(std::vector<Vertex> A, std::vector<Vertex> B) {
     for (int i = 0; i < B.size(); i++)
     {
         Vertex currentVertex = B.at(i);
-        for (Vertex endOfEdge : currentVertex.getEdges()) {
+        for (Vertex* endOfEdge : currentVertex.getEdges()) {
             // If the edge is a straghtline from either the start or end of B,
             // we can skip it, as it will not have any crossings.
-            if (i == 0 && endOfEdge.getVertexID() == 0 || 
-                i == B.size() - 1 && endOfEdge.getVertexID() == A.size() ) {
+            if (i == 0 && endOfEdge->getVertexID() == 0 || 
+                i == B.size() - 1 && endOfEdge->getVertexID() == A.size() ) {
                     continue;
             }
             for (int j = i + 1; j < B.size(); j++)
             {
                 Vertex nextVertex = B.at(j);
-                for (Vertex v2 : nextVertex.getEdges()) {
-                    if (v2.getVertexID() < endOfEdge.getVertexID()) {
+                for (Vertex* v2 : nextVertex.getEdges()) {
+                    if (v2->getVertexID() < endOfEdge->getVertexID()) {
                         crossings++;
                     }
                 }            
@@ -111,19 +113,19 @@ int Graph::countCrossings(std::string B_file) {
     return countCrossings(Graph::A, newB);
 }
 
-int Graph::countCrossingsSweep(std::vector<Vertex> A, std::vector<Vertex> B) {
+int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B) {
     int crossings = 0;
     std::vector<int> UL, LL;
     // last occurence
     std::unordered_map<int, int> last_occurence;
-    for (int i = 1; i <= A.size() + B.size(); i++) {
+    for (int i = 1; i <= A->size() + B->size(); i++) {
         last_occurence[i] = -1;
     }
 
     // main loop 
     int AIndex = 0;
     int BIndex = 0;
-    for (int iteration = 1; iteration <= A.size() + B.size() + 1; iteration++) {
+    for (int iteration = 1; iteration <= A->size() + B->size() + 1; iteration++) {
         /* std::cout << "iteration " << iteration << std::endl;
         std::cout << "Aindex = " << AIndex << " BIndex = " << BIndex << std::endl;
         for (const auto& pair : last_occurence) {
@@ -143,12 +145,12 @@ int Graph::countCrossingsSweep(std::vector<Vertex> A, std::vector<Vertex> B) {
         std::cout << std::endl;
         std::cout << std::endl;  */
         // odd = Upper level of graph
-        if ((iteration % 2 && AIndex < A.size()) || (B.size() <= BIndex && AIndex < A.size())) {
+        if ((iteration % 2 && AIndex < A->size()) || (B->size() <= BIndex && AIndex < A->size())) {
             int k1 = 0, k2 = 0, k3 = 0;
-            int lastOccurrence = last_occurence[A.at(AIndex).getVertexID()];
+            int lastOccurrence = last_occurence[A->at(AIndex).getVertexID()];
             if (lastOccurrence != -1) {
                 for (int j = 0; j <= lastOccurrence && j < UL.size(); j++) {
-                    if (UL.at(j) == A.at(AIndex).getVertexID()) {
+                    if (UL.at(j) == A->at(AIndex).getVertexID()) {
                         k1++;
                         k3 += k2;
                         UL.erase(UL.begin() + j);
@@ -158,10 +160,10 @@ int Graph::countCrossingsSweep(std::vector<Vertex> A, std::vector<Vertex> B) {
                 crossings += (k1 * LL.size()) + k3;
             }
             
-            std::vector<Vertex> edges = A.at(AIndex).getEdges();
-            for (Vertex edgeEnd : edges) {
-                int endpoint = edgeEnd.getVertexID();
-                if (A.at(AIndex).getVertexID() <= endpoint - A.size()) {
+            std::vector<Vertex*> edges = A->at(AIndex).getEdges();
+            for (Vertex* edgeEnd : edges) {
+                int endpoint = edgeEnd->getVertexID();
+                if (A->at(AIndex).getVertexID() <= endpoint - A->size()) {
                     LL.push_back(endpoint);
                     last_occurence[endpoint] = LL.size() -1;
                 }
@@ -169,12 +171,12 @@ int Graph::countCrossingsSweep(std::vector<Vertex> A, std::vector<Vertex> B) {
             AIndex++;
         }
         // Even = lower level of graph
-        else if (iteration % 2 == 0 && BIndex < B.size() || (A.size() <= AIndex && BIndex < B.size())){
+        else if (iteration % 2 == 0 && BIndex < B->size() || (A->size() <= AIndex && BIndex < B->size())){
             int k1 = 0, k2 = 0, k3 = 0;
-            int lastOccurrence = last_occurence[B.at(BIndex).getVertexID()];
+            int lastOccurrence = last_occurence[B->at(BIndex).getVertexID()];
             if (lastOccurrence != -1) {
                 for (int j = 0; j <= lastOccurrence && j < LL.size(); j++) {
-                    if (LL.at(j) == B.at(BIndex).getVertexID()) {
+                    if (LL.at(j) == B->at(BIndex).getVertexID()) {
                         k1++;
                         k3 += k2;
                         LL.erase(LL.begin() + j);
@@ -184,10 +186,10 @@ int Graph::countCrossingsSweep(std::vector<Vertex> A, std::vector<Vertex> B) {
                 crossings += (k1 * UL.size()) + k3;
             }
 
-            std::vector<Vertex> edges = B.at(BIndex).getEdges();
-            for (Vertex edgeEnd : edges) {
-                int endpoint = edgeEnd.getVertexID();
-                if (B.at(BIndex).getVertexID() - A.size() < endpoint) {
+            std::vector<Vertex*> edges = B->at(BIndex).getEdges();
+            for (Vertex* edgeEnd : edges) {
+                int endpoint = edgeEnd->getVertexID();
+                if (B->at(BIndex).getVertexID() - A->size() < endpoint) {
                     UL.push_back(endpoint);
                     last_occurence[endpoint] = UL.size() - 1;
                 }
@@ -201,7 +203,7 @@ int Graph::countCrossingsSweep(std::vector<Vertex> A, std::vector<Vertex> B) {
 }
 
 int Graph::countCrossingsSweep() {
-    return countCrossingsSweep(A, B);
+    return countCrossingsSweep(&A, &B);
 }
 
 int Graph::countCrossingsSweep(std::string B_file) {
@@ -216,7 +218,7 @@ int Graph::countCrossingsSweep(std::string B_file) {
             newB.push_back(B.at(findVertexIndex(vertexID)));
         }
     }
-    return countCrossingsSweep(Graph::A, newB);
+    return countCrossingsSweep(&A, &newB);
 }
 
 void Graph::switchVertices(int v1ID, int v2ID) {
@@ -234,10 +236,10 @@ void Graph::switchVertices(int v1ID, int v2ID) {
     }
 }
 
-std::vector<Vertex> Graph::getB() {
-    return B;
+std::vector<Vertex>* Graph::getB() {
+    return &B;
 }
 
-std::vector<Vertex> Graph::getA() {
-    return A;
+std::vector<Vertex>* Graph::getA() {
+    return &A;
 }

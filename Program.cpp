@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Number of crossings sweep: " << crossings << std::endl;
     
         std::ofstream solutionFile(outputFile);
-        for (auto vertex: graph.getB()) {
+        for (auto vertex: *graph.getB()) {
             solutionFile << vertex.toString() << std::endl;
         }
         solutionFile.close();

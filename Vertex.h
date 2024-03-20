@@ -8,12 +8,12 @@ class Vertex
 {
 private:
     int id;
-    std::vector<Vertex> edges;
+    std::vector<Vertex*> edges;
 public:
     Vertex(int vertexID);
     ~Vertex();
-    void addEdge(Vertex Vertex);
-    std::vector<Vertex> getEdges();
+    void addEdge(Vertex* vertex);
+    std::vector<Vertex*> getEdges();
     std::string toString();
     int getVertexID();
     bool operator < (const Vertex& other) const {
