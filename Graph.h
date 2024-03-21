@@ -27,6 +27,7 @@ public:
     int countCrossingsSweep(std::string B_file);
     int countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B);    
     int findVertexIndex(int vertexID);
+    static int findVertexByID(std::vector<Vertex>* vertices, int vertexID);
     void switchVertices(int v1ID, int v2ID);
     std::vector<Vertex>* getB();
     std::vector<Vertex>* getA();
