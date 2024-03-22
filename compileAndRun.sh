@@ -7,4 +7,4 @@ rm *.o
 # cd visualizer
 # python visualizer.py ../tests/graphs/test.gr ../tests/solutions/test.sol
 # cd ..
-pace2024verifier ./tests/graphs/test.gr ./tests/solutions/test.sol -c
+pace2024verifier ./tests/graphs/test.gr ./tests/solutions/test.sol

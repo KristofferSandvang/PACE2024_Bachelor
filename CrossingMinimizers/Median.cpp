@@ -3,7 +3,7 @@
 #include <math.h>
 #include <iostream>
 
-Median::Median(Graph graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
+Median::Median(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
 {
     
 }
@@ -13,11 +13,11 @@ bool compareMedian(const std::pair<float, Vertex>& a, const std::pair<float, Ver
 }
 
 void Median::minimizeCrossings() {
-    std::vector<Vertex>* B = graph.getB();
+    std::vector<Vertex> B = *graph->getB();
     std::vector <std::pair<float, Vertex> > medianValues;
-    for (int i = 0; i < B->size(); i++){
+    for (int i = 0; i < B.size(); i++){
         std::vector<int> edgeIDs;
-        for (Vertex* edgeVertex : B->at(i).getEdges()) {
+        for (Vertex* edgeVertex : B.at(i).getEdges()) {
             edgeIDs.push_back(edgeVertex->getVertexID());
         }
         std::sort(edgeIDs.begin(), edgeIDs.end());
@@ -34,17 +34,17 @@ void Median::minimizeCrossings() {
             medianValue = edgeIDs[edgeIDs.size()/2];
         }
         
-        medianValues.push_back(std::make_pair(medianValue, B->at(i)));
+        medianValues.push_back(std::make_pair(medianValue, B.at(i)));
     }
 
     std::sort(medianValues.begin(), medianValues.end(), compareMedian);
 
     for (int i = 0; i < medianValues.size(); i++)
     {
-        B->at(i) = medianValues.at(i).second;
+        B.at(i) = medianValues.at(i).second;
     }
 
-    writeSolution(*B);
+    writeSolution(&B);
 }
 
 

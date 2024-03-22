@@ -4,55 +4,51 @@
 #include <math.h>
 #include <iostream>
 
-OptimizedMedian::OptimizedMedian(Graph graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
+OptimizedMedian::OptimizedMedian(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
 {
-    B = graph.getB();
+    B = graph->getB();
 }
-void OptimizedMedian::optimizeOrder(std::vector<int>&  vertexIndices) {
-    std::cout << "Number of same median val: " << vertexIndices.size() << std::endl;
-    if (vertexIndices.size() > 4) {
+void OptimizedMedian::optimizeOrder(std::vector<int>* vertexIndices) {
+    if (vertexIndices->size() > 6) {
         return;
     }
 
-    int bestCrossings = graph.countCrossingsSweep(graph.getA(), B);
-    std::vector<Vertex> bestOrder = B;
-    std::map<std::vector<int>, int> crossingsMap;
+    int bestCrossings = graph->countCrossingsSweep(graph->getA(), B);
+    std::vector<Vertex>* bestOrder = B;
 
-    do {
-        for (int i = 0; i < vertexIndices.size(); i++) {
-            std::swap(B[i], B[vertexIndices[i]]);
+    while (std::next_permutation(vertexIndices->begin(), vertexIndices->end()))
+    {
+        std::vector<Vertex>* tmpB = B;
+        for (int i = 0; i < vertexIndices->size(); i++)
+        {
+            for (int j = i + 1; j < vertexIndices->size(); j++)
+            {
+                std::swap(tmpB->at(vertexIndices->at(i)), tmpB->at(vertexIndices->at(j)));
+            }
         }
-        if (crossingsMap.find(vertexIndices) == crossingsMap.end()) {
-            crossingsMap[vertexIndices] = graph.countCrossingsSweep(graph.getA(), B);
-        }
-        int newCrossings = crossingsMap[vertexIndices];
+        int newCrossings = graph->countCrossingsSweep(graph->getA(), tmpB);
         if (newCrossings < bestCrossings) {
             bestCrossings = newCrossings;
-            bestOrder = B;
-        } else {
-            for (int i = 0; i < vertexIndices.size(); i++) {
-                std::swap(B[i], B[vertexIndices[i]]);
-            }
+            bestOrder = tmpB;
         }        
-    } while (std::next_permutation(vertexIndices.begin(), vertexIndices.end()));
-
+    }
     B = bestOrder;
 }
 
-void OptimizedMedian::handleSameMedianVal(std::vector<std::pair<float, Vertex> > MedValues) {
+void OptimizedMedian::handleSameMedianVal(std::vector<std::pair<float, Vertex> >* MedValues) {
     std::map<float, std::vector<int> > MedMap;
-    for (int i = 0; i < MedValues.size(); i++)
+    for (int i = 0; i < MedValues->size(); i++)
     {
-        B.at(i) = MedValues.at(i).second;
-        MedMap[MedValues.at(i).first].push_back(i); 
+        B->at(i) = MedValues->at(i).second;
+        MedMap[MedValues->at(i).first].push_back(i); 
     }
 
     for (auto& entry : MedMap) {
-        std::vector<int>& vertices = entry.second;
-        if (vertices.size() == 1) {
+        std::vector<int>* indices = &entry.second;
+        if (indices->size() == 1) {
             continue;
         }
-        optimizeOrder(vertices);
+        optimizeOrder(indices);
     }
 }
 
@@ -64,14 +60,13 @@ bool compareMEDIAN(const std::pair<float, Vertex>& a, const std::pair<float, Ver
 }
 
 void OptimizedMedian::minimizeCrossings() {
-    std::vector<Vertex> B = graph.getB();
     std::vector <std::pair<float, Vertex> > medianValues;
-    medianValues.reserve(B.size());
-    for (int i = 0; i < B.size(); i++){
+    medianValues.reserve(B->size());
+    for (int i = 0; i < B->size(); i++){
         std::vector<int> edgeIDs;
-        edgeIDs.reserve(B.at(i).getEdges().size());
-        for (Vertex edgeVertex : B.at(i).getEdges()) {
-            edgeIDs.emplace_back(edgeVertex.getVertexID());
+        edgeIDs.reserve(B->at(i).getEdges().size());
+        for (Vertex* edgeVertex : B->at(i).getEdges()) {
+            edgeIDs.emplace_back(edgeVertex->getVertexID());
         }
         std::sort(edgeIDs.begin(), edgeIDs.end());
         float medianValue = 0;
@@ -87,17 +82,17 @@ void OptimizedMedian::minimizeCrossings() {
             medianValue = edgeIDs[floor(edgeIDs.size())/2];
         }
         
-        medianValues.push_back(std::make_pair(medianValue, B.at(i)));
+        medianValues.push_back(std::make_pair(medianValue, B->at(i)));
     }
 
     std::sort(medianValues.begin(), medianValues.end(), compareMEDIAN);
 
     for (int i = 0; i < medianValues.size(); i++)
     {
-        B.at(i) = medianValues.at(i).second;
+        B->at(i) = medianValues.at(i).second;
     }
     
-    handleSameMedianVal(medianValues);
+    handleSameMedianVal(&medianValues);
 
     writeSolution(B);
 }

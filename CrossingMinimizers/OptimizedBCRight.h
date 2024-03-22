@@ -7,11 +7,11 @@
 class OptimizedBCRight : protected CrossingMinimizer
 {
 private:
-    std::vector<Vertex> B;
-    void handleSameBCVal(std::vector<std::pair<float, Vertex> > bcValues);
-    void optimizeOrder(std::vector<int>&  vertexIndices);
+    std::vector<Vertex>* B;
+    void handleSameBCVal(std::vector<std::pair<float, Vertex> >* bcValues);
+    void optimizeOrder(std::vector<int>*  vertexIndices);
 public:
-    OptimizedBCRight(Graph graph, std::string solutionFileName);
+    OptimizedBCRight(Graph* grap, std::string solutionFileName);
     void minimizeCrossings() override;
     ~OptimizedBCRight();
 };

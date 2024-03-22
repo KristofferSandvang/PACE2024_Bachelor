@@ -21,7 +21,7 @@ void Vertex::updateEdgeOrder(std::vector<Vertex>* newBOrder) {
     int numOfEdges = edges.size();
     for (Vertex* edge : edges) {
         int newIndex = Graph::findVertexByID(newBOrder, edge->getVertexID());
-        indices.push_back(std::pair(edge, newIndex));
+        indices.push_back(std::make_pair(edge, newIndex));
     }
     
     auto comparator = [](const std::pair<Vertex*, int>& pair1, const std::pair<Vertex*, int>& pair2) {
@@ -33,6 +33,7 @@ void Vertex::updateEdgeOrder(std::vector<Vertex>* newBOrder) {
     {
         edges.at(i) = indices.at(i).first;
     }
+
 }
 
 
