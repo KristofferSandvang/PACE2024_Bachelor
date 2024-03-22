@@ -21,15 +21,16 @@ public:
 
     double calculateGraphDensity();
     int countCrossings();
-    static int countCrossings(std::vector<Vertex> A, std::vector<Vertex> B);
+    int countCrossings(std::vector<Vertex> A, std::vector<Vertex> B);
     int countCrossings(std::string B_file);
     int countCrossingsSweep();
     int countCrossingsSweep(std::string B_file);
-    static int countCrossingsSweep(std::vector<Vertex> A, std::vector<Vertex> B);    
+    int countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B);    
     int findVertexIndex(int vertexID);
+    static int findVertexByID(std::vector<Vertex>* vertices, int vertexID);
     void switchVertices(int v1ID, int v2ID);
-    std::vector<Vertex> getB();
-    std::vector<Vertex> getA();
+    std::vector<Vertex>* getB();
+    std::vector<Vertex>* getA();
     ~Graph();
 };
 

@@ -11,8 +11,8 @@
 #include <iomanip>
 #include <stdexcept>
 
-const std::string INPUT_PATH = "./tests/graphs/";
-const std::string SOLUTION_PATH = "./tests/solutions/";
+const std::string INPUT_PATH = "./tests/graphs/medium/";
+const std::string SOLUTION_PATH = "./tests/solutions/medium/";
 
 std::string getFileName(std::string filePath) {
     size_t prefixPath = filePath.find(INPUT_PATH);
@@ -30,26 +30,18 @@ int main(int argc, char* argv[]) {
     }
     try
     {   
-
         std::string inputFile = argv[1];
         std::string fileName = getFileName(inputFile);
         std::string outputFile = SOLUTION_PATH + fileName + ".sol";
-
         Graph graph(inputFile);
 
-        auto start = std::chrono::system_clock::now();
-        //std::cout << "Number of crossings naive: " << graph.countCrossings() << std::endl;
-        auto end = std::chrono::system_clock::now();
-        double duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        std::cout << "Duration of naive count: "<< duration << std::endl;
-
-        start = std::chrono::system_clock::now();
-        std::cout << "Number of crossings sweep: " << graph.countCrossingsSweep() << std::endl;
-        end = std::chrono::system_clock::now();
-        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        std::cout << "Duration of sweep: "<< duration << std::endl;
-
         std::cout << "Graph Density = " << std::setprecision(2) << graph.calculateGraphDensity() << std::endl;
+        auto start = std::chrono::system_clock::now();
+        int crossings = graph.countCrossingsSweep();
+        auto end = std::chrono::system_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+        std::cout << "Duration of sweep: "<< duration << std::endl;
+        std::cout << "Number of crossings sweep: " << crossings << std::endl;
         
         
         start = std::chrono::system_clock::now();
@@ -68,32 +60,19 @@ int main(int argc, char* argv[]) {
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of optimizedMedian: "<< duration << std::endl;
         std::cout << "Number of crossings after optimizedMedian sweep: " << graph.countCrossingsSweep(outputFile) << std::endl;
-        //std::cout << "Number of crossings after median naive: " << graph.countCrossings(outputFile) << std::endl;
-        /* start = std::chrono::system_clock::now();
-        Barycenter barycenter(graph, outputFile); 
-        barycenter.minimizeCrossings();
-        end = std::chrono::system_clock::now();
-        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        std::cout << "Duration of barycenter: "<< duration << std::endl;
-        std::cout << "Number of crossings after barycenter: " << graph.countCrossingsSweep(outputFile) << std::endl; */
+    
 
         start = std::chrono::system_clock::now();
-        OptimizedBC optimizedBC(graph, outputFile);
-        optimizedBC.minimizeCrossings();
+        crossings = graph.countCrossings();
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        std::cout << "Duration of optimizedBC: "<< duration << std::endl;
-        std::cout << "Number of crossings after optimizedBC: " << graph.countCrossingsSweep(outputFile) << std::endl;
-        std::cout << "Number of crossings after optimizedBC: " << graph.countCrossings(outputFile) << std::endl;
+        std::cout << "Duration of naive: "<< duration << std::endl;
+        std::cout << "Number of crossings naive: " << crossings << std::endl;
+        std::ofstream solutionFile(outputFile);
+        for (auto vertex: *graph.getB()) {
+            solutionFile << vertex.toString() << std::endl;
+        }
 
-        start = std::chrono::system_clock::now();
-        OptimizedBCRight optimizedBCRight(graph, outputFile);
-        optimizedBCRight.minimizeCrossings();
-        end = std::chrono::system_clock::now();
-        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        std::cout << "Duration of optimizedBCRight: "<< duration << std::endl;
-        std::cout << "Number of crossings after optimizedBCRight: " << graph.countCrossingsSweep(outputFile) << std::endl;
-        std::cout << "Number of crossings after optimizedBCRight: " << graph.countCrossings(outputFile) << std::endl; 
         return 0;
     }
     catch(const std::invalid_argument& e)
