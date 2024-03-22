@@ -9,7 +9,7 @@ class Barycenter : protected CrossingMinimizer
 private:
   
 public:
-    Barycenter(Graph graph, std::string solutionFileName);
+    Barycenter(Graph* graph, std::string solutionFileName);
     void minimizeCrossings() override;
     ~Barycenter();
 };
