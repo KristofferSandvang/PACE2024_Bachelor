@@ -11,8 +11,8 @@
 #include <iomanip>
 #include <stdexcept>
 
-const std::string INPUT_PATH = "./tests/graphs/";
-const std::string SOLUTION_PATH = "./tests/solutions/";
+const std::string INPUT_PATH = "./tests/graphs/medium/";
+const std::string SOLUTION_PATH = "./tests/solutions/medium/";
 
 std::string getFileName(std::string filePath) {
     size_t prefixPath = filePath.find(INPUT_PATH);
@@ -30,16 +30,20 @@ int main(int argc, char* argv[]) {
     }
     try
     {   
+        auto start = std::chrono::system_clock::now();
         std::string inputFile = argv[1];
         std::string fileName = getFileName(inputFile);
         std::string outputFile = SOLUTION_PATH + fileName + ".sol";
         Graph graph(inputFile);
-
-        std::cout << "Graph Density = " << std::setprecision(2) << graph.calculateGraphDensity() << std::endl;
-        auto start = std::chrono::system_clock::now();
-        int crossings = graph.countCrossingsSweep();
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+        std::cout << "Duration of file reading "<< duration << std::endl;
+
+        std::cout << "Graph Density = " << std::setprecision(2) << graph.calculateGraphDensity() << std::endl;
+        start = std::chrono::system_clock::now();
+        int crossings = graph.countCrossingsSweep();
+        end = std::chrono::system_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of sweep: "<< duration << std::endl;
         std::cout << "Number of crossings sweep: " << crossings << std::endl;
 
@@ -58,6 +62,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Duration of median: "<< duration << std::endl;
         std::cout << "Number of crossings after median sweep: " << graph.countCrossingsSweep(outputFile) << std::endl;
         std::cout << "Number of crossings after median naive: " << graph.countCrossings(outputFile) << std::endl;
+        
         start = std::chrono::system_clock::now();
         Barycenter barycenter(&graph, outputFile);
         barycenter.minimizeCrossings();

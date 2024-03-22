@@ -39,15 +39,6 @@ Graph::Graph(std::string inputFilename) {
             A.at(x - 1).addEdge(&B.at(y - n0 - 1));
         }
     }
-
-    for (int i = 0; i < n0; i++)
-    {   
-        std::cout << "ID = " << A.at(i).getVertexID() << " Edges = [ ";
-        for (int j = 0; j < A.at(i).getEdges().size(); j++) {
-                std::cout << A.at(i).getEdges().at(j)->getVertexID() << ", ";
-        }
-        std::cout << "]" <<std::endl;
-    }
     inputFile.close();
 }
 
@@ -146,24 +137,6 @@ int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B) {
     int AIndex = 0;
     int BIndex = 0;
     for (int iteration = 1; iteration <= A->size() + B->size() + 1; iteration++) {
-        std::cout << "iteration " << iteration << std::endl;
-        std::cout << "Aindex = " << AIndex << " BIndex = " << BIndex << std::endl;
-        for (const auto& pair : last_occurence) {
-            std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
-        }
-        std::cout << std::endl;
-        std::cout << "UL of size " << UL.size() << std::endl;
-        for (const auto& num : UL) {
-            std::cout << num << " ";
-        }
-        std::cout << std::endl;
-        std::cout << std::endl;
-        std::cout << "LL of size " << LL.size() << std::endl;
-        for (const auto& num : LL) {
-            std::cout << num << " ";
-        }
-        std::cout << std::endl;
-        std::cout << std::endl;  
         // odd = Upper level of graph
         if ((iteration % 2 && AIndex < A->size()) || (B->size() <= BIndex && AIndex < A->size())) {
             int k1 = 0, k2 = 0, k3 = 0;
@@ -185,10 +158,7 @@ int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B) {
                 int endpoint = edgeEnd->getVertexID();
                 // Have to search B array to find index of the endpoint, as it can change.
                 int endpointX = findVertexByID(B, endpoint);
-                std::cout << "endpoint " << endpoint << ", X = " << endpointX << std::endl;
-                std::cout << "Aindex = " << AIndex << " val = " << A->at(AIndex).getVertexID() << std::endl;
                 if (AIndex <= endpointX && endpointX != -1) {
-                    std::cout << "endpoint (" << endpoint << ", " << endpointX << ") was greater or equal to X" << std::endl;
                     LL.push_back(endpoint);
                     last_occurence[endpoint] = LL.size() -1;
                 }
@@ -221,7 +191,6 @@ int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B) {
             }
             BIndex++;
         }
-        std::cout << "===============================================================================" <<std::endl;
     }
     return crossings;
 }
@@ -242,29 +211,11 @@ int Graph::countCrossingsSweep(std::string B_file) {
             newB.push_back(B.at(findVertexIndex(vertexID)));
         }
     }
-    // Update directions on edges according to new B
-    // meaning we only have to update A
-    std::cout << "Before updating edges: " << std::endl;
+    
     for (int i = 0; i < n0; i++)
     {
-        std::cout << "ID = " << A.at(i).getVertexID() << " Edges = [ ";
-        for (int j = 0; j < A.at(i).getEdges().size(); j++) {
-                std::cout << A.at(i).getEdges().at(j)->getVertexID() << ", ";
-        }
-        std::cout << "]" <<std::endl;
         A.at(i).updateEdgeOrder(&newB);
     }
-    std::cout << "======================================================" << std::endl;
-
-    for (int i = 0; i < n0; i++)
-    {   
-        std::cout << "ID = " << A.at(i).getVertexID() << " Edges = [ ";
-        for (int j = 0; j < A.at(i).getEdges().size(); j++) {
-                std::cout << A.at(i).getEdges().at(j)->getVertexID() << ", ";
-        }
-        std::cout << "]" <<std::endl;
-    }
-    std::cout << "======================================================" << std::endl;
 
     return countCrossingsSweep(&A, &newB);
 }
