@@ -7,7 +7,7 @@
 class OptimizedMedian : protected CrossingMinimizer
 {
 private:
-    std::vector<Vertex>* B;
+    std::vector<Vertex> B;
     void handleSameMedianVal(std::vector<std::pair<float, Vertex> >* MedValues);
     void optimizeOrder(std::vector<int>* vertexIndices);
 public:

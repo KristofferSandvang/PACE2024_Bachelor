@@ -39,39 +39,61 @@ int main(int argc, char* argv[]) {
         auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of file reading "<< duration << std::endl;
 
-        std::cout << "Graph Density = " << std::setprecision(2) << graph.calculateGraphDensity() << std::endl;
-        start = std::chrono::system_clock::now();
-        int crossings = graph.countCrossingsSweep();
-        end = std::chrono::system_clock::now();
-        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        std::cout << "Duration of sweep: "<< duration << std::endl;
-        std::cout << "Number of crossings sweep: " << crossings << std::endl;
 
-        start = std::chrono::system_clock::now();
+        /* std::ofstream csvFile("results.csv", std::ios::app);
+
+        csvFile << fileName << "," << crossings << "," << duration1 << "," << crossingsNaive << "," << duration2 << density <<"\n";
+
+        csvFile.close(); */
+
+        /* start = std::chrono::system_clock::now();
         crossings = graph.countCrossings();
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of naive: "<< duration << std::endl;
-        std::cout << "Number of crossings naive: " << crossings << std::endl;
+        std::cout << "Number of crossings naive: " << crossings << std::endl; */
         
         start = std::chrono::system_clock::now();
-        Median median(&graph, outputFile);
-        median.minimizeCrossings();
+        Barycenter Barycenter(&graph, outputFile);
+        Barycenter.minimizeCrossings();
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        std::cout << "Duration of median: "<< duration << std::endl;
-        std::cout << "Number of crossings after median sweep: " << graph.countCrossingsSweep(outputFile) << std::endl;
-        std::cout << "Number of crossings after median naive: " << graph.countCrossings(outputFile) << std::endl;
+        std::cout << "Duration of Barycenter: "<< duration << std::endl; 
+        std::cout << "Number of crossings after Barycenter sweep: " << graph.countCrossingsSweep(outputFile) << std::endl;
+        
         
         start = std::chrono::system_clock::now();
-        Barycenter barycenter(&graph, outputFile);
-        barycenter.minimizeCrossings();
+        OptimizedBC OptimizedBC(&graph, outputFile);
+        OptimizedBC.minimizeCrossings();
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        std::cout << "Duration of Barycenter: "<< duration << std::endl;
-        std::cout << "Number of crossings after barycenter sweep: " << graph.countCrossingsSweep(outputFile) << std::endl;
-        std::cout << "Number of crossings after barycenter naive: " << graph.countCrossings(outputFile) << std::endl; 
+        std::cout << "Duration of OptimizedBC: "<< duration << std::endl;
+        std::cout << "Number of crossings after OptimizedBC sweep: " << graph.countCrossingsSweep(outputFile) << std::endl;
         
+        start = std::chrono::system_clock::now();
+        OptimizedBCRight OptimizedBCRight(&graph, outputFile);
+        OptimizedBCRight.minimizeCrossings();
+        end = std::chrono::system_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+        std::cout << "Duration of OptimizedBCRight: "<< duration << std::endl;
+        std::cout << "Number of crossings after OptimizedBCRight sweep: " << graph.countCrossingsSweep(outputFile) << std::endl;
+
+        /* //Median and OptimizedMedian
+        start = std::chrono::system_clock::now();
+        Median Median(&graph, outputFile);
+        Median.minimizeCrossings();
+        end = std::chrono::system_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+        std::cout << "Duration of Median: "<< duration << std::endl;
+        std::cout << "Number of crossings after Median sweep: " << graph.countCrossingsSweep(outputFile) << std::endl;
+
+        start = std::chrono::system_clock::now();
+        OptimizedMedian OptimizedMedian(&graph, outputFile);
+        OptimizedMedian.minimizeCrossings();
+        end = std::chrono::system_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+        std::cout << "Duration of OptimizedMedian: "<< duration << std::endl;
+        std::cout << "Number of crossings after OptimizedMedian sweep: " << graph.countCrossingsSweep(outputFile) << std::endl; */
         return 0;
     }
     catch(const std::invalid_argument& e)

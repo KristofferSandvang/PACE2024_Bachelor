@@ -16,22 +16,23 @@ Graph::Graph(std::string inputFilename) {
         if (line[0] == 'c') {
             continue;
         }
-        if (line.substr(0, 5) == "p ocr") {            
+        if (line.compare(0, 5, "p ocr") == 0) {            
             std::sscanf(line.c_str(),"p ocr %d %d %d", &n0, &n1, &numberOfEdges);
+            A.reserve(n0);
+            B.reserve(n1);
             // Ínitialzing the A and B sides of graph
             for (int a_i = 1; a_i <= std::max(n0, n1); a_i++)
             {
                 if (a_i <= n0) {
-                    A.push_back(Vertex(a_i));
+                    A.emplace_back(Vertex(a_i));
                 }
                 if (a_i <= n1) {
-                    B.push_back(Vertex(a_i + n0));
+                    B.emplace_back(Vertex(a_i + n0));
                 }
             }
         }
         // Adds edges to the corresponding vertexs.
-        A.reserve(n0);
-        B.reserve(n1);
+        
         int x, y;
         if (std::sscanf(line.c_str(), "%d %d", &x, &y) == 2)
         {
@@ -39,7 +40,7 @@ Graph::Graph(std::string inputFilename) {
             A.at(x - 1).addEdge(&B.at(y - n0 - 1));
         }
     }
-    inputFile.close();
+    //inputFile.close();
 }
 
 // Destructor 

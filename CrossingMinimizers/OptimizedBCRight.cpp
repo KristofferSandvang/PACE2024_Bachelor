@@ -5,21 +5,21 @@
 
 OptimizedBCRight::OptimizedBCRight(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
 {
-    B = graph->getB();
+    B = *graph->getB();
 }
 
 void OptimizedBCRight::optimizeOrder(std::vector<int>* vertexIndices) {
     //std::cout << "1Number of same bc val: " << vertexIndices.size() << std::endl;
-    if (vertexIndices->size() > 6) {
+    if (vertexIndices->size() > 7) {
         return;
     }
 
-    int bestCrossings = graph->countCrossingsSweep(graph->getA(), B);
-    std::vector<Vertex> bestOrder = *B;
+    int bestCrossings = graph->countCrossingsSweep(graph->getA(), &B);
+    std::vector<Vertex> bestOrder = B;
 
     while (std::next_permutation(vertexIndices->begin(), vertexIndices->end()))
     {
-        std::vector<Vertex> tmpB = *B;
+        std::vector<Vertex> tmpB = B;
         for (int i = 0; i < vertexIndices->size(); i++)
         {
             for (int j = i + 1; j < vertexIndices->size(); j++)
@@ -33,7 +33,7 @@ void OptimizedBCRight::optimizeOrder(std::vector<int>* vertexIndices) {
             bestOrder = tmpB;
         }        
     }
-    B = &bestOrder;
+    B = bestOrder;
 }
 
 
@@ -41,7 +41,7 @@ void OptimizedBCRight::handleSameBCVal(std::vector<std::pair<float, Vertex> >* b
     std::map<float, std::vector<int> > BCmap;
     for (int i = 0; i < bcValues->size(); i++)
     {
-        B->at(i) = bcValues->at(i).second;
+        B.at(i) = bcValues->at(i).second;
         BCmap[bcValues->at(i).first].push_back(i); 
     }
 
@@ -61,14 +61,14 @@ bool compareBCVALSRight(const std::pair<float, Vertex>& a, const std::pair<float
 
 void OptimizedBCRight::minimizeCrossings() {
     std::vector <std::pair<float, Vertex> > barycenterValues;
-    for (int i = 0; i < B->size(); i++)
+    for (int i = 0; i < B.size(); i++)
     {
         float barycenterValue = 0;
-        for (Vertex* edgeVertex : B->at(i).getEdges()) {
+        for (Vertex* edgeVertex : B.at(i).getEdges()) {
             barycenterValue += edgeVertex->getVertexID();
         }
-        barycenterValue = barycenterValue / B->at(i).getEdges().size();
-        barycenterValues.push_back(std::make_pair(barycenterValue, B->at(i)));
+        barycenterValue = barycenterValue / B.at(i).getEdges().size();
+        barycenterValues.push_back(std::make_pair(barycenterValue, B.at(i)));
     }
 
     std::sort(barycenterValues.begin(), barycenterValues.end(), compareBCVALSRight);
@@ -90,7 +90,7 @@ void OptimizedBCRight::minimizeCrossings() {
 
     handleSameBCVal(&barycenterValues);
 
-    writeSolution(B);
+    writeSolution(&B);
 }
 
 
