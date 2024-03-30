@@ -11,8 +11,8 @@
 #include <iomanip>
 #include <stdexcept>
 
-const std::string INPUT_PATH = "./tests/graphs/medium/";
-const std::string SOLUTION_PATH = "./tests/solutions/medium/";
+const std::string INPUT_PATH = "./tests/graphs/public/";
+const std::string SOLUTION_PATH = "./tests/solutions/public/";
 
 std::string getFileName(std::string filePath) {
     size_t prefixPath = filePath.find(INPUT_PATH);
@@ -40,20 +40,32 @@ int main(int argc, char* argv[]) {
         std::cout << "Duration of file reading "<< duration << std::endl;
 
 
-        /* std::ofstream csvFile("results.csv", std::ios::app);
+        
 
-        csvFile << fileName << "," << crossings << "," << duration1 << "," << crossingsNaive << "," << duration2 << density <<"\n";
-
-        csvFile.close(); */
-
-        /* start = std::chrono::system_clock::now();
-        crossings = graph.countCrossings();
+        start = std::chrono::system_clock::now();
+        int crossingsN = graph.countCrossings();
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of naive: "<< duration << std::endl;
-        std::cout << "Number of crossings naive: " << crossings << std::endl; */
-        
+        std::cout << "Number of crossings naive: " << crossingsN << std::endl;
+
         start = std::chrono::system_clock::now();
+        int crossingsS = graph.countCrossingsSweep();
+        end = std::chrono::system_clock::now();
+        double duration2 = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+        std::cout << "Duration of sweep: "<< duration2 << std::endl;
+        std::cout << "Number of crossings sweep: " << crossingsS << std::endl;
+        
+        int numVertices = graph.getNumVertices();
+        int numEdges = graph.getNumEdges();
+        
+        std::ofstream csvFile("results.csv", std::ios::app);
+
+        csvFile << fileName << "," << crossingsS << "," << duration2 << "," << crossingsN << "," << duration << "," << numEdges << "," << numVertices << std::endl;
+
+        csvFile.close();
+        
+        /* start = std::chrono::system_clock::now();
         Barycenter Barycenter(&graph, outputFile);
         Barycenter.minimizeCrossings();
         end = std::chrono::system_clock::now();
@@ -76,7 +88,7 @@ int main(int argc, char* argv[]) {
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of OptimizedBCRight: "<< duration << std::endl;
-        std::cout << "Number of crossings after OptimizedBCRight sweep: " << graph.countCrossingsSweep(outputFile) << std::endl;
+        std::cout << "Number of crossings after OptimizedBCRight sweep: " << graph.countCrossingsSweep(outputFile) << std::endl; */
 
         /* //Median and OptimizedMedian
         start = std::chrono::system_clock::now();

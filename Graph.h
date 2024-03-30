@@ -31,6 +31,8 @@ public:
     void switchVertices(int v1ID, int v2ID);
     std::vector<Vertex>* getB();
     std::vector<Vertex>* getA();
+    int getNumVertices();
+    int getNumEdges();
     ~Graph();
 };
 

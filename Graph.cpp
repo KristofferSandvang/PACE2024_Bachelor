@@ -243,3 +243,11 @@ std::vector<Vertex>* Graph::getB() {
 std::vector<Vertex>* Graph::getA() {
     return &A;
 }
+
+int Graph::getNumVertices() {
+    return n0 + n1;
+}
+
+int Graph::getNumEdges() {
+    return numberOfEdges;
+}
