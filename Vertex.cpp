@@ -4,6 +4,7 @@
 
 Vertex::Vertex(int vertexID) {
     Vertex::id = vertexID;
+    Vertex::degree = 0;
 }
 
 Vertex::~Vertex()
@@ -13,6 +14,7 @@ Vertex::~Vertex()
 void Vertex::addEdge(Vertex* vertex) {
     edges.push_back(vertex);
     std::sort(edges.begin(), edges.end());
+    Vertex::degree++;
 }
 
 void Vertex::updateEdgeOrder(std::vector<Vertex>* newBOrder) {
@@ -49,3 +51,6 @@ int Vertex::getVertexID() {
     return id;
 }
 
+int Vertex::getVertexDegree() {
+    return degree;
+}

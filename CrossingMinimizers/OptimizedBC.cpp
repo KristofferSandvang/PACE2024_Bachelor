@@ -5,7 +5,6 @@
 
 OptimizedBC::OptimizedBC(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
 {
-    B = *graph->getB();
 }
 
 void OptimizedBC::optimizeOrder(std::vector<int>* vertexIndices) {
@@ -40,7 +39,6 @@ void OptimizedBC::handleSameBCVal(std::vector<std::pair<float, Vertex> >* bcValu
     std::map<float, std::vector<int> > BCmap;
     for (int i = 0; i < bcValues->size(); i++)
     {
-        B.at(i) = bcValues->at(i).second;
         BCmap[bcValues->at(i).first].push_back(i); 
     }
 
@@ -78,7 +76,6 @@ void OptimizedBC::minimizeCrossings() {
         B.at(i) = barycenterValues.at(i).second;
     }
     handleSameBCVal(&barycenterValues);
-    writeSolution(&B);
 }
 
 

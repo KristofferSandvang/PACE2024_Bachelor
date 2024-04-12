@@ -7,13 +7,14 @@
 class OptimizedBC : protected CrossingMinimizer
 {
 private:
-    std::vector<Vertex> B;
     void handleSameBCVal(std::vector<std::pair<float, Vertex> >* bcValues);
     void optimizeOrder(std::vector<int>*  vertexIndices);
 public:
     OptimizedBC(Graph* graph, std::string solutionFileName);
     void minimizeCrossings() override;
     ~OptimizedBC();
+    using CrossingMinimizer::writeSolution;
+    using CrossingMinimizer::getNewB;
 };
 
 

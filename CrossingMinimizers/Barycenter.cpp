@@ -1,5 +1,6 @@
 #include "Barycenter.h"
 #include <algorithm>
+#include <iostream>
 
 Barycenter::Barycenter(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
 {
@@ -7,14 +8,11 @@ Barycenter::Barycenter(Graph* graph, std::string solutionFileName) : CrossingMin
 }
 
 
-
-
 bool compareBarycenterValues(const std::pair<float, Vertex>& a, const std::pair<float, Vertex>& b) {
     return a.first < b.first;
 }
 
 void Barycenter::minimizeCrossings() {
-    std::vector<Vertex> B = *graph->getB();
     std::vector <std::pair<float, Vertex> > barycenterValues;
     for (int i = 0; i < B.size(); i++)
     {
@@ -32,11 +30,7 @@ void Barycenter::minimizeCrossings() {
     {
         B.at(i) = barycenterValues.at(i).second;
     }
-
-    writeSolution(&B);
 }
-
-
 
 
 Barycenter::~Barycenter()

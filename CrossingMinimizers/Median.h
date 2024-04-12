@@ -12,6 +12,9 @@ public:
     Median(Graph* graph, std::string solutionFileName);
     void minimizeCrossings() override;
     ~Median();
+    using CrossingMinimizer::writeSolution;
+    using CrossingMinimizer::getNewB;
+
 };
 
 #endif

@@ -126,6 +126,12 @@ int Graph::findVertexByID(std::vector<Vertex>* vertices, int vertexID) {
 }
 
 int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B) {
+    // Skal lige opdatere B edges hvis B ikke er lig med graph.B
+    if (B != &this->B) {
+        for (int i = 0; i < n0; i++) {
+            this->A.at(i).updateEdgeOrder(B);
+        }
+    }
     int crossings = 0;
     std::vector<int> UL, LL;
     // last occurence

@@ -4,7 +4,7 @@ g++ -std=c++17 Program.cpp Graph.cpp Vertex.cpp ./CrossingMinimizers/Crossingmin
 echo "Program compiled"
 ./program.o ./tests/graphs/test.gr
 rm *.o
-cd visualizer
-python visualizer.py ../tests/graphs/test.gr ../tests/solutions/test.sol
-cd ..
+#cd visualizer
+#python visualizer.py ../tests/graphs/test.gr ../tests/solutions/test.sol
+#cd ..
 pace2024verifier ./tests/graphs/test.gr ./tests/solutions/test.sol -c

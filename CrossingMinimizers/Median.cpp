@@ -13,7 +13,6 @@ bool compareMedian(const std::pair<float, Vertex>& a, const std::pair<float, Ver
 }
 
 void Median::minimizeCrossings() {
-    std::vector<Vertex> B = *graph->getB();
     std::vector <std::pair<float, Vertex> > medianValues;
     for (int i = 0; i < B.size(); i++){
         std::vector<int> edgeIDs;
@@ -43,8 +42,6 @@ void Median::minimizeCrossings() {
     {
         B.at(i) = medianValues.at(i).second;
     }
-
-    writeSolution(&B);
 }
 
 

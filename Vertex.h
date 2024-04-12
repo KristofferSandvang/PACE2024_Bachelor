@@ -8,6 +8,7 @@ class Vertex
 {
 private:
     int id;
+    int degree;
     std::vector<Vertex*> edges;
 public:
     Vertex(int vertexID);
@@ -17,6 +18,7 @@ public:
     std::string toString();
     void updateEdgeOrder(std::vector<Vertex>* newBorder);
     int getVertexID();
+    int getVertexDegree();
     bool operator < (const Vertex& other) const {
         return this->id < other.id;
     }
