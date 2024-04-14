@@ -8,11 +8,13 @@
 #include "CrossingMinimizers/Split.h"
 #include "CrossingMinimizers/OptimizedMedian.h"
 #include "CrossingMinimizers/OptimizedBCRight.h"
+#include "CrossingMinimizers/ParentMinimizer.h"
+#include "CrossingMinimizers/BogoMinimizer.h"
 #include <iomanip>
 #include <stdexcept>
 
-const std::string INPUT_PATH = "./tests/graphs/medium/";
-const std::string SOLUTION_PATH = "./tests/solutions/medium/";
+const std::string INPUT_PATH = "./tests/graphs/";
+const std::string SOLUTION_PATH = "./tests/solutions/";
 
 std::string getFileName(std::string filePath) {
     size_t prefixPath = filePath.find(INPUT_PATH);
@@ -52,7 +54,8 @@ int main(int argc, char* argv[]) {
         double duration2 = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of sweep: "<< duration2 << std::endl;
         std::cout << "Number of crossings sweep: " << crossingsS << std::endl;
-        
+        std::cout << "=====================================" << std::endl;
+
         int numVertices = graph.getNumVertices();
         int numEdges = graph.getNumEdges();
 
@@ -62,16 +65,14 @@ int main(int argc, char* argv[]) {
 
         csvFile.close(); */
         
-        
-        /* start = std::chrono::system_clock::now();
+        // Barycenter and optimizations:
+        start = std::chrono::system_clock::now();
         Barycenter barycenter(&graph, outputFile);
         barycenter.minimizeCrossings();
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of barycenter: "<< duration << std::endl; 
-        barycenter.writeSolution();
-        std::cout << "Number of crossings after barycenter sweep adresser: " << graph.countCrossingsSweep(graph.getA(), barycenter.getNewB()) << std::endl;
-        
+        std::cout << "Number of crossings after barycenter: " << graph.countCrossingsSweep(graph.getA(), barycenter.getNewB()) << std::endl;
         
         start = std::chrono::system_clock::now();
         OptimizedBC optimizedBC(&graph, outputFile);
@@ -79,7 +80,7 @@ int main(int argc, char* argv[]) {
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of OptimizedBC: "<< duration << std::endl;
-        std::cout << "Number of crossings after OptimizedBC sweep: " << graph.countCrossingsSweep(graph.getA(), optimizedBC.getNewB()) << std::endl;
+        std::cout << "Number of crossings after OptimizedBC: " << graph.countCrossingsSweep(graph.getA(), optimizedBC.getNewB()) << std::endl;
         
         start = std::chrono::system_clock::now();
         OptimizedBCRight optimizedBCRight(&graph, outputFile);
@@ -88,8 +89,8 @@ int main(int argc, char* argv[]) {
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of optimizedBCRight: "<< duration << std::endl;
         optimizedBCRight.writeSolution();
-        std::cout << "Number of crossings after optimizedBCRight sweep: " << graph.countCrossingsSweep(graph.getA(), optimizedBCRight.getNewB()) << std::endl; */
-
+        std::cout << "Number of crossings after optimizedBCRight: " << graph.countCrossingsSweep(graph.getA(), optimizedBCRight.getNewB()) << std::endl;
+        std::cout << "=====================================" << std::endl;
         //Median and OptimizedMedian
         start = std::chrono::system_clock::now();
         Median Median(&graph, outputFile);
@@ -97,16 +98,35 @@ int main(int argc, char* argv[]) {
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of Median: "<< duration << std::endl;
-        std::cout << "Number of crossings after Median sweep: " << graph.countCrossingsSweep(graph.getA(), Median.getNewB()) << std::endl;
+        std::cout << "Number of crossings after Median: " << graph.countCrossingsSweep(graph.getA(), Median.getNewB()) << std::endl;
         
         start = std::chrono::system_clock::now();
-        OptimizedMedian OptimizedMedian(&graph, outputFile);
-        OptimizedMedian.minimizeCrossings();
+        OptimizedMedian optimizedMedian(&graph, outputFile);
+        optimizedMedian.minimizeCrossings();
         end = std::chrono::system_clock::now();
         duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of OptimizedMedian: "<< duration << std::endl;
-        std::cout << "Number of crossings after OptimizedMedian sweep: " << graph.countCrossingsSweep(graph.getA(), OptimizedMedian.getNewB()) << std::endl;
-        OptimizedMedian.writeSolution();
+        std::cout << "Number of crossings after OptimizedMedian: " << graph.countCrossingsSweep(graph.getA(), optimizedMedian.getNewB()) << std::endl;
+        std::cout << "=====================================" << std::endl;
+        // ParentMinimizer and Bogo
+        start = std::chrono::system_clock::now();
+        ParentMinimizer parentMinimizer(&graph, outputFile);
+        parentMinimizer.minimizeCrossings();
+        end = std::chrono::system_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+        std::cout << "Duration of ParentMinimizer: "<< duration << std::endl;
+        std::cout << "Number of crossings after ParentMinimizer: " << graph.countCrossingsSweep(graph.getA(), parentMinimizer.getNewB()) << std::endl;
+        // parentMinimizer.writeSolution();
+
+        start = std::chrono::system_clock::now();
+        BogoMinimizer bogoMinimizer(&graph, outputFile);
+        bogoMinimizer.minimizeCrossings();
+        end = std::chrono::system_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+        std::cout << "Duration of BogoMinimizer: "<< duration << std::endl;
+        std::cout << "Number of crossings after BogoMinimizer: " << graph.countCrossingsSweep(graph.getA(), bogoMinimizer.getNewB()) << std::endl;
+        bogoMinimizer.writeSolution();
+
         return 0;
     }
     catch(const std::invalid_argument& e)
