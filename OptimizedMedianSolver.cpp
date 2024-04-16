@@ -6,8 +6,8 @@
 #include <iomanip>
 #include <stdexcept>
 
-const std::string INPUT_PATH = "./tests/graphs/medium/";
-const std::string SOLUTION_PATH = "./tests/solutions/medium/";
+const std::string INPUT_PATH = "./tests/graphs/public/";
+const std::string SOLUTION_PATH = "./tests/solutions/public/";
 
 std::string getFileName(std::string filePath) {
     size_t prefixPath = filePath.find(INPUT_PATH);
@@ -34,18 +34,7 @@ int main(int argc, char* argv[]) {
         auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of file reading "<< duration << std::endl;
 
-        start = std::chrono::system_clock::now();
-        int crossingsN = graph.countCrossings();
-        end = std::chrono::system_clock::now();
-        duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        std::cout << "Duration of naive: "<< duration << std::endl;
-        std::cout << "Number of crossings naive: " << crossingsN << std::endl;
-
-        start = std::chrono::system_clock::now();
-        int crossingsS = graph.countCrossingsSweep();
-        end = std::chrono::system_clock::now();
-        double duration2 = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        std::cout << "Duration of sweep: "<< duration2 << std::endl;
+        unsigned long int crossingsS = graph.countCrossingsSweep();
         std::cout << "Number of crossings sweep: " << crossingsS << std::endl;
         
         int numVertices = graph.getNumVertices();
@@ -63,7 +52,7 @@ int main(int argc, char* argv[]) {
 
         std::ofstream csvFile("solvers.csv", std::ios::app);
 
-        csvFile << fileName << "," << "OprimizedMedian" << "," << crossingsS << "," << duration2 << "," << crossingsN << "," << duration << "," << numEdges << "," << numVertices << "," << graph.countCrossingsSweep(graph.getA(), OptimizedMedian.getNewB()) << std::endl;
+        csvFile << fileName << "," << "OptimizedMedian" << "," << crossingsS << "," << duration << "," << numEdges << "," << numVertices << "," << graph.calculateGraphDensity() << "," << graph.countCrossingsSweep(graph.getA(), OptimizedMedian.getNewB()) << std::endl;
 
         csvFile.close();
         return 0;

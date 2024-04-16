@@ -13,7 +13,8 @@ void CrossingMinimizer::writeSolution() {
         std::cout << "Unable to write to " << solutionFileName << std::endl;
         return;
     }
-    for (auto vertex: B) {
+    
+    for (Vertex vertex : B) {
         solutionFile << vertex.toString() << std::endl;
     }
 

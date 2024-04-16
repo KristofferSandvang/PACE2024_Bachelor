@@ -8,7 +8,7 @@ OptimizedMedian::OptimizedMedian(Graph* graph, std::string solutionFileName) : C
 {
 }
 void OptimizedMedian::optimizeOrder(std::vector<int>* vertexIndices) {
-    if (vertexIndices->size() > 6) {
+    if (vertexIndices->size() > 4) {
         return;
     }
 

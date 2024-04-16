@@ -19,14 +19,14 @@ public:
     Graph(std::string inputFilename);
     Graph() = default;
 
-    double calculateGraphDensity();
-    int countCrossings();
-    int countCrossings(std::vector<Vertex> A, std::vector<Vertex> B);
-    int countCrossings(std::string B_file);
-    int countCrossingsSweep();
-    int countCrossingsSweep(std::string B_file);
-    int countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B);    
-    int findVertexIndex(int vertexID);
+    long double calculateGraphDensity();
+    unsigned long int countCrossings();
+    unsigned long int countCrossings(std::vector<Vertex> A, std::vector<Vertex> B);
+    unsigned long int countCrossings(std::string B_file);
+    unsigned long int countCrossingsSweep();
+    unsigned long int countCrossingsSweep(std::string B_file);
+    unsigned long int countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B);    
+    unsigned long int findVertexIndex(int vertexID);
     static int findVertexByID(std::vector<Vertex>* vertices, int vertexID);
     void switchVertices(int v1ID, int v2ID);
     std::vector<Vertex>* getB();

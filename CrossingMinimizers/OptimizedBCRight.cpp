@@ -10,7 +10,9 @@ OptimizedBCRight::OptimizedBCRight(Graph* graph, std::string solutionFileName) :
 
 void OptimizedBCRight::optimizeOrder(std::vector<int>* vertexIndices) {
     //std::cout << "1Number of same bc val: " << vertexIndices.size() << std::endl;
-    if (vertexIndices->size() > 7) {
+    // Kigge på forældre knuderne, også den der har den forældre med højst x, skal vi til sidst. 
+    // Måske bedre at kigge på den laveste forældre knude?
+   if (vertexIndices->size() > 4) {
         return;
     }
 
@@ -74,7 +76,7 @@ void OptimizedBCRight::minimizeCrossings() {
     std::sort(barycenterValues.begin(), barycenterValues.end(), compareBCVALSRight);
     //sorting the barycenter values and vertices to the right order if the barycenter values are the same
     
-    //What this do?
+    //What this do? Could take a long time on larger graphs
     bool swapped = true;
     while (swapped) {
         swapped = false;

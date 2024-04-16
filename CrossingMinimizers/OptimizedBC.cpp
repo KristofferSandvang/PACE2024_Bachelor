@@ -8,7 +8,7 @@ OptimizedBC::OptimizedBC(Graph* graph, std::string solutionFileName) : CrossingM
 }
 
 void OptimizedBC::optimizeOrder(std::vector<int>* vertexIndices) {
-    if (vertexIndices->size() > 7) {
+    if (vertexIndices->size() > 4) {
         return;
     }
 

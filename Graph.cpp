@@ -40,7 +40,7 @@ Graph::Graph(std::string inputFilename) {
             A.at(x - 1).addEdge(&B.at(y - n0 - 1));
         }
     }
-    //inputFile.close();
+    inputFile.close();
 }
 
 // Destructor 
@@ -48,13 +48,13 @@ Graph::~Graph() {
     return;
 }
 
-double Graph::calculateGraphDensity() {
-    double numerator = numberOfEdges;
-    double denominator = n0 * n1;
+long double Graph::calculateGraphDensity() {
+    long double numerator = numberOfEdges;
+    long double denominator = n0 * n1;
     return numerator / denominator;
 }
 
-int Graph::findVertexIndex(int vertexID) {
+unsigned long int Graph::findVertexIndex(int vertexID) {
     std::vector<Vertex> vertices;
     if (vertexID <= n0) {
         vertices = Graph::A;
@@ -70,8 +70,8 @@ int Graph::findVertexIndex(int vertexID) {
     throw std::runtime_error("Vertex (ID = " + std::to_string(vertexID) + ") not found.");
 }
 
-int Graph::countCrossings(std::vector<Vertex> A, std::vector<Vertex> B) {
-    int crossings = 0;
+unsigned long Graph::countCrossings(std::vector<Vertex> A, std::vector<Vertex> B) {
+    unsigned long int crossings = 0;
     for (int i = 0; i < B.size(); i++)
     {
         Vertex currentVertex = B.at(i);
@@ -96,11 +96,11 @@ int Graph::countCrossings(std::vector<Vertex> A, std::vector<Vertex> B) {
     return crossings;
 }
 
-int Graph::countCrossings() {
+unsigned long int Graph::countCrossings() {
     return countCrossings(A, B);
 }
 
-int Graph::countCrossings(std::string B_file) {
+unsigned long int Graph::countCrossings(std::string B_file) {
     std::vector<Vertex> newB;
     std::ifstream inputFile(B_file);
     std::string line;
@@ -125,14 +125,14 @@ int Graph::findVertexByID(std::vector<Vertex>* vertices, int vertexID) {
     return -1;
 }
 
-int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B) {
+unsigned long int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B) {
     // Skal lige opdatere B edges hvis B ikke er lig med graph.B
     if (B != &this->B) {
         for (int i = 0; i < n0; i++) {
             this->A.at(i).updateEdgeOrder(B);
         }
     }
-    int crossings = 0;
+    unsigned long int crossings = 0;
     std::vector<int> UL, LL;
     // last occurence
     std::unordered_map<int, int> last_occurence;
@@ -203,11 +203,11 @@ int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B) {
 }
 
 
-int Graph::countCrossingsSweep() {
+unsigned long int Graph::countCrossingsSweep() {
     return countCrossingsSweep(&A, &B);
 }
 
-int Graph::countCrossingsSweep(std::string B_file) {
+unsigned long int Graph::countCrossingsSweep(std::string B_file) {
     std::vector<Vertex> newB;
     std::ifstream inputFile(B_file);
     std::string line;

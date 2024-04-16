@@ -1,0 +1,14 @@
+#include <iostream>
+#include <fstream>
+#include <chrono>
+#include "Graph.h"
+#include "CrossingMinimizers/Barycenter.h"
+#include "CrossingMinimizers/Median.h"
+#include "CrossingMinimizers/OptimizedBC.h"
+#include "CrossingMinimizers/Split.h"
+#include "CrossingMinimizers/OptimizedMedian.h"
+#include "CrossingMinimizers/OptimizedBCRight.h"
+#include "CrossingMinimizers/ParentMinimizer.h"
+#include "CrossingMinimizers/BogoMinimizer.h"
+#include <iomanip>
+#include <stdexcept>
