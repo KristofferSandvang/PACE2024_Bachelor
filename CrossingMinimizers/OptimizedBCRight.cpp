@@ -12,30 +12,28 @@ void OptimizedBCRight::optimizeOrder(std::vector<int>* vertexIndices) {
     //std::cout << "1Number of same bc val: " << vertexIndices.size() << std::endl;
     // Kigge på forældre knuderne, også den der har den forældre med højst x, skal vi til sidst. 
     // Måske bedre at kigge på den laveste forældre knude?
-   if (vertexIndices->size() > 4) {
-        return;
+    std::vector<std::pair<int, int> > order;
+    for (int index: *vertexIndices) {
+        std::vector<Vertex*> Parents = B.at(index).getEdges();
+        auto minParent = std::min_element(Parents.begin(), Parents.end(),
+        [](Vertex* a, Vertex*b) {
+            return a->getVertexID() < b->getVertexID();
+        });
+        order.push_back(std::make_pair((*minParent)->getVertexID(), index));
     }
 
-    int bestCrossings = graph->countCrossingsSweep(graph->getA(), &B);
-    std::vector<Vertex> bestOrder = B;
+    std::sort(order.begin(), order.end(), 
+    [](std::pair<int, int> a, std::pair<int, int> b){
+        return a.first < b.first;
+    });
 
-    while (std::next_permutation(vertexIndices->begin(), vertexIndices->end()))
-    {
-        std::vector<Vertex> tmpB = B;
-        for (int i = 0; i < vertexIndices->size(); i++)
-        {
-            for (int j = i + 1; j < vertexIndices->size(); j++)
-            {
-                std::swap(tmpB.at(vertexIndices->at(i)), tmpB.at(vertexIndices->at(j)));
-            }
-        }
-        int newCrossings = graph->countCrossingsSweep(graph->getA(), &tmpB);
-        if (newCrossings < bestCrossings) {
-            bestCrossings = newCrossings;
-            bestOrder = tmpB;
-        }        
+    std::cout << vertexIndices->size() << " = " << order.size() << std::endl;
+    std::vector<Vertex> tmpB = B;
+    for (int i = 0; i < order.size(); i++) {
+        B.at(order.at(i).second) = tmpB.at(order.at(i).second);
     }
-    B = bestOrder;
+    B = tmpB;
+
 }
 
 
@@ -77,7 +75,7 @@ void OptimizedBCRight::minimizeCrossings() {
     //sorting the barycenter values and vertices to the right order if the barycenter values are the same
     
     //What this do? Could take a long time on larger graphs
-    bool swapped = true;
+    /* bool swapped = true;
     while (swapped) {
         swapped = false;
         for (int i = 0; i < barycenterValues.size(); i++) {
@@ -90,7 +88,7 @@ void OptimizedBCRight::minimizeCrossings() {
                 }
             }
         }
-    }
+    } */
 
     handleSameBCVal(&barycenterValues);
 
