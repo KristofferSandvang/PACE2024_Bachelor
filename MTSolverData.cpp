@@ -15,8 +15,8 @@
 #include <stdexcept>
 
 
-const std::string INPUT_PATH = "./tests/graphs/";
-const std::string SOLUTION_PATH = "./tests/solutions/";
+const std::string INPUT_PATH = "./tests/graphs/public/";
+const std::string SOLUTION_PATH = "./tests/solutions/public";
 const int NUM_OF_MINIMIZERS = 7;
 std::mutex mutex; 
 
