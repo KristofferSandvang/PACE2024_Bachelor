@@ -257,3 +257,11 @@ int Graph::getNumVertices() {
 int Graph::getNumEdges() {
     return numberOfEdges;
 }
+
+int Graph::getn0() {
+    return n0;
+}
+
+int Graph::getn1() {
+    return n1;
+}

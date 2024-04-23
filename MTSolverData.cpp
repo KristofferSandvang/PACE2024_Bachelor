@@ -13,6 +13,7 @@
 #include "CrossingMinimizers/BogoMinimizer.h"
 #include <iomanip>
 #include <stdexcept>
+#include <unordered_map>
 
 
 const std::string INPUT_PATH = "./tests/graphs/public/";
@@ -71,7 +72,7 @@ void threadFunction(int ID, Graph* graph, std::string outputFile,
         }
         case 3:
         {
-           auto start = std::chrono::system_clock::now();
+            auto start = std::chrono::system_clock::now();
             OptimizedBCRight optimizedBCRight(graph, outputFile);
             optimizedBCRight.minimizeCrossings();
             auto end = std::chrono::system_clock::now();
@@ -92,7 +93,7 @@ void threadFunction(int ID, Graph* graph, std::string outputFile,
             break;
         }
         case 5:
-        {
+        {   
             auto start = std::chrono::system_clock::now();
             ParentMinimizer parentMinimizer(graph, outputFile);
             parentMinimizer.minimizeCrossings();
@@ -117,10 +118,8 @@ void threadFunction(int ID, Graph* graph, std::string outputFile,
             return;
     }
     mutex.lock();
-
     crossings[ID] = crossingAfter;
     durations[ID] = duration;
-
     mutex.unlock();
 }
 
@@ -138,6 +137,7 @@ int main(int argc, char* argv[]) {
         std::string fileName = getFileName(inputFile);
         std::string outputFile = SOLUTION_PATH + fileName + ".sol";
         Graph graph(inputFile);
+        std::cout << "Graph created" << std::endl;
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
         std::cout << "Duration of file reading "<< duration << std::endl;
@@ -166,7 +166,7 @@ int main(int argc, char* argv[]) {
 
         for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
         {
-            csvFile << fileName << "," << i << "," << crossingsBefore << "," << durations[i] << "," << numEdges << "," << numVertices << "," << density << "," << crossingsAfter[i] << std::endl;
+            csvFile << fileName << "," << i << "," << crossingsBefore << "," << durations[i] << "," << numEdges << "," << graph.getn0() << graph.getn1() << "," << density << "," << crossingsAfter[i] << std::endl;
         }
         csvFile.close();
 

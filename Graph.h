@@ -33,6 +33,8 @@ public:
     std::vector<Vertex>* getA();
     int getNumVertices();
     int getNumEdges();
+    int getn0();
+    int getn1();
     ~Graph();
 };
 

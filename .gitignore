@@ -33,6 +33,7 @@
 
 #vscode
 /.vscode
+/.vs
 
 #solutions
 *.sol
