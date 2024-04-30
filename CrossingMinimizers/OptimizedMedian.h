@@ -4,7 +4,7 @@
 #include "CrossingMinimizer.h"
 #include <string>
 #include <vector>
-class OptimizedMedian : protected CrossingMinimizer
+class OptimizedMedian : public CrossingMinimizer
 {
 private:
     void handleSameMedianVal(std::vector<std::pair<float, Vertex> >* MedValues);

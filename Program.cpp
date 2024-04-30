@@ -5,7 +5,6 @@
 #include "CrossingMinimizers/Barycenter.h"
 #include "CrossingMinimizers/Median.h"
 #include "CrossingMinimizers/OptimizedBC.h"
-#include "CrossingMinimizers/Split.h"
 #include "CrossingMinimizers/OptimizedMedian.h"
 #include "CrossingMinimizers/OptimizedBCRight.h"
 #include "CrossingMinimizers/ParentMinimizer.h"

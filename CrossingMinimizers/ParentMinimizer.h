@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-class ParentMinimizer : protected CrossingMinimizer
+class ParentMinimizer : public CrossingMinimizer
 {
 private:
     std::vector<Vertex> A;

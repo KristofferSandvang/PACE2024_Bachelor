@@ -4,7 +4,7 @@
 #include "CrossingMinimizer.h"
 #include <string>
 
-class Median : protected CrossingMinimizer
+class Median : public CrossingMinimizer
 {
 private:
   

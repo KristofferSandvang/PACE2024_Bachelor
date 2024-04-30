@@ -4,7 +4,7 @@
 #include "CrossingMinimizer.h"
 #include <string>
 
-class BogoMinimizer : CrossingMinimizer
+class BogoMinimizer : public CrossingMinimizer
 {
 private:
   

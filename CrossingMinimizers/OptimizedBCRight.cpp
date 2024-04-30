@@ -3,8 +3,7 @@
 #include <map>
 #include <iostream>
 
-OptimizedBCRight::OptimizedBCRight(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
-{
+OptimizedBCRight::OptimizedBCRight(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName) {
 
 }
 
@@ -27,7 +26,7 @@ void OptimizedBCRight::optimizeOrder(std::vector<int>* vertexIndices) {
         return a.first < b.first;
     });
 
-    std::cout << vertexIndices->size() << " = " << order.size() << std::endl;
+    
     std::vector<Vertex> tmpB = B;
     for (int i = 0; i < order.size(); i++) {
         B.at(order.at(i).second) = tmpB.at(order.at(i).second);
@@ -72,23 +71,6 @@ void OptimizedBCRight::minimizeCrossings() {
     }
 
     std::sort(barycenterValues.begin(), barycenterValues.end(), compareBCVALSRight);
-    //sorting the barycenter values and vertices to the right order if the barycenter values are the same
-    
-    //What this do? Could take a long time on larger graphs
-    /* bool swapped = true;
-    while (swapped) {
-        swapped = false;
-        for (int i = 0; i < barycenterValues.size(); i++) {
-            for (int j = i+1; j < barycenterValues.size(); j++) {
-                if (barycenterValues.at(j).first == barycenterValues.at(i).first && 
-                    barycenterValues.at(j).second.getVertexID() < barycenterValues.at(i).second.getVertexID()) {
-                    //std::cout << "Swapped vertices: " << barycenterValues.at(j).second.getVertexID() << " and " << barycenterValues.at(i).second.getVertexID() << std::endl;
-                    std::swap(barycenterValues.at(j), barycenterValues.at(i));
-                    swapped = true;
-                }
-            }
-        }
-    } */
 
     handleSameBCVal(&barycenterValues);
 

@@ -4,7 +4,7 @@
 #include "CrossingMinimizer.h"
 #include <string>
 
-class Barycenter : CrossingMinimizer
+class Barycenter : public CrossingMinimizer
 {
 private:
   

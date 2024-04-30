@@ -4,7 +4,7 @@
 #include "CrossingMinimizer.h"
 #include <string>
 #include <vector>
-class OptimizedBCRight : protected CrossingMinimizer
+class OptimizedBCRight : public CrossingMinimizer
 {
 private:
     void handleSameBCVal(std::vector<std::pair<float, Vertex> >* bcValues);
