@@ -1,5 +1,4 @@
 #include <fstream>
-#include <iostream>
 #include "Graph.h"
 #include "CrossingMinimizers/Barycenter.h"
 #include "CrossingMinimizers/Median.h"
@@ -10,6 +9,7 @@
 #include <algorithm>
 #include <csignal>
 #include <memory>
+#include <iostream>
 
 volatile sig_atomic_t flag = 0;
 
@@ -19,13 +19,12 @@ void signalHandler( int signum ) {
 
 
 int main(int argc, char* argv[]) {
-    if (argc != 3) {
-        std::cout << "Incorrect number of arguments given. " << std::endl;
-        exit(1);
-    }
-    signal(SIGTERM, signalHandler);  
+    /*     if (argc < 3) {
+        std::cerr << "Usage: " << argv[0] << argv[1] << argv[2] << std::endl;
+        return 1;
+    } */
     std::string inputPath = argv[1];
-    std::string outputPath = argv[2];
+    std::string outputPath = "solution.sol";
 
     Graph graph(inputPath);
     std::vector<std::pair<unsigned long, CrossingMinimizer*> > CrossingsAndSolvers;
@@ -52,4 +51,6 @@ int main(int argc, char* argv[]) {
         return a.first < b.first;
     });
     bestSolution->second->writeSolution();
+
+    return 0;
 }
