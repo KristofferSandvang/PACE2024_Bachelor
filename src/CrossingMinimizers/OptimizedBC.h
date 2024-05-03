@@ -10,7 +10,7 @@ private:
     void handleSameBCVal(std::vector<std::pair<float, Vertex> >* bcValues);
     void optimizeOrder(std::vector<int>*  vertexIndices);
 public:
-    OptimizedBC(Graph* graph, std::string solutionFileName);
+    OptimizedBC(Graph* graph);
     void minimizeCrossings() override;
     ~OptimizedBC();
     using CrossingMinimizer::writeSolution;

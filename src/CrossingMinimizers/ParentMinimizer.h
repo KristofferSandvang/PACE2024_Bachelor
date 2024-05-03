@@ -10,7 +10,7 @@ class ParentMinimizer : public CrossingMinimizer
 private:
     std::vector<Vertex> A;
 public:
-    ParentMinimizer(Graph* graph, std::string solutionFileName);
+    ParentMinimizer(Graph* graph);
     void minimizeCrossings() override;
     ~ParentMinimizer();
     using CrossingMinimizer::writeSolution;

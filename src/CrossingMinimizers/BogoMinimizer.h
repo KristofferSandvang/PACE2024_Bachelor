@@ -9,7 +9,7 @@ class BogoMinimizer : public CrossingMinimizer
 private:
   
 public:
-    BogoMinimizer(Graph* graph, std::string solutionFileName);
+    BogoMinimizer(Graph* graph);
     void minimizeCrossings() override;
     ~BogoMinimizer();
     using CrossingMinimizer::writeSolution;

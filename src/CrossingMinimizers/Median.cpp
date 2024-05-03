@@ -3,7 +3,7 @@
 #include <math.h>
 #include <iostream>
 
-Median::Median(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
+Median::Median(Graph* graph) : CrossingMinimizer(graph)
 {
     
 }

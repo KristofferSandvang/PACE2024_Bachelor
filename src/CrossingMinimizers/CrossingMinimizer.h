@@ -9,11 +9,10 @@ class CrossingMinimizer
 {
     protected:
     Graph* graph;
-    std::string solutionFileName;
     std::vector<Vertex> B;
 
     public:
-    CrossingMinimizer(Graph* graph, std::string solutionFile);
+    CrossingMinimizer(Graph* graph);
     void writeSolution();
     std::vector<Vertex>* getNewB();
     virtual void minimizeCrossings() = 0;

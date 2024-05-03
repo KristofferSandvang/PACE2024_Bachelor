@@ -3,7 +3,7 @@
 #include <map>
 #include <iostream>
 
-OptimizedBC::OptimizedBC(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
+OptimizedBC::OptimizedBC(Graph* graph) : CrossingMinimizer(graph)
 {
 }
 

@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 
-Barycenter::Barycenter(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
+Barycenter::Barycenter(Graph* graph) : CrossingMinimizer(graph)
 {
     
 }

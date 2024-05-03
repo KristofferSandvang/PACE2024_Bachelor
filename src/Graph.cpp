@@ -8,10 +8,9 @@
 #include <unordered_map>
 
 // Constructor 
-Graph::Graph(std::string inputFilename) {
-    std::ifstream inputFile(inputFilename);
+Graph::Graph(std::istream& inputStream) {
     std::string line;
-    while (std::getline(inputFile, line))
+    while (std::getline(inputStream, line))
     {
         if (line[0] == 'c') {
             continue;
@@ -40,7 +39,6 @@ Graph::Graph(std::string inputFilename) {
             A.at(x - 1).addEdge(&B.at(y - n0 - 1));
         }
     }
-    inputFile.close();
 }
 
 // Destructor 

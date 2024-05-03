@@ -9,7 +9,7 @@ class Median : public CrossingMinimizer
 private:
   
 public:
-    Median(Graph* graph, std::string solutionFileName);
+    Median(Graph* graph);
     void minimizeCrossings() override;
     ~Median();
     using CrossingMinimizer::writeSolution;

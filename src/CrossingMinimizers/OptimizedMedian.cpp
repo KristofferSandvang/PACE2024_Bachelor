@@ -4,7 +4,7 @@
 #include <math.h>
 #include <iostream>
 
-OptimizedMedian::OptimizedMedian(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName)
+OptimizedMedian::OptimizedMedian(Graph* graph) : CrossingMinimizer(graph)
 {
 }
 void OptimizedMedian::optimizeOrder(std::vector<int>* vertexIndices) {

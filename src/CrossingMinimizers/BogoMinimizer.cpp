@@ -1,7 +1,7 @@
 #include "BogoMinimizer.h"
 #include <stdlib.h>
 #include <iostream>
-BogoMinimizer::BogoMinimizer(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName) {
+BogoMinimizer::BogoMinimizer(Graph* graph) : CrossingMinimizer(graph) {
 }
 
 void BogoMinimizer::minimizeCrossings() {

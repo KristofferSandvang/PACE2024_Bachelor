@@ -3,7 +3,7 @@
 #include <map>
 #include <iostream>
 
-OptimizedBCRight::OptimizedBCRight(Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName) {
+OptimizedBCRight::OptimizedBCRight(Graph* graph) : CrossingMinimizer(graph) {
 
 }
 

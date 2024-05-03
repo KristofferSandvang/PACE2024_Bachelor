@@ -1,4 +1,3 @@
-#include <fstream>
 #include "Graph.h"
 #include "CrossingMinimizers/Barycenter.h"
 #include "CrossingMinimizers/Median.h"
@@ -11,6 +10,7 @@
 #include <memory>
 #include <iostream>
 
+
 volatile sig_atomic_t flag = 0;
 
 void signalHandler( int signum ) {
@@ -18,34 +18,36 @@ void signalHandler( int signum ) {
 }
 
 
-int main(int argc, char* argv[]) {
-    /*     if (argc < 3) {
-        std::cerr << "Usage: " << argv[0] << argv[1] << argv[2] << std::endl;
-        return 1;
-    } */
-    std::string inputPath = argv[1];
-    std::string outputPath = "solution.sol";
-
-    Graph graph(inputPath);
+int main() {
+    signal(SIGTERM, signalHandler);
     std::vector<std::pair<unsigned long, CrossingMinimizer*> > CrossingsAndSolvers;
+    Graph graph(std::cin);
+
     // Solvers :
-    
     std::vector<std::unique_ptr<CrossingMinimizer>> solvers;
-    solvers.emplace_back(std::make_unique<Barycenter>(&graph, outputPath));
-    solvers.emplace_back(std::make_unique<Median>(&graph, outputPath));
-    solvers.emplace_back(std::make_unique<OptimizedBC>(&graph, outputPath));
-    solvers.emplace_back(std::make_unique<OptimizedMedian>(&graph, outputPath));
-    solvers.emplace_back(std::make_unique<ParentMinimizer>(&graph, outputPath));
+    solvers.emplace_back(std::make_unique<Barycenter>(&graph));
+    solvers.emplace_back(std::make_unique<Median>(&graph));
+    solvers.emplace_back(std::make_unique<OptimizedBC>(&graph));
+    solvers.emplace_back(std::make_unique<OptimizedMedian>(&graph));
+    solvers.emplace_back(std::make_unique<ParentMinimizer>(&graph));
     /* solvers.emplace_back(OptimizedBCRight(&graph, outputPath)); */
-    int i = 0;
     
-    while (!flag && i < solvers.size())
+    for (int i = 0; i < solvers.size(); i++)
     {
         solvers.at(i)->minimizeCrossings();
-        CrossingsAndSolvers.push_back(std::make_pair(graph.countCrossingsSweep(graph.getA(), solvers.at(i)->getNewB()), solvers[i].get())); 
-        i++;
+        if (flag) {
+            break;
+        }
+        unsigned long int crossings = graph.countCrossingsSweep(graph.getA(), solvers.at(i)->getNewB());
+        CrossingsAndSolvers.push_back(std::make_pair(crossings, solvers[i].get())); 
+        if (flag) {
+            break;
+        }
+        if (crossings == 0) {
+            break;
+        }
     }
-    
+
     auto bestSolution = std::min_element(CrossingsAndSolvers.begin(), CrossingsAndSolvers.end(), 
     [](const auto& a, const auto& b) {
         return a.first < b.first;

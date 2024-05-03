@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <unordered_map>
 
-ParentMinimizer::ParentMinimizer (Graph* graph, std::string solutionFileName) : CrossingMinimizer(graph, solutionFileName) {
+ParentMinimizer::ParentMinimizer (Graph* graph) : CrossingMinimizer(graph) {
     A = *graph->getA();
 }
 

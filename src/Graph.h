@@ -16,7 +16,7 @@ private:
     std::vector<std::pair<int, int> > edges;
 
 public:
-    Graph(std::string inputFilename);
+    Graph(std::istream& inputStream);
     Graph() = default;
 
     long double calculateGraphDensity();

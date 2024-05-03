@@ -10,7 +10,7 @@ private:
     void handleSameBCVal(std::vector<std::pair<float, Vertex> >* bcValues);
     void optimizeOrder(std::vector<int>*  vertexIndices);
 public:
-    OptimizedBCRight(Graph* grap, std::string solutionFileName);
+    OptimizedBCRight(Graph* grap);
     void minimizeCrossings() override;
     ~OptimizedBCRight();
     using CrossingMinimizer::writeSolution;
