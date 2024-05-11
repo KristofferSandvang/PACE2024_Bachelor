@@ -53,15 +53,15 @@ long double Graph::calculateGraphDensity() {
 }
 
 unsigned long int Graph::findVertexIndex(int vertexID) {
-    std::vector<Vertex> vertices;
+    std::vector<Vertex>* vertices;
     if (vertexID <= n0) {
-        vertices = Graph::A;
+        vertices = &A;
     } else {
-        vertices = Graph::B;
+        vertices = &B;
     }
-    for (int i = 0; i < vertices.size(); i++)
+    for (int i = 0; i < vertices->size(); i++)
     {
-        if (vertices.at(i).getVertexID() == vertexID) {
+        if (vertices->at(i).getVertexID() == vertexID) {
             return i;
         }
     }
@@ -132,6 +132,8 @@ unsigned long int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector
     }
     unsigned long int crossings = 0;
     std::vector<int> UL, LL;
+    UL.reserve(A->size());
+    LL.reserve(B->size());
     // last occurence
     std::unordered_map<int, int> last_occurence;
     for (int i = 1; i <= A->size() + B->size(); i++) {
@@ -158,7 +160,7 @@ unsigned long int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector
                 crossings += (k1 * LL.size()) + k3;
             }
             
-            std::vector<Vertex*> edges = A->at(AIndex).getEdges();
+            const std::vector<Vertex*>& edges = A->at(AIndex).getEdges();
             for (Vertex* edgeEnd : edges) {
                 int endpoint = edgeEnd->getVertexID();
                 // Have to search B array to find index of the endpoint, as it can change.
@@ -186,7 +188,7 @@ unsigned long int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector
                 crossings += (k1 * UL.size()) + k3;
             }
 
-            std::vector<Vertex*> edges = B->at(BIndex).getEdges();
+            const std::vector<Vertex*>& edges = B->at(BIndex).getEdges();
             for (Vertex* edgeEnd : edges) {
                 int endpoint = edgeEnd->getVertexID();
                 if (BIndex + 1 < endpoint) {

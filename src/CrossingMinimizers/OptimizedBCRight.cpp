@@ -29,7 +29,11 @@ void OptimizedBCRight::optimizeOrder(std::vector<int>* vertexIndices) {
     
     std::vector<Vertex> tmpB = B;
     for (int i = 0; i < order.size(); i++) {
-        B.at(order.at(i).second) = tmpB.at(order.at(i).second);
+        int index = order.at(i).second;
+        if (index < 0 || index >= B.size()) {
+            continue;
+        }
+        B.at(index) = tmpB.at(index);
     }
     B = tmpB;
 
