@@ -21,7 +21,7 @@ void Median::minimizeCrossings() {
         }
         std::sort(edgeIDs.begin(), edgeIDs.end());
         float medianValue = 0;
-        //da rulez
+        
         if (edgeIDs.empty()) {
             medianValue = 0;
         }
