@@ -8,7 +8,7 @@ BarycenterMed::BarycenterMed(Graph* graph) : CrossingMinimizer(graph)
 {
 }
 bool compareBCMEDVALS(const std::pair<float, Vertex>& a, const std::pair<float, Vertex>& b) {
-    return a.first > b.first;
+    return a.first < b.first;
 }
 
 void BarycenterMed::optimizeOrderBCMED(std::vector<int>* vertexIndices) {

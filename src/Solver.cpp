@@ -7,6 +7,8 @@
 #include "CrossingMinimizers/OptimizedBCRight.h"
 #include "CrossingMinimizers/ParentMinimizer.h"
 #include "CrossingMinimizers/MedianBary.h"
+#include "CrossingMinimizers/BarycenterRev.h"
+#include "CrossingMinimizers/MedianRev.h"
 #include <algorithm>
 #include <csignal>
 #include <memory>
@@ -28,8 +30,10 @@ int main() {
     // Solvers :
     std::vector<std::unique_ptr<CrossingMinimizer>> solvers;
     solvers.reserve(2);
-    solvers.emplace_back(std::make_unique<BarycenterMed>(&graph));
-    solvers.emplace_back(std::make_unique<MedianBary>(&graph));
+    /* solvers.emplace_back(std::make_unique<BarycenterMed>(&graph));
+    solvers.emplace_back(std::make_unique<MedianBary>(&graph)); */
+    solvers.emplace_back(std::make_unique<BarycenterRev>(&graph));
+    solvers.emplace_back(std::make_unique<MedianRev>(&graph));
     //solvers.emplace_back(std::make_unique<Median>(&graph));
     //solvers.emplace_back(std::make_unique<Barycenter>(&graph));
     //solvers.emplace_back(std::make_unique<OptimizedBC>(&graph));

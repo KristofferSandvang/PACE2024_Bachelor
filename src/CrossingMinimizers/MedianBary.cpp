@@ -10,7 +10,7 @@ MedianBary::MedianBary(Graph* graph) : CrossingMinimizer(graph)
 }
 
 bool compareMedianBary(const std::pair<float, Vertex>& a, const std::pair<float, Vertex>& b) {
-    return a.first > b.first;
+    return a.first < b.first;
 }
 
 void MedianBary::optimizeOrderMedianBary(std::vector<int>* vertexIndices) {
@@ -61,7 +61,7 @@ void MedianBary::minimizeCrossings() {
         }
         std::sort(edgeIDs.begin(), edgeIDs.end());
         float medianValue = 0;
-        //da rulez
+
         if (edgeIDs.empty()) {
             medianValue = 0;
         }
