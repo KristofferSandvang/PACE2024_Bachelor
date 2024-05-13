@@ -3,14 +3,14 @@
 #include <chrono>
 #include <thread>
 #include <mutex>
-#include "Graph.h"
-#include "CrossingMinimizers/Barycenter.h"
-#include "CrossingMinimizers/Median.h"
-#include "CrossingMinimizers/OptimizedBC.h"
-#include "CrossingMinimizers/OptimizedMedian.h"
-#include "CrossingMinimizers/OptimizedBCRight.h"
-#include "CrossingMinimizers/ParentMinimizer.h"
-#include "CrossingMinimizers/BogoMinimizer.h"
+#include "src/Graph.h"
+#include "src/CrossingMinimizers/Barycenter.h"
+#include "src/CrossingMinimizers/Median.h"
+#include "src/CrossingMinimizers/OptimizedBC.h"
+#include "src/CrossingMinimizers/OptimizedMedian.h"
+#include "src/CrossingMinimizers/OptimizedBCRight.h"
+#include "src/CrossingMinimizers/ParentMinimizer.h"
+#include "src/CrossingMinimizers/BogoMinimizer.h"
 #include <iomanip>
 #include <stdexcept>
 #include <unordered_map>
@@ -21,17 +21,8 @@ const std::string SOLUTION_PATH = "./tests/solutions/public";
 const int NUM_OF_MINIMIZERS = 7;
 std::mutex mutex; 
 
-std::string getFileName(std::string filePath) {
-    size_t prefixPath = filePath.find(INPUT_PATH);
 
-    if (prefixPath != std::string::npos) {
-        return filePath.substr(INPUT_PATH.size(), filePath.length() - INPUT_PATH.size() - 3);
-    }
-    throw std::invalid_argument("The path does not contain the input File");
-}
-
-
-void threadFunction(int ID, Graph* graph, std::string outputFile, 
+void threadFunction(int ID, Graph* graph, 
                     std::unordered_map<int, unsigned long int>& crossings, 
                     std::unordered_map<int, double>& durations){
     double duration;
@@ -40,7 +31,7 @@ void threadFunction(int ID, Graph* graph, std::string outputFile,
         case 0: 
         {
             auto start = std::chrono::system_clock::now();
-            Barycenter barycenter(graph, outputFile);
+            Barycenter barycenter(graph);
             barycenter.minimizeCrossings();
             auto end = std::chrono::system_clock::now();
             duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
@@ -51,7 +42,7 @@ void threadFunction(int ID, Graph* graph, std::string outputFile,
         case 1:
         {
             auto start = std::chrono::system_clock::now();
-            Median median(graph, outputFile);
+            Median median(graph);
             median.minimizeCrossings();
             auto end = std::chrono::system_clock::now();
             duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
@@ -62,7 +53,7 @@ void threadFunction(int ID, Graph* graph, std::string outputFile,
         case 2:
         {
             auto start = std::chrono::system_clock::now();
-            OptimizedBC optimizedBC(graph, outputFile);
+            OptimizedBC optimizedBC(graph);
             optimizedBC.minimizeCrossings();
             auto end = std::chrono::system_clock::now();
             duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
@@ -73,7 +64,7 @@ void threadFunction(int ID, Graph* graph, std::string outputFile,
         case 3:
         {
             auto start = std::chrono::system_clock::now();
-            OptimizedBCRight optimizedBCRight(graph, outputFile);
+            OptimizedBCRight optimizedBCRight(graph);
             optimizedBCRight.minimizeCrossings();
             auto end = std::chrono::system_clock::now();
             duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
@@ -84,7 +75,7 @@ void threadFunction(int ID, Graph* graph, std::string outputFile,
         case 4:
         {
             auto start = std::chrono::system_clock::now();
-            OptimizedMedian optimizedMedian(graph, outputFile);
+            OptimizedMedian optimizedMedian(graph);
             optimizedMedian.minimizeCrossings();
             auto end = std::chrono::system_clock::now();
             duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
@@ -95,7 +86,7 @@ void threadFunction(int ID, Graph* graph, std::string outputFile,
         case 5:
         {   
             auto start = std::chrono::system_clock::now();
-            ParentMinimizer parentMinimizer(graph, outputFile);
+            ParentMinimizer parentMinimizer(graph);
             parentMinimizer.minimizeCrossings();
             auto end = std::chrono::system_clock::now();
             duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
@@ -106,7 +97,7 @@ void threadFunction(int ID, Graph* graph, std::string outputFile,
         case 6:
         {
             auto start = std::chrono::system_clock::now();
-            BogoMinimizer bogoMinimizer(graph, outputFile);
+            BogoMinimizer bogoMinimizer(graph);
             bogoMinimizer.minimizeCrossings();
             auto end = std::chrono::system_clock::now();
             duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
@@ -125,53 +116,32 @@ void threadFunction(int ID, Graph* graph, std::string outputFile,
 
 
 int main(int argc, char* argv[]) {
-    if (argc > 2) {
-        std::cout << "Too many arguments given. " << std::endl;
-        exit(1);
+    std::unordered_map<int, unsigned long int> crossingsAfter;
+    std::unordered_map<int, double> durations;
+    auto start = std::chrono::system_clock::now();
+    Graph graph(std::cin);
+    std::cout << "Graph created" << std::endl;
+    auto end = std::chrono::system_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+    std::cout << "Duration of file reading "<< duration << std::endl;
+    int numVertices = graph.getNumVertices();
+    int numEdges = graph.getNumEdges();
+    long double density = graph.calculateGraphDensity();
+    long unsigned int crossingsBefore = graph.countCrossingsSweep();
+    std::cout << "Number of crossings before: " << crossingsBefore << std::endl;
+    std::vector<std::thread> threads;
+    for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
+    {
+        threads.push_back(std::thread(threadFunction, i, &graph, std::ref(crossingsAfter), std::ref(durations)));
     }
-    try {   
-        std::unordered_map<int, unsigned long int> crossingsAfter;
-        std::unordered_map<int, double> durations;
-        auto start = std::chrono::system_clock::now();
-        std::string inputFile = argv[1];
-        std::string fileName = getFileName(inputFile);
-        std::string outputFile = SOLUTION_PATH + fileName + ".sol";
-        Graph graph(inputFile);
-        std::cout << "Graph created" << std::endl;
-        auto end = std::chrono::system_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-        std::cout << "Duration of file reading "<< duration << std::endl;
-
-        int numVertices = graph.getNumVertices();
-        int numEdges = graph.getNumEdges();
-        long double density = graph.calculateGraphDensity();
-        long unsigned int crossingsBefore = graph.countCrossingsSweep();
-        std::cout << "Number of crossings before: " << crossingsBefore << std::endl;
-
-        std::vector<std::thread> threads;
-
-        for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
-        {
-            threads.push_back(std::thread(threadFunction, i, &graph, outputFile, std::ref(crossingsAfter), std::ref(durations)));
-        }
-        
-
-        for (auto& thread : threads) {
-            thread.join();
-        }
-
-
-        std::ofstream csvFile("solvers.csv", std::ios::app);
-
-
-        for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
-        {
-            csvFile << fileName << "," << i << "," << crossingsBefore << "," << durations[i] << "," << numEdges << "," << graph.getn0() << graph.getn1() << "," << density << "," << crossingsAfter[i] << std::endl;
-        }
-        csvFile.close();
-
-    } catch (const std::invalid_argument& e) {
-        std::cout << "Invalid filepath" << std::endl;
-        return 1;
+    
+    for (auto& thread : threads) {
+        thread.join();
     }
-}
+    std::ofstream csvFile("solvers.csv", std::ios::app);
+    for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
+    {
+        csvFile << "," << i << "," << crossingsBefore << "," << durations[i] << "," << numEdges << "," << graph.getn0() << graph.getn1() << "," << density << "," << crossingsAfter[i] << std::endl;
+    }
+    csvFile.close();
+} 
