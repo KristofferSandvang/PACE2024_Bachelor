@@ -29,23 +29,32 @@ int main() {
 
     // Solvers :
     std::vector<std::unique_ptr<CrossingMinimizer>> solvers;
-    solvers.reserve(2);
-    /* solvers.emplace_back(std::make_unique<BarycenterMed>(&graph));
-    solvers.emplace_back(std::make_unique<MedianBary>(&graph)); */
+    solvers.reserve(9);
+    //solvers.emplace_back(std::make_unique<BarycenterMed>(&graph));
+    //solvers.emplace_back(std::make_unique<MedianBary>(&graph));
     solvers.emplace_back(std::make_unique<BarycenterRev>(&graph));
     solvers.emplace_back(std::make_unique<MedianRev>(&graph));
-    //solvers.emplace_back(std::make_unique<Median>(&graph));
-    //solvers.emplace_back(std::make_unique<Barycenter>(&graph));
-    //solvers.emplace_back(std::make_unique<OptimizedBC>(&graph));
-    //solvers.emplace_back(std::make_unique<OptimizedMedian>(&graph));
-    //solvers.emplace_back(std::make_unique<ParentMinimizer>(&graph));
-    //solvers.emplace_back(std::make_unique<OptimizedBCRight>(&graph));
+    /* solvers.emplace_back(std::make_unique<Median>(&graph));
+    solvers.emplace_back(std::make_unique<Barycenter>(&graph));
+    solvers.emplace_back(std::make_unique<OptimizedBC>(&graph));
+    solvers.emplace_back(std::make_unique<OptimizedMedian>(&graph));
+    solvers.emplace_back(std::make_unique<ParentMinimizer>(&graph));
+    solvers.emplace_back(std::make_unique<OptimizedBCRight>(&graph)); */
     
     for (int i = 0; i < solvers.size() && !flag; i++)
 {
     solvers.at(i)->minimizeCrossings();
+    if (flag) {
+        break;
+    }
     unsigned long int crossings = graph.countCrossingsSweep(graph.getA(), solvers[i]->getNewB());
+    if (flag) {
+        break;
+    }
     CrossingsAndSolvers.push_back(std::make_pair(crossings, solvers[i].get())); 
+    if (flag) {
+        break;
+    }
     if (crossings == 0) {
         break;
     }

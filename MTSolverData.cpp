@@ -11,6 +11,10 @@
 #include "src/CrossingMinimizers/OptimizedBCRight.h"
 #include "src/CrossingMinimizers/ParentMinimizer.h"
 #include "src/CrossingMinimizers/BogoMinimizer.h"
+#include "src/CrossingMinimizers/MedianBary.h"
+#include "src/CrossingMinimizers/MedianRev.h"
+#include "src/CrossingMinimizers/BarycenterMed.h"
+#include "src/CrossingMinimizers/BarycenterRev.h"
 #include <iomanip>
 #include <stdexcept>
 #include <unordered_map>
@@ -18,10 +22,10 @@
 
 const std::string INPUT_PATH = "./tests/graphs/public/";
 const std::string SOLUTION_PATH = "./tests/solutions/public";
-const int NUM_OF_MINIMIZERS = 7;
+const int NUM_OF_MINIMIZERS = 10;
 std::mutex mutex; 
 
-
+int j = 0;
 void threadFunction(int ID, Graph* graph, 
                     std::unordered_map<int, unsigned long int>& crossings, 
                     std::unordered_map<int, double>& durations){
@@ -61,7 +65,7 @@ void threadFunction(int ID, Graph* graph,
         
             break;
         }
-        case 3:
+        /* case 3:
         {
             auto start = std::chrono::system_clock::now();
             OptimizedBCRight optimizedBCRight(graph);
@@ -71,8 +75,8 @@ void threadFunction(int ID, Graph* graph,
             crossingAfter = graph->countCrossingsSweep(graph->getA(), optimizedBCRight.getNewB());
 
             break;
-        }
-        case 4:
+        } */
+        case 3:
         {
             auto start = std::chrono::system_clock::now();
             OptimizedMedian optimizedMedian(graph);
@@ -83,7 +87,7 @@ void threadFunction(int ID, Graph* graph,
 
             break;
         }
-        case 5:
+        case 4:
         {   
             auto start = std::chrono::system_clock::now();
             ParentMinimizer parentMinimizer(graph);
@@ -94,7 +98,7 @@ void threadFunction(int ID, Graph* graph,
             
             break;
         }
-        case 6:
+        case 5:
         {
             auto start = std::chrono::system_clock::now();
             BogoMinimizer bogoMinimizer(graph);
@@ -103,6 +107,50 @@ void threadFunction(int ID, Graph* graph,
             duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
             crossingAfter = graph->countCrossingsSweep(graph->getA(), bogoMinimizer.getNewB());
             
+            break;
+        }
+        case 6:
+        {
+            auto start = std::chrono::system_clock::now();
+            MedianBary medianBary(graph);
+            medianBary.minimizeCrossings();
+            auto end = std::chrono::system_clock::now();
+            duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+            crossingAfter = graph->countCrossingsSweep(graph->getA(), medianBary.getNewB());
+            
+            break;
+        }
+        case 7:
+        {
+            auto start = std::chrono::system_clock::now();
+            MedianRev medianRev(graph);
+            medianRev.minimizeCrossings();
+            auto end = std::chrono::system_clock::now();
+            duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+            crossingAfter = graph->countCrossingsSweep(graph->getA(), medianRev.getNewB());
+            
+            break;
+        }
+        case 8:
+        {
+            auto start = std::chrono::system_clock::now();
+            BarycenterMed barycenterMed(graph);
+            barycenterMed.minimizeCrossings();
+            auto end = std::chrono::system_clock::now();
+            duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+            crossingAfter = graph->countCrossingsSweep(graph->getA(), barycenterMed.getNewB());
+            
+            break;
+        }
+        case 9:
+        {
+            auto start = std::chrono::system_clock::now();
+            BarycenterRev barycenterRev(graph);
+            barycenterRev.minimizeCrossings();
+            auto end = std::chrono::system_clock::now();
+            duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+            crossingAfter = graph->countCrossingsSweep(graph->getA(), barycenterRev.getNewB());
+            j++;
             break;
         }
         default:
@@ -141,7 +189,7 @@ int main(int argc, char* argv[]) {
     std::ofstream csvFile("solvers.csv", std::ios::app);
     for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
     {
-        csvFile << "," << i << "," << crossingsBefore << "," << durations[i] << "," << numEdges << "," << graph.getn0() << graph.getn1() << "," << density << "," << crossingsAfter[i] << std::endl;
+        csvFile << j << "," << i << "," << crossingsBefore << "," << durations[i] << "," << numEdges << "," << graph.getn0() << graph.getn1() << "," << density << "," << crossingsAfter[i] << std::endl;
     }
     csvFile.close();
 } 
