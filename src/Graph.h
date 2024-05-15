@@ -29,10 +29,12 @@ public:
     unsigned long int findVertexIndex(int vertexID);
     static int findVertexByID(std::vector<Vertex>* vertices, int vertexID);
     void switchVertices(int v1ID, int v2ID);
+    std::vector<std::vector<int> > createAdjacencyMatrix();
     std::vector<Vertex>* getB();
     std::vector<Vertex>* getA();
     int getNumVertices();
     int getNumEdges();
+    std::vector<std::pair<int, int> > getEdges();
     int getn0();
     int getn1();
     ~Graph();

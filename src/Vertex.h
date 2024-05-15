@@ -12,6 +12,7 @@ private:
     std::vector<Vertex*> edges;
 public:
     Vertex(int vertexID);
+    Vertex() : id(0), degree(0) {}
     ~Vertex();
     void addEdge(Vertex* vertex);
     std::vector<Vertex*> getEdges();

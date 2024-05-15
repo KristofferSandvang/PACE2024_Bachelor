@@ -31,12 +31,12 @@ Graph::Graph(std::istream& inputStream) {
             }
         }
         // Adds edges to the corresponding vertexs.
-        
         int x, y;
         if (std::sscanf(line.c_str(), "%d %d", &x, &y) == 2)
         {
             B.at(y - n0 - 1).addEdge(&A.at(x - 1));
             A.at(x - 1).addEdge(&B.at(y - n0 - 1));
+            edges.push_back(std::make_pair(x, y));
         }
     }
 }
@@ -242,6 +242,20 @@ void Graph::switchVertices(int v1ID, int v2ID) {
     }
 }
 
+
+std::vector<std::vector<int> > Graph::createAdjacencyMatrix(){
+    std::vector<std::vector<int> > adjacencyMatrix;
+    adjacencyMatrix.assign(n0, std::vector<int>(n1, 0));
+    for (auto edge : edges) {
+        int x, y;
+        x = edge.first - 1;
+        y = edge.second - n0 - 1; 
+        adjacencyMatrix[x][y] = 1;
+    }
+    return adjacencyMatrix;
+}
+
+
 std::vector<Vertex>* Graph::getB() {
     return &B;
 }
@@ -264,4 +278,7 @@ int Graph::getn0() {
 
 int Graph::getn1() {
     return n1;
+}
+std::vector<std::pair<int, int> > Graph::getEdges() {
+    return edges;
 }
