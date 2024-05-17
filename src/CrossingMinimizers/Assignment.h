@@ -11,6 +11,7 @@ class Assignment : public CrossingMinimizer
 private:
     std::vector<std::vector<int> > adjacencyMatrix;
     std::vector<std::vector<int>> crossingMatrix;
+    std::vector<int> hungarianReduction();
     int calculateCost(int i, int j, int n, int m);
     void createCrossingMatrix(Graph* graph);
 

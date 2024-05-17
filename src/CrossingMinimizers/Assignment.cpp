@@ -2,13 +2,13 @@
 #include "Assignment.h"
 #include <queue> 
 #include "../Vertex.h"
+#include <limits>
 
 
 Assignment::Assignment(Graph* graph) : CrossingMinimizer(graph)
 {
     adjacencyMatrix = graph->createAdjacencyMatrix();
     createCrossingMatrix(graph);
-    minimizeCrossings();
 }
 
 
@@ -22,6 +22,13 @@ void Assignment::createCrossingMatrix(Graph* graph) {
             crossingMatrix[i][j] = calculateCost(i, j, n, m);
         }
     }
+    // std::cout << "Crossing Matrix:\n";
+    //     for (const auto& row : crossingMatrix) {
+    //         for (int val : row) {
+    //             std::cout << val << "\t";
+    //         }
+    //         std::cout << "\n";
+    //     }
 }
 
 int Assignment::calculateCost(int i, int j, int n, int m) {
@@ -40,75 +47,78 @@ int Assignment::calculateCost(int i, int j, int n, int m) {
     return cost;
 }
 
-void Assignment::minimizeCrossings() {
-    // Skal lave reduction trin
-    std::unordered_map<int, std::vector<int>> zeroIndices;
-    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> zeroHeap;
-    // vertexID reduction
-    for (int i = 0; i < crossingMatrix.size(); i++) {
-        int minElement = *std::min_element(crossingMatrix[i].begin(),crossingMatrix[i].end());
-        for (int j = 0; j < crossingMatrix[i].size(); j++) {
-            crossingMatrix[i][j] = crossingMatrix[i][j] - minElement;
-        }
-    }
-    //column reduction
-    for (int j = 0; j < crossingMatrix[0].size(); j++) {
-        int minElement = crossingMatrix[0][j];
-        for (int i = 1; i < crossingMatrix.size(); i++) {
-            minElement = std::min(minElement, crossingMatrix[i][j]);
-        }
-        for (int i = 0; i < crossingMatrix.size(); i++) {
-            crossingMatrix[i][j] -= minElement;
-        }
-    }
-    // initalizing hashmaps:
-    for (int i = 0; i < crossingMatrix.size(); i++)
-    {
-        int zeroCount = 0;
-        std::vector<int> indices;
-        for (int j = 0; j < crossingMatrix[i].size(); j++)
-        {
-            if (crossingMatrix[i][j] == 0) {
-                zeroCount++;
-                indices.push_back(j);
-            }
-        }
-        zeroIndices[i] = indices;
-        zeroHeap.push({zeroCount, i}); 
-    }
-    for (const auto& row : crossingMatrix) {
-        // Iterate over each element of the row and print it
-        for (int element : row) {
-            std::cout << element << " ";
-        }
-        // Print a newline after each row
-        std::cout << std::endl;
-    }
 
-    std::unordered_map<int, bool> indexAssigned;
-    std::vector<std::pair<int, int>> vertexAndPosition;
-    // skal på en måde finde ud af hvordan man gør det her xD med stregerne..
-    while (!zeroHeap.empty()) {
-        // zeroHeap = number of zeros, vertexIndexInB
-        auto [zeroCount, vertexIndex] = zeroHeap.top();
-        zeroHeap.pop();
-        // filtering already used indices.
-        std::vector<int> filteredIndices;
-        std::copy_if(zeroIndices[vertexIndex].begin(), zeroIndices[vertexIndex].end(), std::back_inserter(filteredIndices), 
-            [&](int x) { return !(indexAssigned[x]); });
-        if (filteredIndices.empty()) {
-            std::cout << "UHOH!" << std::endl;
+
+// Modified version of the code shown on: https://en.wikipedia.org/wiki/Hungarian_algorithm
+bool ckmin(int &a, const int &b) { return b < a ? a = b, 1 : 0; }
+
+std::vector<int> Assignment::hungarianReduction() {
+    const int J = crossingMatrix.size();
+    const int W = crossingMatrix[0].size();
+    // job[w] = job assigned to w-th worker, or -1 if no job assigned
+    // note: a W-th worker was added for convenience
+    std::vector<int> job(W, -1);
+    std::vector<int> ys(J), yt(W + 1);  // potentials
+    // -yt[W] will equal the sum of all deltas
+    const int inf = std::numeric_limits<int>::max();
+    for (int j_cur = 0; j_cur < J; ++j_cur) {  // assign j_cur-th job
+        int w_cur = W;
+        job[w_cur] = j_cur;
+        // min reduced cost over edges from Z to worker w
+        std::vector<int> min_to(W + 1, inf);
+        std::vector<int> prv(W + 1, -1);  // previous worker on alternating path
+        std::vector<bool> in_Z(W + 1);    // whether worker is in Z
+        while (job[w_cur] != -1) {   // runs at most j_cur + 1 times
+            in_Z[w_cur] = true;
+            const int j = job[w_cur];
+            int delta = inf;
+            int w_next;
+            for (int w = 0; w < W; ++w) {
+                if (!in_Z[w]) {
+                    if (ckmin(min_to[w], crossingMatrix[j][w] - ys[j] - yt[w])) {
+                        prv[w] = w_cur;
+                    }
+                    if (ckmin(delta, min_to[w])) {
+                        w_next = w;
+                    }
+                }
+            }
+            // delta will always be non-negative,
+            // except possibly during the first time this loop runs
+            // if any entries of C[j_cur] are negative
+            for (int w = 0; w <= W; ++w) {
+                if (in_Z[w]) {
+                    ys[job[w]] += delta;
+                    yt[w] -= delta;
+                } 
+                else {
+                    min_to[w] -= delta;
+                }
+            }
+            w_cur = w_next;
         }
-        vertexAndPosition.emplace_back(vertexIndex, filteredIndices[0]);
-        indexAssigned[filteredIndices[0]] = true;
+        for (int w; w_cur != W; w_cur = w) {
+            job[w_cur] = job[w = prv[w_cur]];
+        }
     }
+    return job;
+}
+
+void Assignment::minimizeCrossings() {
+    std::vector<int> jobs = hungarianReduction();
+    // std::cout << "Assignments:" << std::endl;
+    // for (int i = 0; i < jobs.size(); i++) {
+    //     std::cout << "Worker " << i << ": Job " << jobs[i] << std::endl;
+    // }
     //updating B based on the new Positions
     std::vector<Vertex> tmpB;
     tmpB.resize(B.size());
-    for (auto vertexAndPos : vertexAndPosition)
+    // std::cout << "B = " << B.size() << ", jobs = " << jobs.size() << std::endl;
+    for (int i = 0; i < B.size(); i++)
     {
-        tmpB[vertexAndPos.second] = B[vertexAndPos.first];
+        tmpB.at(jobs.at(i)) = B.at(i);
     }
+    
     B = tmpB;
 }
 
