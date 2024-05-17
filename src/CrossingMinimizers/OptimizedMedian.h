@@ -4,10 +4,12 @@
 #include "CrossingMinimizer.h"
 #include <string>
 #include <vector>
+#include <map>
+
 class OptimizedMedian : public CrossingMinimizer
 {
 private:
-    void handleSameMedianVal(std::vector<std::pair<float, Vertex> >* MedValues);
+    void handleSameMedianVal(std::map<float, std::vector<int> >* MedMap);
     void optimizeOrder(std::vector<int>* vertexIndices);
 public:
     OptimizedMedian(Graph* graph);

@@ -7,41 +7,40 @@
 OptimizedMedian::OptimizedMedian(Graph* graph) : CrossingMinimizer(graph)
 {
 }
+
 void OptimizedMedian::optimizeOrder(std::vector<int>* vertexIndices) {
-    if (vertexIndices->size() > 4) {
+    if (vertexIndices->size() > 8) {
         return;
     }
-
-    int bestCrossings = graph->countCrossingsSweep(graph->getA(), &B);
-    std::vector<Vertex> bestOrder = B;
-
-    while (std::next_permutation(vertexIndices->begin(), vertexIndices->end()))
+    std::vector<Vertex> tmpB;
+    for (int index : *vertexIndices) {
+        tmpB.push_back(B.at(index));
+    }
+    std::vector<Vertex> bestOrder = tmpB;
+    bool zeroCrossings = false;
+    int bestCrossings = graph->countCrossingsSweep(graph->getA(), &tmpB);
+    if (bestCrossings == 0) {
+        zeroCrossings = true;
+    }
+    while (std::next_permutation(tmpB.begin(), tmpB.end()) && !zeroCrossings)
     {
-        std::vector<Vertex> tmpB = B;
-        for (int i = 0; i < vertexIndices->size(); i++)
-        {
-            for (int j = i + 1; j < vertexIndices->size(); j++)
-            {
-                std::swap(tmpB.at(vertexIndices->at(i)), tmpB.at(vertexIndices->at(j)));
-            }
-        }
         int newCrossings = graph->countCrossingsSweep(graph->getA(), &tmpB);
         if (newCrossings < bestCrossings) {
             bestCrossings = newCrossings;
             bestOrder = tmpB;
+            if (bestCrossings == 0) {
+                break;
+            }
         }        
     }
-    B = bestOrder;
+    for (int i = 0; i < vertexIndices->size(); i++)
+    {
+        B.at(vertexIndices->at(i)) = bestOrder.at(i);
+    }
 }
 
-void OptimizedMedian::handleSameMedianVal(std::vector<std::pair<float, Vertex> >* MedValues) {
-    std::map<float, std::vector<int> > MedMap;
-    for (int i = 0; i < MedValues->size(); i++)
-    {
-        MedMap[MedValues->at(i).first].push_back(i); 
-    }
-
-    for (auto& entry : MedMap) {
+void OptimizedMedian::handleSameMedianVal(std::map<float, std::vector<int> >* MedMap) {
+    for (auto& entry : *MedMap) {
         std::vector<int>& indices = entry.second;
         if (indices.size() == 1) {
             continue;
@@ -79,13 +78,15 @@ void OptimizedMedian::minimizeCrossings() {
     }
 
     std::sort(medianValues.begin(), medianValues.end(), compareMedianOptimized);
+    std::map<float, std::vector<int> > MedMap;
 
     for (int i = 0; i < medianValues.size(); i++)
     {
         B.at(i) = medianValues.at(i).second;
+        MedMap[medianValues.at(i).first].push_back(i);
     }
     
-    handleSameMedianVal(&medianValues);
+    handleSameMedianVal(&MedMap);
 
 }
 

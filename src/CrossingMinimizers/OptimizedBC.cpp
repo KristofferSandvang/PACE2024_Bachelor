@@ -7,16 +7,13 @@ OptimizedBC::OptimizedBC(Graph* graph) : CrossingMinimizer(graph)
 }
 
 void OptimizedBC::optimizeOrder(std::vector<int>* vertexIndices) {
-    if (vertexIndices->size() > 4) {
+    if (vertexIndices->size() > 8) {
         return;
     }
     std::vector<Vertex> tmpB;
     for (int index : *vertexIndices) {
         tmpB.push_back(B.at(index));
     }
-    // std::cout << "Before: " << std::endl;
-    // for (Vertex vertex : tmpB) {std::cout << vertex.toString() << " ";}
-    // std::cout << std::endl;
     std::vector<Vertex> bestOrder = tmpB;
     bool zeroCrossings = false;
     int bestCrossings = graph->countCrossingsSweep(graph->getA(), &tmpB);
@@ -34,10 +31,6 @@ void OptimizedBC::optimizeOrder(std::vector<int>* vertexIndices) {
             }
         }        
     }
-    // skal have opdateret B her.
-    // std::cout << "After: " << std::endl;
-    // for (Vertex vertex : bestOrder) {std::cout << vertex.toString() << " ";}
-    // std::cout << std::endl;
     for (int i = 0; i < vertexIndices->size(); i++)
     {
         B.at(vertexIndices->at(i)) = bestOrder.at(i);
@@ -46,7 +39,6 @@ void OptimizedBC::optimizeOrder(std::vector<int>* vertexIndices) {
 
 
 void OptimizedBC::handleSameBCVal(std::map<float, std::vector<int> >* BCmap) {
-
     for (auto& entry : *BCmap) {
         std::vector<int>& indices = entry.second;
         if (indices.size() == 1) {

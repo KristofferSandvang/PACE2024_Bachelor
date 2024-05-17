@@ -16,6 +16,9 @@ int main() {
     Graph graph(std::cin);
     OptimizedBC optimizedBC(&graph);
     optimizedBC.minimizeCrossings();
-    optimizedBC.writeSolution();
+    // optimizedBC.writeSolution();
+    OptimizedMedian optimizedMedian(&graph);
+    optimizedMedian.minimizeCrossings();
+    optimizedMedian.writeSolution();
     return 0;
 }
