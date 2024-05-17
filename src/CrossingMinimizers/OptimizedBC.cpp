@@ -1,6 +1,5 @@
 #include "OptimizedBC.h"
 #include <algorithm>
-#include <map>
 #include <iostream>
 
 OptimizedBC::OptimizedBC(Graph* graph) : CrossingMinimizer(graph)
@@ -11,38 +10,44 @@ void OptimizedBC::optimizeOrder(std::vector<int>* vertexIndices) {
     if (vertexIndices->size() > 4) {
         return;
     }
-
-    int bestCrossings = graph->countCrossingsSweep(graph->getA(), &B);
-    std::vector<Vertex> bestOrder = B;
-
-    while (std::next_permutation(vertexIndices->begin(), vertexIndices->end()))
+    std::vector<Vertex> tmpB;
+    for (int index : *vertexIndices) {
+        tmpB.push_back(B.at(index));
+    }
+    // std::cout << "Before: " << std::endl;
+    // for (Vertex vertex : tmpB) {std::cout << vertex.toString() << " ";}
+    // std::cout << std::endl;
+    std::vector<Vertex> bestOrder = tmpB;
+    bool zeroCrossings = false;
+    int bestCrossings = graph->countCrossingsSweep(graph->getA(), &tmpB);
+    if (bestCrossings == 0) {
+        zeroCrossings = true;
+    }
+    while (std::next_permutation(tmpB.begin(), tmpB.end()) && !zeroCrossings)
     {
-        std::vector<Vertex> tmpB = B;
-        for (int i = 0; i < vertexIndices->size(); i++)
-        {
-            for (int j = i + 1; j < vertexIndices->size(); j++)
-            {
-                std::swap(tmpB.at(vertexIndices->at(i)), tmpB.at(vertexIndices->at(j)));
-            }
-        }
         int newCrossings = graph->countCrossingsSweep(graph->getA(), &tmpB);
         if (newCrossings < bestCrossings) {
             bestCrossings = newCrossings;
             bestOrder = tmpB;
+            if (bestCrossings == 0) {
+                break;
+            }
         }        
     }
-    B = bestOrder;
+    // skal have opdateret B her.
+    // std::cout << "After: " << std::endl;
+    // for (Vertex vertex : bestOrder) {std::cout << vertex.toString() << " ";}
+    // std::cout << std::endl;
+    for (int i = 0; i < vertexIndices->size(); i++)
+    {
+        B.at(vertexIndices->at(i)) = bestOrder.at(i);
+    }
 }
 
 
-void OptimizedBC::handleSameBCVal(std::vector<std::pair<float, Vertex> >* bcValues) {
-    std::map<float, std::vector<int> > BCmap;
-    for (int i = 0; i < bcValues->size(); i++)
-    {
-        BCmap[bcValues->at(i).first].push_back(i); 
-    }
+void OptimizedBC::handleSameBCVal(std::map<float, std::vector<int> >* BCmap) {
 
-    for (auto& entry : BCmap) {
+    for (auto& entry : *BCmap) {
         std::vector<int>& indices = entry.second;
         if (indices.size() == 1) {
             continue;
@@ -70,12 +75,14 @@ void OptimizedBC::minimizeCrossings() {
     }
 
     std::sort(barycenterValues.begin(), barycenterValues.end(), compareBCVALS);
+    std::map<float, std::vector<int> > BCmap;
 
     for (int i = 0; i < barycenterValues.size(); i++)
     {
         B.at(i) = barycenterValues.at(i).second;
+        BCmap[barycenterValues.at(i).first].push_back(i);
     }
-    handleSameBCVal(&barycenterValues);
+    handleSameBCVal(&BCmap);
 }
 
 

@@ -14,9 +14,8 @@
 
 int main() {
     Graph graph(std::cin);
-    Assignment assignment(&graph);
-    assignment.minimizeCrossings();
-    assignment.writeSolution();
-    
+    OptimizedBC optimizedBC(&graph);
+    optimizedBC.minimizeCrossings();
+    optimizedBC.writeSolution();
     return 0;
 }
