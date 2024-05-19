@@ -4,11 +4,12 @@ import numpy as np
 
 df = pd.read_csv('solvers.csv', names=['FileName', 'SolverName' ,'CrossingsSweep', 'DurationSweep', 'edges', 'vertices1', 'vertices2', 'density', 'CrossingsAfter'])
 
-df['SolverName'] = df['SolverName'].replace({0: 'Barycenter', 1: 'Median', 2: 'OptimizedBC', 3: 'OptimizedBCRight', 4: 'OptimiziedMedian', 5: 'Parent', 6: 'Bogo'})
+df['SolverName'] = df['SolverName'].replace({0: 'Barycenter', 1: 'Median', 2: 'OptimizedBC', 3: 'OptimiziedMedian', 4: 'Parent', 5: 'Bogo', 6: 'MedianBary', 7: 'MedianRev', 8: 'BarycenterMed', 9: 'barycenterRev', 10: 'Assignment'})
 
 
-filtered_df = df[df['SolverName'] != 'Bogo']
-#filtered_df = df[df['SolverName'] != 'parentMinimizer']
+filtered_df = df[~df['SolverName'].isin(['Bogo'])]
+filtered_df['NunVertices'] = filtered_df['vertices1'] + filtered_df['vertices2']
+
 mean_crossings_after = filtered_df.groupby('SolverName')['CrossingsAfter'].mean()
 num_solvers = df['SolverName'].nunique()
 
@@ -48,10 +49,10 @@ ax = plt.gca()
 
 for solver, group in df_grouped:
     y_transformed = np.log10(group['CrossingsAfter'])
-    x_transformed = np.log10(group['vertices1'])
+    x_transformed = np.log10(group['NunVertices'])
     ax.scatter(x_transformed, y_transformed, label=solver, color=colormap[solver])
 
-ax.set_xlabel('log10(vertices1)')
+ax.set_xlabel('log10(NunVertices)')
 ax.set_ylabel('log10(Crossings)')
 plt.xticks(rotation=45)
 ax.legend()
@@ -63,8 +64,8 @@ for solver, group in df_grouped:
     x_transformed = np.mean(group['DurationSweep'])
     plt.scatter(x_transformed, y_transformed, label=solver, color=colormap[solver])
 
-plt.xlabel('log10(Mean Duration)')
-plt.ylabel('Mean Crossings')
+plt.xlabel('Mean Duration')
+plt.ylabel('log10(Mean Crossings)')
 plt.legend()
 plt.show()
 
@@ -89,12 +90,17 @@ plt.show() """
 
 
 mean_crossings_after = df.groupby('SolverName')['CrossingsAfter'].mean()
+sum_crossings_after = df.groupby('SolverName')['CrossingsAfter'].sum()
 
-print(mean_crossings_after)
+print(mean_crossings_after.sort_values())
+print(sum_crossings_after.sort_values())
 
 mean_duration = df.groupby('SolverName')['DurationSweep'].mean()
 print(mean_duration)
 
 df['Density'] = df['edges'] / (df['vertices1']*df['vertices2'])
-df_density = df.groupby('FileName')['Density'].mean()
-print(df_density)
+
+negative_values = df[df['Density'] > 0.4]['Density'] 
+print(negative_values)
+print(df['Density'].describe())
+
