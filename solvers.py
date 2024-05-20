@@ -2,13 +2,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-df = pd.read_csv('solvers.csv', names=['FileName', 'SolverName' ,'CrossingsSweep', 'DurationSweep', 'edges', 'vertices1', 'vertices2', 'density', 'CrossingsAfter'])
+df = pd.read_csv('public9solvers.csv', names=['FileName', 'SolverName' ,'CrossingsSweep', 'DurationSweep', 'edges', 'vertices1', 'vertices2', 'density', 'CrossingsAfter'])
 
 df['SolverName'] = df['SolverName'].replace({0: 'Barycenter', 1: 'Median', 2: 'OptimizedBC', 3: 'OptimiziedMedian', 4: 'Parent', 5: 'Bogo', 6: 'MedianBary', 7: 'MedianRev', 8: 'BarycenterMed', 9: 'barycenterRev', 10: 'Assignment'})
 
-
+df['Density1'] = df['edges'] / (df['vertices1']*df['vertices2'])
 filtered_df = df[~df['SolverName'].isin(['Bogo'])]
-filtered_df['NunVertices'] = filtered_df['vertices1'] + filtered_df['vertices2']
+filtered_df = df[~df['SolverName'].isin(['Bogo'])].copy()
+filtered_df.loc[:, 'NunVertices'] = filtered_df['vertices1'] + filtered_df['vertices2']
 
 mean_crossings_after = filtered_df.groupby('SolverName')['CrossingsAfter'].mean()
 num_solvers = df['SolverName'].nunique()
@@ -70,6 +71,8 @@ plt.legend()
 plt.show()
 
 
+
+
 """ testDF = df[(df['density'] <= 0.06) & (df['SolverName'] != 'bogoMinimizer')]
 testdf_grouped = testDF.groupby('SolverName')
 jitter = 0.1
@@ -98,9 +101,22 @@ print(sum_crossings_after.sort_values())
 mean_duration = df.groupby('SolverName')['DurationSweep'].mean()
 print(mean_duration)
 
-df['Density'] = df['edges'] / (df['vertices1']*df['vertices2'])
+solvers = ['Barycenter', 'Median', 'Parent', 'Assignment']
 
-negative_values = df[df['Density'] > 0.4]['Density'] 
+plt.figure(figsize=(10, 6))
+
+for solver in solvers:
+    solver_df = df[df['SolverName'] == solver]
+    plt.scatter(solver_df['Density1'], np.log10(solver_df['CrossingsAfter']), label=solver)
+
+plt.title('Density vs CrossingsAfter')
+plt.xlabel('Density1')
+plt.ylabel('CrossingsAfter')
+plt.legend()
+
+plt.show()
+
+negative_values = df[df['Density1'] > 0.4]['Density1'] 
 print(negative_values)
-print(df['Density'].describe())
+print(df['Density1'].describe())
 

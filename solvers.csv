@@ -1,143 +1,99 @@
-0,0,124074,0.0011229,725,393,333,0.00553989,23978
-0,1,124074,0.001022,725,393,333,0.00553989,21006
-0,2,124074,0.0199848,725,393,333,0.00553989,23958
-0,3,124074,0.156905,725,393,333,0.00553989,20968
-0,4,124074,0.0006429,725,393,333,0.00553989,28982
-0,5,124074,0.0002513,725,393,333,0.00553989,139925
-0,6,124074,0.0010839,725,393,333,0.00553989,20975
-0,7,124074,0.0008457,725,393,333,0.00553989,20998
-0,8,124074,0.0010376,725,393,333,0.00553989,23955
-0,9,124074,0.0009372,725,393,333,0.00553989,23962
-0,10,124074,1218.09,725,393,333,0.00553989,132272
-0,0,187815,0.0015951,871,408,464,0.00460087,39809
-0,1,187815,0.0020372,871,408,464,0.00460087,34726
-0,2,187815,0.154729,871,408,464,0.00460087,39716
-0,3,187815,4.96167,871,408,464,0.00460087,34643
-0,4,187815,0.0011859,871,408,464,0.00460087,45222
-0,5,187815,0.0003848,871,408,464,0.00460087,193575
-0,6,187815,0.0020993,871,408,464,0.00460087,34720
-0,7,187815,0.0027657,871,408,464,0.00460087,34849
-0,8,187815,0.0033891,871,408,464,0.00460087,39655
-0,9,187815,0.0011416,871,408,464,0.00460087,39798
-0,10,187815,3523.22,871,408,464,0.00460087,193330
-0,0,12485,0.0003054,231,108,124,0.0172491,6354
-0,1,12485,0.0003276,231,108,124,0.0172491,6559
-0,2,12485,0.0114947,231,108,124,0.0172491,6270
-0,3,12485,0.0822656,231,108,124,0.0172491,6560
-0,4,12485,0.0001702,231,108,124,0.0172491,7528
-0,5,12485,7.27e-05,231,108,124,0.0172491,13231
-0,6,12485,0.0003621,231,108,124,0.0172491,6550
-0,7,12485,0.0003599,231,108,124,0.0172491,6606
-0,8,12485,0.0004367,231,108,124,0.0172491,6345
-0,9,12485,0.0003363,231,108,124,0.0172491,6274
-0,10,12485,5.00075,231,108,124,0.0172491,12253
-0,0,95056,0.000698,616,165,175,0.0213333,62177
-0,1,95056,0.0011997,616,165,175,0.0213333,64305
-0,2,95056,0.0372395,616,165,175,0.0213333,62161
-0,3,95056,0.745501,616,165,175,0.0213333,64108
-0,4,95056,0.0010629,616,165,175,0.0213333,70854
-0,5,95056,0.0001902,616,165,175,0.0213333,90850
-0,6,95056,0.0007167,616,165,175,0.0213333,64175
-0,7,95056,0.0012674,616,165,175,0.0213333,64214
-0,8,95056,0.0007208,616,165,175,0.0213333,62159
-0,9,95056,0.0006747,616,165,175,0.0213333,62164
-0,10,95056,32.8598,616,165,175,0.0213333,93472
-0,0,299530,0.0006834,1100,288,286,0.0133547,191980
-0,1,299530,0.0015492,1100,288,286,0.0133547,202451
-0,2,299530,0.019082,1100,288,286,0.0133547,192975
-0,3,299530,0.119755,1100,288,286,0.0133547,201345
-0,4,299530,0.001415,1100,288,286,0.0133547,219146
-0,5,299530,0.0005059,1100,288,286,0.0133547,304778
-0,6,299530,0.0027979,1100,288,286,0.0133547,201646
-0,7,299530,0.0021105,1100,288,286,0.0133547,201633
-0,8,299530,0.0013001,1100,288,286,0.0133547,193834
-0,9,299530,0.0022548,1100,288,286,0.0133547,193387
-0,10,299530,419.059,1100,288,286,0.0133547,293476
-0,0,6142,7.3e-05,162,54,54,0.0555556,4523
-0,1,6142,0.0001202,162,54,54,0.0555556,4549
-0,2,6142,0.0012795,162,54,54,0.0555556,4514
-0,3,6142,0.0016713,162,54,54,0.0555556,4542
-0,4,6142,9.97e-05,162,54,54,0.0555556,4949
-0,5,6142,2.72e-05,162,54,54,0.0555556,6140
-0,6,6142,0.0003481,162,54,54,0.0555556,4538
-0,7,6142,0.0002512,162,54,54,0.0555556,4566
-0,8,6142,0.0004452,162,54,54,0.0555556,4512
-0,9,6142,0.0001193,162,54,54,0.0555556,4518
-0,10,6142,0.130449,162,54,54,0.0555556,6044
-0,0,12153,0.0005095,401,143,123,0.0227983,7321
-0,1,12153,0.0007403,401,143,123,0.0227983,7313
-0,2,12153,0.0136324,401,143,123,0.0227983,7284
-0,3,12153,3.38023,401,143,123,0.0227983,7384
-0,4,12153,0.0004546,401,143,123,0.0227983,11769
-0,5,12153,0.0002018,401,143,123,0.0227983,38531
-0,6,12153,0.000794,401,143,123,0.0227983,7251
-0,7,12153,0.0008065,401,143,123,0.0227983,7246
-0,8,12153,0.0004588,401,143,123,0.0227983,7190
-0,9,12153,0.0004118,401,143,123,0.0227983,7085
-0,10,12153,8.88484,401,143,123,0.0227983,14095
-0,0,10476,0.000416,450,145,139,0.022327,7592
-0,1,10476,0.0004114,450,145,139,0.022327,7826
-0,2,10476,0.014492,450,145,139,0.022327,6982
-0,3,10476,0.925647,450,145,139,0.022327,6780
-0,4,10476,0.000963,450,145,139,0.022327,9879
-0,5,10476,0.0001345,450,145,139,0.022327,49919
-0,6,10476,0.0006343,450,145,139,0.022327,7568
-0,7,10476,0.001169,450,145,139,0.022327,7016
-0,8,10476,0.0007779,450,145,139,0.022327,8460
-0,9,10476,0.0005252,450,145,139,0.022327,7521
-0,10,10476,13.0627,450,145,139,0.022327,16934
-0,0,9977,0.0007626,677,351,327,0.00589839,6387
-0,1,9977,0.0009705,677,351,327,0.00589839,650
-0,2,9977,0.0013891,677,351,327,0.00589839,6337
-0,3,9977,0.0009987,677,351,327,0.00589839,649
-0,4,9977,0.001262,677,351,327,0.00589839,16225
-0,5,9977,0.0001933,677,351,327,0.00589839,14392
-0,6,9977,0.0008326,677,351,327,0.00589839,652
-0,7,9977,0.000731,677,351,327,0.00589839,650
-0,8,9977,0.0008985,677,351,327,0.00589839,652
-0,9,9977,0.0006661,677,351,327,0.00589839,6387
-0,10,9977,929.878,677,351,327,0.00589839,112848
-0,0,14223,0.0005297,567,200,181,0.015663,8456
-0,1,14223,0.0006553,567,200,181,0.015663,9437
-0,2,14223,0.0092543,567,200,181,0.015663,8148
-0,3,14223,0.246272,567,200,181,0.015663,8477
-0,4,14223,0.000706,567,200,181,0.015663,11541
-0,5,14223,0.0002454,567,200,181,0.015663,81272
-0,6,14223,0.0009136,567,200,181,0.015663,8596
-0,7,14223,0.0012333,567,200,181,0.015663,8648
-0,8,14223,0.0005924,567,200,181,0.015663,9347
-0,9,14223,0.0009577,567,200,181,0.015663,8198
-0,10,14223,53.307,567,200,181,0.015663,18618
-0,0,3256,0.0003881,198,89,101,0.0220269,1883
-0,1,3256,0.000658,198,89,101,0.0220269,1928
-0,2,3256,0.0046987,198,89,101,0.0220269,1822
-0,3,3256,0.0055025,198,89,101,0.0220269,1857
-0,4,3256,0.0005708,198,89,101,0.0220269,2444
-0,5,3256,4.63e-05,198,89,101,0.0220269,10531
-0,6,3256,0.0002803,198,89,101,0.0220269,1862
-0,7,3256,0.0002091,198,89,101,0.0220269,1871
-0,8,3256,0.000254,198,89,101,0.0220269,2122
-0,9,3256,0.0002355,198,89,101,0.0220269,1836
-0,10,3256,1.97096,198,89,101,0.0220269,3747
-0,0,2320,0.0004126,196,95,123,0.0167736,9806
-0,1,2320,0.0004093,196,95,123,0.0167736,1382
-0,2,2320,0.00334,196,95,123,0.0167736,9746
-0,3,2320,0.0312368,196,95,123,0.0167736,1240
-0,4,2320,0.0003083,196,95,123,0.0167736,1341
-0,5,2320,5.22e-05,196,95,123,0.0167736,10484
-0,6,2320,0.0004281,196,95,123,0.0167736,1279
-0,7,2320,0.0003858,196,95,123,0.0167736,1262
-0,8,2320,0.000592,196,95,123,0.0167736,9961
-0,9,2320,0.0003241,196,95,123,0.0167736,9747
-0,10,2320,4.3011,196,95,123,0.0167736,4192
-0,0,2599,0.0003444,265,120,163,0.0135481,1482
-0,1,2599,0.0005049,265,120,163,0.0135481,1564
-0,2,2599,0.0005445,265,120,163,0.0135481,1648
-0,3,2599,0.0366156,265,120,163,0.0135481,1391
-0,4,2599,0.0004918,265,120,163,0.0135481,2043
-0,5,2599,8.95e-05,265,120,163,0.0135481,16824
-0,6,2599,0.0005855,265,120,163,0.0135481,1411
-0,7,2599,0.0003969,265,120,163,0.0135481,1441
-0,8,2599,0.0006498,265,120,163,0.0135481,1444
-0,9,2599,0.0003912,265,120,163,0.0135481,1486
-0,10,2599,14.4249,265,120,163,0.0135481,7686
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0,10,1319706,242.935,2304,256,256,0.0351562,1319169
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
+0, 10, crossingsBefore, duration, numEdges, n0, n1, density, crossingsAfter
