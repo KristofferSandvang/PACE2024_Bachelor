@@ -21,11 +21,10 @@
 #include <unordered_map>
 
 
-const std::string INPUT_PATH = "./tests/graphs/public/";
-const std::string SOLUTION_PATH = "./tests/solutions/public/";
-const int NUM_OF_MINIMIZERS = 11;
+const std::string INPUT_PATH = "./tests/graphs/allGraphs/";
+const std::string SOLUTION_PATH = "./tests/solutions/allGraphs/";
+const int NUM_OF_MINIMIZERS = 10;
 std::mutex mutex; 
-static int j = 0;
 
 void threadFunction(int ID, Graph* graph, 
                     std::unordered_map<int, unsigned long int>& crossings, 
@@ -153,16 +152,6 @@ void threadFunction(int ID, Graph* graph,
             crossingAfter = graph->countCrossingsSweep(graph->getA(), barycenterRev.getNewB());
             break;
         }
-        case 10:
-        {
-            auto start = std::chrono::system_clock::now();
-            Assignment assignment(graph);
-            assignment.minimizeCrossings();
-            auto end = std::chrono::system_clock::now();
-            duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-            crossingAfter = graph->countCrossingsSweep(graph->getA(), assignment.getNewB());
-            break;
-        }
         default:
             return;
     }
@@ -188,21 +177,19 @@ int main(int argc, char* argv[]) {
     long unsigned int crossingsBefore = graph.countCrossingsSweep();
     std::cout << "Number of crossings before: " << crossingsBefore << std::endl;
     std::vector<std::thread> threads;
-    /* for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
+    for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
     {
         threads.push_back(std::thread(threadFunction, i, &graph, std::ref(crossingsAfter), std::ref(durations)));
-    }*/
+    }
     
-    
-    threads.push_back(std::thread(threadFunction, 10, &graph, std::ref(crossingsAfter), std::ref(durations)));
     for (auto& thread : threads) {
         thread.join();
     }
     std::ofstream csvFile("solvers.csv", std::ios::app);
-    csvFile << j << "," << 10 << "," << crossingsBefore << "," << durations[10] << "," << numEdges << "," << graph.getn0() << "," <<graph.getn1() << "," << density << "," << crossingsAfter[10] << std::endl;
-    /* for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
+    
+    for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
     {
-        csvFile << j << "," << i << "," << crossingsBefore << "," << durations[i] << "," << numEdges << "," << graph.getn0() << "," <<graph.getn1() << "," << density << "," << crossingsAfter[i] << std::endl;
-    } */
+        csvFile << "," << i << "," << crossingsBefore << "," << durations[i] << "," << numEdges << "," << graph.getn0() << "," <<graph.getn1() << "," << density << "," << crossingsAfter[i] << std::endl;
+    }
     csvFile.close();
 } 
