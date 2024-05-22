@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 add_executable(PACE2024
-    Solver.cpp
+    hybrid.cpp
     Graph.cpp
     Vertex.cpp
     CrossingMinimizers/Crossingminimizer.cpp

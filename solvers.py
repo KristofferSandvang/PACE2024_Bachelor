@@ -4,10 +4,10 @@ import numpy as np
 
 df = pd.read_csv('solvers.csv', names=['FileName', 'SolverName' ,'CrossingsSweep', 'DurationSweep', 'edges', 'vertices1', 'vertices2', 'density', 'CrossingsAfter'])
 
-df['SolverName'] = df['SolverName'].replace({0: 'Barycenter', 1: 'Median', 2: 'OptimizedBC', 3: 'OptimiziedMedian', 4: 'Parent', 5: 'Bogo', 6: 'MedianBary', 7: 'MedianRev', 8: 'BarycenterMed', 9: 'barycenterRev'})
+df['SolverName'] = df['SolverName'].replace({0: 'Barycenter', 1: 'Median', 2: 'OptimizedBC', 3: 'OptimiziedMedian', 4: 'Parent', 5: 'Bogo', 6: 'MedianBary', 7: 'MedianRev', 8: 'BarycenterMed', 9: 'barycenterRev', 10: 'Assignment'})
 
 df['Density1'] = df['edges'] / (df['vertices1']*df['vertices2'])
-filtered_df = df[~df['SolverName'].isin(['Bogo', 'Parent'])].copy()
+filtered_df = df[~df['SolverName'].isin(['Bogo', 'Parent', 'Assignment'])].copy()
 filtered_df.loc[:, 'NunVertices'] = filtered_df['vertices1'] + filtered_df['vertices2']
 
 mean_crossings_after = filtered_df.groupby('SolverName')['CrossingsAfter'].mean()
@@ -118,3 +118,5 @@ plt.show()
 negative_values = df[df['Density1'] > 0.4]['Density1'] 
 print(negative_values)
 print(df['Density1'].describe())
+
+

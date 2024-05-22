@@ -1,8 +1,15 @@
 #include "OptimizedMedian.h"
+#include "Utils.h"
 #include <algorithm>
 #include <map>
 #include <math.h>
 #include <iostream>
+#include <chrono>
+#include <csignal>
+
+extern volatile sig_atomic_t flag;
+extern std::chrono::steady_clock::time_point start;
+extern int timeLimit;
 
 OptimizedMedian::OptimizedMedian(Graph* graph) : CrossingMinimizer(graph)
 {
@@ -24,6 +31,7 @@ void OptimizedMedian::optimizeOrder(std::vector<int>* vertexIndices) {
     }
     while (std::next_permutation(tmpB.begin(), tmpB.end()) && !zeroCrossings)
     {
+        if (flag || !timeRemaining(start, timeLimit - 20)) return;  // Check for signal or time limit
         int newCrossings = graph->countCrossingsSweep(graph->getA(), &tmpB);
         if (newCrossings < bestCrossings) {
             bestCrossings = newCrossings;
@@ -41,6 +49,7 @@ void OptimizedMedian::optimizeOrder(std::vector<int>* vertexIndices) {
 
 void OptimizedMedian::handleSameMedianVal(std::map<float, std::vector<int> >* MedMap) {
     for (auto& entry : *MedMap) {
+        if (flag || !timeRemaining(start, timeLimit - 20)) return;  // Check for signal or time limit
         std::vector<int>& indices = entry.second;
         if (indices.size() == 1) {
             continue;
@@ -56,13 +65,14 @@ bool compareMedianOptimized(const std::pair<float, Vertex>& a, const std::pair<f
 void OptimizedMedian::minimizeCrossings() {
    std::vector <std::pair<float, Vertex> > medianValues;
     for (int i = 0; i < B.size(); i++){
+        if (flag || !timeRemaining(start, timeLimit - 20)) return;  // Check for signal or time limit
         std::vector<int> edgeIDs;
         for (Vertex* edgeVertex : B.at(i).getEdges()) {
             edgeIDs.push_back(edgeVertex->getVertexID());
         }
         std::sort(edgeIDs.begin(), edgeIDs.end());
         float medianValue = 0;
-        //da rulez
+
         if (edgeIDs.empty()) {
             medianValue = 0;
         }
@@ -82,16 +92,13 @@ void OptimizedMedian::minimizeCrossings() {
 
     for (int i = 0; i < medianValues.size(); i++)
     {
+        if (flag || !timeRemaining(start, timeLimit - 20)) return;  // Check for signal or time limit
         B.at(i) = medianValues.at(i).second;
         MedMap[medianValues.at(i).first].push_back(i);
     }
     
     handleSameMedianVal(&MedMap);
-
 }
-
-
-
 
 OptimizedMedian::~OptimizedMedian()
 {
