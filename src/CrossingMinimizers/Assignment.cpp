@@ -19,16 +19,9 @@ void Assignment::createCrossingMatrix(Graph* graph) {
 
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < m; j++) {
-            crossingMatrix[i][j] = calculateCost(i, j, n, m);
+            crossingMatrix[j][i] = calculateCost(i, j, n, m);
         }
     }
-    // std::cout << "Crossing Matrix:\n";
-    //     for (const auto& row : crossingMatrix) {
-    //         for (int val : row) {
-    //             std::cout << val << "\t";
-    //         }
-    //         std::cout << "\n";
-    //     }
 }
 
 int Assignment::calculateCost(int i, int j, int n, int m) {
@@ -106,20 +99,22 @@ std::vector<int> Assignment::hungarianReduction() {
 
 void Assignment::minimizeCrossings() {
     std::vector<int> jobs = hungarianReduction();
-    // std::cout << "Assignments:" << std::endl;
-    // for (int i = 0; i < jobs.size(); i++) {
-    //     std::cout << "Worker " << i << ": Job " << jobs[i] << std::endl;
-    // }
-    //updating B based on the new Positions
+    // updating B based on the new Positions
+    std::cout << "??" << std::endl;
+    std::cout << "Assignments:" << std::endl;
+    for (int i = 0; i < jobs.size(); i++) {
+        std::cout << "Worker " << i << ": Job " << jobs[i] << std::endl;
+    }
     std::vector<Vertex> tmpB;
     tmpB.resize(B.size());
-    // std::cout << "B = " << B.size() << ", jobs = " << jobs.size() << std::endl;
+    std::cout << "B = " << B.size() << ", jobs = " << jobs.size() << std::endl;
     for (int i = 0; i < B.size(); i++)
     {
         tmpB.at(jobs.at(i)) = B.at(i);
     }
     
     B = tmpB;
+    std::cout << "updated B" << std::endl;
 }
 
 Assignment::~Assignment()

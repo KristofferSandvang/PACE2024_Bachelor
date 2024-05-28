@@ -14,11 +14,14 @@
 
 int main() {
     Graph graph(std::cin);
-    OptimizedBC optimizedBC(&graph);
-    optimizedBC.minimizeCrossings();
-    // optimizedBC.writeSolution();
-    OptimizedMedian optimizedMedian(&graph);
-    optimizedMedian.minimizeCrossings();
-    optimizedMedian.writeSolution();
+    Assignment assignment(&graph);
+    assignment.minimizeCrossings();
+    int assCount = graph.countCrossingsSweep(graph.getA(), assignment.getNewB());
+    OptimizedMedian median(&graph);
+    median.minimizeCrossings();
+    int medCount = graph.countCrossingsSweep(graph.getA(), median.getNewB());
+
+    std::cout << "ass = " << assCount << " and med = " << medCount << std::endl;
+    
     return 0;
 }
