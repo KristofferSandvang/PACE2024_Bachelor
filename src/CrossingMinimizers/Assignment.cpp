@@ -100,11 +100,11 @@ std::vector<int> Assignment::hungarianReduction() {
 void Assignment::minimizeCrossings() {
     std::vector<int> jobs = hungarianReduction();
     // updating B based on the new Positions
-    std::cout << "??" << std::endl;
-    std::cout << "Assignments:" << std::endl;
-    for (int i = 0; i < jobs.size(); i++) {
+    /* std::cout << "??" << std::endl;
+    std::cout << "Assignments:" << std::endl; */
+   /*  for (int i = 0; i < jobs.size(); i++) {
         std::cout << "Worker " << i << ": Job " << jobs[i] << std::endl;
-    }
+    } */
     std::vector<Vertex> tmpB;
     tmpB.resize(B.size());
     std::cout << "B = " << B.size() << ", jobs = " << jobs.size() << std::endl;

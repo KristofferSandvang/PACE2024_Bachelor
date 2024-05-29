@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 add_executable(PACE2024
-    hybrid.cpp
+    Hybrid.cpp
     Graph.cpp
     Vertex.cpp
     CrossingMinimizers/Crossingminimizer.cpp
@@ -16,7 +16,6 @@ add_executable(PACE2024
     CrossingMinimizers/OptimizedBC.cpp
     CrossingMinimizers/OptimizedMedian.cpp
     CrossingMinimizers/ParentMinimizer.cpp
-    CrossingMinimizers/OptimizedBCRight.cpp
     CrossingMinimizers/BarycenterMed.cpp
     CrossingMinimizers/MedianBary.cpp
     CrossingMinimizers/BarycenterRev.cpp

@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
-g++ -std=c++17 -O3 solver.cpp Graph.cpp Vertex.cpp ./CrossingMinimizers/Crossingminimizer.cpp ./CrossingMinimizers/Barycenter.cpp ./CrossingMinimizers/Median.cpp ./CrossingMinimizers/OptimizedBC.cpp ./CrossingMinimizers/OptimizedMedian.cpp ./CrossingMinimizers/ParentMinimizer.cpp ./CrossingMinimizers/OptimizedBCRight.cpp -o solver.o
-pace2024tester --no-tiny --test ./tests/medium_test_set solver.o
-rm *.o
+if [ -z "$1" ]; then
+  echo "Usage: $0 <filename>"
+  exit 1
+fi
+g++ -std=c++17 -Ofast ./src/Hybrid.cpp ./src/Graph.cpp ./src/Vertex.cpp ./src/CrossingMinimizers/Crossingminimizer.cpp ./src/CrossingMinimizers/Barycenter.cpp ./src/CrossingMinimizers/Median.cpp ./src/CrossingMinimizers/OptimizedBC.cpp ./src/CrossingMinimizers/OptimizedMedian.cpp ./src/CrossingMinimizers/BarycenterMed.cpp ./src/CrossingMinimizers/BarycenterRev.cpp ./src/CrossingMinimizers/MedianBary.cpp ./src/CrossingMinimizers/MedianRev.cpp -o Hybrid.o
+if [ $? -ne 0 ]; then
+  echo "Compilation failed"
+  exit 1
+fi
+
+./Hybrid.o < $1
+rm Hybrid.o

@@ -4,10 +4,6 @@
 #include <math.h>
 #include <iostream>
 
-extern volatile sig_atomic_t flag;
-extern std::chrono::steady_clock::time_point start;
-extern int timeLimit;
-
 OptimizedMedian::OptimizedMedian(Graph* graph) : CrossingMinimizer(graph)
 {
 }

@@ -8,7 +8,6 @@
 #include "src/CrossingMinimizers/Median.h"
 #include "src/CrossingMinimizers/OptimizedBC.h"
 #include "src/CrossingMinimizers/OptimizedMedian.h"
-#include "src/CrossingMinimizers/OptimizedBCRight.h"
 #include "src/CrossingMinimizers/ParentMinimizer.h"
 #include "src/CrossingMinimizers/BogoMinimizer.h"
 #include "src/CrossingMinimizers/MedianBary.h"
@@ -65,17 +64,6 @@ void threadFunction(int ID, Graph* graph,
         
             break;
         }
-        /* case 3:
-        {
-            auto start = std::chrono::system_clock::now();
-            OptimizedBCRight optimizedBCRight(graph);
-            optimizedBCRight.minimizeCrossings();
-            auto end = std::chrono::system_clock::now();
-            duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-            crossingAfter = graph->countCrossingsSweep(graph->getA(), optimizedBCRight.getNewB());
-
-            break;
-        } */
         case 3:
         {
             auto start = std::chrono::system_clock::now();
@@ -171,10 +159,10 @@ void threadFunction(int ID, Graph* graph,
     mutex.unlock();
 }
 
-
 int main(int argc, char* argv[]) {
     std::unordered_map<int, unsigned long int> crossingsAfter;
     std::unordered_map<int, double> durations;
+    std::string filename = argv[1];
     auto start = std::chrono::system_clock::now();
     Graph graph(std::cin);
     std::cout << "Graph created" << std::endl;
@@ -186,20 +174,24 @@ int main(int argc, char* argv[]) {
     long double density = graph.calculateGraphDensity();
     long unsigned int crossingsBefore = graph.countCrossingsSweep();
     std::cout << "Number of crossings before: " << crossingsBefore << std::endl;
+    
     std::vector<std::thread> threads;
-    /* for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
+    for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
     {
         threads.push_back(std::thread(threadFunction, i, &graph, std::ref(crossingsAfter), std::ref(durations)));
-    } */
-    threads.push_back(std::thread(threadFunction, 10, &graph, std::ref(crossingsAfter), std::ref(durations)));
+    }
     for (auto& thread : threads) {
         thread.join();
     }
-    std::ofstream csvFile("Assignment.csv", std::ios::app);
-    csvFile << "," << 10 << "," << crossingsBefore << "," << durations[10] << "," << numEdges << "," << graph.getn0() << "," <<graph.getn1() << "," << density << "," << crossingsAfter[10] << std::endl;
-    /* for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
+
+    std::ofstream csvFile("Temp.csv", std::ios::app);
+    if (!csvFile.is_open()) {
+        std::cout << "Error :()" << std::endl;
+    }
+
+    for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
     {
-        csvFile << "," << i << "," << crossingsBefore << "," << durations[i] << "," << numEdges << "," << graph.getn0() << "," <<graph.getn1() << "," << density << "," << crossingsAfter[i] << std::endl;
-    } */
+        csvFile << filename << "," << i << "," << crossingsBefore << "," << durations[i] << "," << numEdges << "," << graph.getn0() << "," <<graph.getn1() << "," << density << "," << crossingsAfter[i] << std::endl;
+    }
     csvFile.close();
 } 
