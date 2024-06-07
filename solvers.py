@@ -33,7 +33,7 @@ allTests_df = pd.concat(testSets, axis=0)
 
 # DFs without Bogo
 filtered_tiny = tiny_df[~tiny_df['SolverName'].isin(['Bogo', 'Assignment'])]
-filtered_medium = medium_df[~medium_df['SolverName'].isin(['Bogo'])]
+filtered_medium = medium_df[~medium_df['SolverName'].isin(['Bogo', 'Assignment'])]
 filtered_public = public_df[~public_df['SolverName'].isin(['Bogo', 'Assignment'])]
 filtered_testSets = [filtered_tiny, filtered_medium, filtered_public]
 
@@ -115,7 +115,6 @@ for testSet in allTests:
     test_set_name = testSet['FileName'].iloc[0][0] 
     mean_crossings = testSet.groupby('SolverName')['CrossingsAfter'].mean()
     mean_crossings.plot(kind='bar', zorder=2, color=df['Color'])
-    plt.title('Mean Crossings for each solver in {}'.format(test_set_name))
     plt.xlabel('Solver Name')
     plt.ylabel('Crossings')
     plt.grid(axis='y', linestyle='--', alpha=0.7, zorder=1) 
@@ -130,7 +129,6 @@ for testSet in allTests:
         x_transformed = np.mean(group['Duration'])
         test_set_name = testSet['FileName'].iloc[0][0]
         plt.scatter(x_transformed, y_transformed, label=solver, color=colormap[solver])
-        plt.title('Mean Crossings vs Mean Duration in {}'.format(test_set_name))
         plt.xlabel('Mean Duration')
         plt.ylabel('log10(Mean Crossings)')
         plt.legend()
@@ -171,5 +169,5 @@ for solver, group in wins.groupby('SolverName'):
     plt.legend()
 plt.xlim(0, 0.006)
 plt.axvline(x=0.003, color='grey', linestyle='--')  
-plt.axvline(x=0.005, color='grey', linestyle='--')  
+plt.axvline(x=0.0048, color='grey', linestyle='--')  
 plt.show()

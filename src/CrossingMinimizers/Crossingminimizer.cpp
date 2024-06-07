@@ -18,8 +18,5 @@ std::vector<Vertex>* CrossingMinimizer::getNewB() {
     return &B;
 }
 
-
 // Destructor 
-CrossingMinimizer::~CrossingMinimizer() {
-    return;
-}
+CrossingMinimizer::~CrossingMinimizer() {}

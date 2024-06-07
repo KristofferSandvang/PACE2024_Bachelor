@@ -5,21 +5,15 @@
 #include <math.h>
 #include <iostream>
 
-MedianBary::MedianBary(Graph* graph) : CrossingMinimizer(graph)
-{
-}
+MedianBary::MedianBary(Graph* graph) : CrossingMinimizer(graph) {}
 
 bool compareMedianBary(const std::pair<float, Vertex>& a, const std::pair<float, Vertex>& b) {
     return a.first < b.first;
 }
 
-void MedianBary::optimizeOrderMedianBary(std::vector<int>* vertexIndices) {
-    /* if (vertexIndices->size() > 4) {
-        return;
-    } */
-
+void MedianBary::optimizeOrderMedianBary(std::vector<int>* vertexIndices) { 
     std::vector <std::pair<float, Vertex> > barycenterValues;
-    for (int i = 0; i < vertexIndices->size(); i++){
+    for (int i = 0; i < vertexIndices->size(); i++) {
         float barycenterValue = 0;
         for (Vertex* edgeVertex : B.at(vertexIndices->at(i)).getEdges()) {
             barycenterValue += edgeVertex->getVertexID();
@@ -30,16 +24,14 @@ void MedianBary::optimizeOrderMedianBary(std::vector<int>* vertexIndices) {
 
     std::sort(barycenterValues.begin(), barycenterValues.end(), compareMedianBary);
 
-    for (int i = 0; i < barycenterValues.size(); i++)
-    {
+    for (int i = 0; i < barycenterValues.size(); i++) {
         B.at(vertexIndices->at(i)) = barycenterValues.at(i).second;
     }
 }
 
 void MedianBary::handleSameMedianBaryVal(std::vector<std::pair<float, Vertex> >* MedValues) {
     std::map<float, std::vector<int> > MedMap;
-    for (int i = 0; i < MedValues->size(); i++)
-    {
+    for (int i = 0; i < MedValues->size(); i++) {
         MedMap[MedValues->at(i).first].push_back(i); 
     }
 
@@ -54,7 +46,7 @@ void MedianBary::handleSameMedianBaryVal(std::vector<std::pair<float, Vertex> >*
 
 void MedianBary::minimizeCrossings() {
    std::vector <std::pair<float, Vertex> > medianValues;
-    for (int i = 0; i < B.size(); i++){
+    for (int i = 0; i < B.size(); i++) {
         std::vector<int> edgeIDs;
         for (Vertex* edgeVertex : B.at(i).getEdges()) {
             edgeIDs.push_back(edgeVertex->getVertexID());
@@ -65,31 +57,22 @@ void MedianBary::minimizeCrossings() {
         if (edgeIDs.empty()) {
             medianValue = 0;
         }
-        else if (edgeIDs.size() % 2){
+        else if (edgeIDs.size() % 2) {
             // if odd
             medianValue = edgeIDs[floor(edgeIDs.size())/2];
         } else {
             // if even
             medianValue = edgeIDs[edgeIDs.size()/2];
         }
-        
         medianValues.push_back(std::make_pair(medianValue, B.at(i)));
     }
 
     std::sort(medianValues.begin(), medianValues.end(), compareMedianBary);
 
-    for (int i = 0; i < medianValues.size(); i++)
-    {
+    for (int i = 0; i < medianValues.size(); i++) {
         B.at(i) = medianValues.at(i).second;
     }
-    
     handleSameMedianBaryVal(&medianValues);
-
 }
 
-
-
-
-MedianBary::~MedianBary()
-{
-}
+MedianBary::~MedianBary() {}

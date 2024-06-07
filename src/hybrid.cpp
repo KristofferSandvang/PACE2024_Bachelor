@@ -14,14 +14,18 @@
 #include <iostream>
 #include <chrono>
 
-volatile sig_atomic_t flag = 0;
+volatile sig_atomic_t time_flag = 0;
+volatile sig_atomic_t done_flag = 0;
 std::chrono::steady_clock::time_point start;
 int timeLimit = 300;
 int minRemaingTime = 20;
 std::vector<std::pair<unsigned long, CrossingMinimizer*>>* globalSolutions = nullptr;
 
 void signalHandler(int signum) {
-    flag = 1;
+    time_flag = 1;
+    if (done_flag) {
+        return;
+    }
     if (globalSolutions != nullptr) {
         auto bestSolution = std::min_element(globalSolutions->begin(), globalSolutions->end(),
                                              [](const auto& a, const auto& b) {
@@ -62,17 +66,16 @@ int main() {
     solvers.emplace_back(std::make_unique<Barycenter>(&graph));
     solvers.emplace_back(std::make_unique<BarycenterMed>(&graph));
     solvers.emplace_back(std::make_unique<Median>(&graph));
-    solvers.emplace_back(std::make_unique<BarycenterRev>(&graph));
-    solvers.emplace_back(std::make_unique<MedianRev>(&graph));
-    // focus on barycenter first
-    if (0.003 < density &&  density < 0.005) {
+
+    if (0.003 < density &&  density < 0.0048) {
         std::swap(solvers[0], solvers[1]);
+        std::swap(solvers[1], solvers[2]);
     }
 
     for (auto& solver : solvers) {
-        if (flag || !timeRemaining(start)) break;
+        if (time_flag || !timeRemaining(start)) break;
         solver->minimizeCrossings();
-        if (flag || !timeRemaining(start)) break;
+        if (time_flag || !timeRemaining(start)) break;
         unsigned long crossings = graph.countCrossingsSweep(graph.getA(), solver->getNewB());
         CrossingsAndSolvers.push_back(std::make_pair(crossings, solver.get()));
         if (crossings == 0){
@@ -81,16 +84,17 @@ int main() {
         }
     }
 
-    if (flag) {
+    if (time_flag) {
         return 0;
     }
+
+    done_flag = 1;
     auto bestSolution = std::min_element(CrossingsAndSolvers.begin(), CrossingsAndSolvers.end(),
                                          [](const auto& a, const auto& b) {
                                              return a.first < b.first;
                                          });
-    if (bestSolution != CrossingsAndSolvers.end() && !flag) {
+    if (bestSolution != CrossingsAndSolvers.end()) {
         bestSolution->second->writeSolution();
     }
-
     return 0;
 }

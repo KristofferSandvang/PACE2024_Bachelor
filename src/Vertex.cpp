@@ -7,9 +7,7 @@ Vertex::Vertex(int vertexID) {
     Vertex::degree = 0;
 }
 
-Vertex::~Vertex()
-{
-}
+Vertex::~Vertex() {}
 
 void Vertex::addEdge(Vertex* vertex) {
     edges.push_back(vertex);
@@ -31,13 +29,11 @@ void Vertex::updateEdgeOrder(std::vector<Vertex>* newBOrder) {
     };
 
     std::sort(indices.begin(), indices.end(), comparator);
-    for (int i = 0; i < indices.size(); i++)
-    {
+    for (int i = 0; i < indices.size(); i++) {
         edges.at(i) = indices.at(i).first;
     }
 
 }
-
 
 std::vector<Vertex*> Vertex::getEdges() {
     return edges;

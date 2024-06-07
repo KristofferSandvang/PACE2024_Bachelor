@@ -5,16 +5,15 @@
 #include <string>
 #include <vector>
 
-class ParentMinimizer : public CrossingMinimizer
-{
-private:
-    std::vector<Vertex> A;
-public:
-    ParentMinimizer(Graph* graph);
-    void minimizeCrossings() override;
-    ~ParentMinimizer();
-    using CrossingMinimizer::writeSolution;
-    using CrossingMinimizer::getNewB;
+class ParentMinimizer : public CrossingMinimizer {
+    private:
+        std::vector<Vertex> A;
+    public:
+        ParentMinimizer(Graph* graph);
+        void minimizeCrossings() override;
+        ~ParentMinimizer();
+        using CrossingMinimizer::writeSolution;
+        using CrossingMinimizer::getNewB;
 
 };
 

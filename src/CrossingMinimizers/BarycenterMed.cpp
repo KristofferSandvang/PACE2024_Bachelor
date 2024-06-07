@@ -4,19 +4,15 @@
 #include <iostream>
 #include <math.h>
 
-BarycenterMed::BarycenterMed(Graph* graph) : CrossingMinimizer(graph)
-{
-}
+BarycenterMed::BarycenterMed(Graph* graph) : CrossingMinimizer(graph) {}
+
 bool compareBCMEDVALS(const std::pair<float, Vertex>& a, const std::pair<float, Vertex>& b) {
     return a.first < b.first;
 }
 
 void BarycenterMed::optimizeOrderBCMED(std::vector<int>* vertexIndices) {
-    /* if (vertexIndices->size() > 4) {
-        return;
-    } */
     std::vector <std::pair<float, Vertex> > medianValues;
-    for (int i = 0; i < vertexIndices->size(); i++){
+    for (int i = 0; i < vertexIndices->size(); i++) {
         std::vector<int> edgeIDs;
         for (Vertex* edgeVertex : B.at(vertexIndices->at(i)).getEdges()) {
             edgeIDs.push_back(edgeVertex->getVertexID());
@@ -27,7 +23,7 @@ void BarycenterMed::optimizeOrderBCMED(std::vector<int>* vertexIndices) {
         if (edgeIDs.empty()) {
             medianValue = 0;
         }
-        else if (edgeIDs.size() % 2){
+        else if (edgeIDs.size() % 2) {
             // if odd
             medianValue = edgeIDs[floor(edgeIDs.size())/2];
         } else {
@@ -39,8 +35,7 @@ void BarycenterMed::optimizeOrderBCMED(std::vector<int>* vertexIndices) {
 
     }
     std::sort(medianValues.begin(), medianValues.end(), compareBCMEDVALS);
-    for (int i = 0; i < medianValues.size(); i++)
-        {
+    for (int i = 0; i < medianValues.size(); i++) {
             B.at(vertexIndices->at(i)) = medianValues.at(i).second;
         }
 }
@@ -48,8 +43,7 @@ void BarycenterMed::optimizeOrderBCMED(std::vector<int>* vertexIndices) {
 
 void BarycenterMed::handleSameBCMEDVal(std::vector<std::pair<float, Vertex> >* bcValues) {
     std::map<float, std::vector<int> > BCmap;
-    for (int i = 0; i < bcValues->size(); i++)
-    {
+    for (int i = 0; i < bcValues->size(); i++) {
         BCmap[bcValues->at(i).first].push_back(i); 
     }
 
@@ -63,10 +57,8 @@ void BarycenterMed::handleSameBCMEDVal(std::vector<std::pair<float, Vertex> >* b
 }
 
 void BarycenterMed::minimizeCrossings() {
-    //std::vector<Vertex> B = *graph->getB();
     std::vector <std::pair<float, Vertex> > barycenterValues;
-    for (int i = 0; i < B.size(); i++)
-    {
+    for (int i = 0; i < B.size(); i++) {
         float barycenterValue = 0;
         for (Vertex* edgeVertex : B.at(i).getEdges()) {
             barycenterValue += edgeVertex->getVertexID();
@@ -77,16 +69,10 @@ void BarycenterMed::minimizeCrossings() {
 
     std::sort(barycenterValues.begin(), barycenterValues.end(), compareBCMEDVALS);
 
-    for (int i = 0; i < barycenterValues.size(); i++)
-    {
+    for (int i = 0; i < barycenterValues.size(); i++) {
         B.at(i) = barycenterValues.at(i).second;
     }
     handleSameBCMEDVal(&barycenterValues);
 }
 
-
-
-
-BarycenterMed::~BarycenterMed()
-{
-}
+BarycenterMed::~BarycenterMed() {}

@@ -22,14 +22,12 @@ public:
     long double calculateGraphDensity();
     unsigned long int countCrossings();
     unsigned long int countCrossings(std::vector<Vertex> A, std::vector<Vertex> B);
-    unsigned long int countCrossings(std::string B_file);
     unsigned long int countCrossingsSweep();
-    unsigned long int countCrossingsSweep(std::string B_file);
     unsigned long int countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B);    
     unsigned long int findVertexIndex(int vertexID);
     static int findVertexByID(std::vector<Vertex>* vertices, int vertexID);
-    void switchVertices(int v1ID, int v2ID);
     std::vector<std::vector<int> > createAdjacencyMatrix();
+
     std::vector<Vertex>* getB();
     std::vector<Vertex>* getA();
     int getNumVertices();

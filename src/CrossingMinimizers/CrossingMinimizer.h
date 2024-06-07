@@ -5,19 +5,17 @@
 #include "../Vertex.h"
 #include <string>
 
-class CrossingMinimizer
-{
+class CrossingMinimizer {
     protected:
-    Graph* graph;
-    std::vector<Vertex> B;
+        Graph* graph;
+        std::vector<Vertex> B;
 
     public:
-    CrossingMinimizer(Graph* graph);
-    void writeSolution();
-    std::vector<Vertex>* getNewB();
-    virtual void minimizeCrossings() = 0;
-
-    ~CrossingMinimizer();
+        CrossingMinimizer(Graph* graph);
+        void writeSolution();
+        std::vector<Vertex>* getNewB();
+        virtual void minimizeCrossings() = 0;
+        ~CrossingMinimizer();
 };
 
 #endif

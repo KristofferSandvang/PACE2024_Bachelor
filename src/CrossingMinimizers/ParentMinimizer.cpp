@@ -17,19 +17,16 @@ void ParentMinimizer::minimizeCrossings() {
             [](Vertex* a, Vertex* b) {
                 return a->getVertexDegree() < b->getVertexDegree();
             });
-        for (int j = 0; j < edges.size(); j++)
-        {
+        for (int j = 0; j < edges.size(); j++) {
             Vertex* child = edges.at(j);
             if (status[child->getVertexID()]) {
                 continue;
             }
             status[child->getVertexID()] = true;
             newB.push_back(*edges.at(j));
-        }
-        
+        }        
     }
     B = newB;
 }
-
 
 ParentMinimizer::~ParentMinimizer() {}

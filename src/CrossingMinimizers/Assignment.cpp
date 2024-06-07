@@ -5,8 +5,7 @@
 #include <limits>
 
 
-Assignment::Assignment(Graph* graph) : CrossingMinimizer(graph)
-{
+Assignment::Assignment(Graph* graph) : CrossingMinimizer(graph) {
     adjacencyMatrix = graph->createAdjacencyMatrix();
     createCrossingMatrix(graph);
 }
@@ -40,10 +39,10 @@ int Assignment::calculateCost(int i, int j, int n, int m) {
     return cost;
 }
 
-
-
 // Modified version of the code shown on: https://en.wikipedia.org/wiki/Hungarian_algorithm
-bool ckmin(int &a, const int &b) { return b < a ? a = b, 1 : 0; }
+bool ckmin(int &a, const int &b) { 
+    return b < a ? a = b, 1 : 0; 
+}
 
 std::vector<int> Assignment::hungarianReduction() {
     const int J = crossingMatrix.size();
@@ -99,25 +98,13 @@ std::vector<int> Assignment::hungarianReduction() {
 
 void Assignment::minimizeCrossings() {
     std::vector<int> jobs = hungarianReduction();
-    // updating B based on the new Positions
-    /* std::cout << "??" << std::endl;
-    std::cout << "Assignments:" << std::endl; */
-   /*  for (int i = 0; i < jobs.size(); i++) {
-        std::cout << "Worker " << i << ": Job " << jobs[i] << std::endl;
-    } */
     std::vector<Vertex> tmpB;
     tmpB.resize(B.size());
-    std::cout << "B = " << B.size() << ", jobs = " << jobs.size() << std::endl;
-    for (int i = 0; i < B.size(); i++)
-    {
+    for (int i = 0; i < B.size(); i++) {
         tmpB.at(jobs.at(i)) = B.at(i);
     }
     
     B = tmpB;
-    std::cout << "updated B" << std::endl;
 }
 
-Assignment::~Assignment()
-{
-
-}
+Assignment::~Assignment() {}

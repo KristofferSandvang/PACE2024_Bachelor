@@ -42,9 +42,7 @@ Graph::Graph(std::istream& inputStream) {
 }
 
 // Destructor 
-Graph::~Graph() {
-    return;
-}
+Graph::~Graph() {}
 
 long double Graph::calculateGraphDensity() {
     long double numerator = numberOfEdges;
@@ -98,20 +96,6 @@ unsigned long int Graph::countCrossings() {
     return countCrossings(A, B);
 }
 
-unsigned long int Graph::countCrossings(std::string B_file) {
-    std::vector<Vertex> newB;
-    std::ifstream inputFile(B_file);
-    std::string line;
-    
-    while (std::getline(inputFile, line)) {
-        int vertexID;
-        if (std::sscanf(line.c_str(),"%d", &vertexID)) {
-            newB.push_back(B.at(findVertexIndex(vertexID)));
-        }
-    }
-    return countCrossings(Graph::A, newB);
-}
-
 int Graph::findVertexByID(std::vector<Vertex>* vertices, int vertexID) {
     for (int i = 0; i < vertices->size(); i++)
     {
@@ -124,7 +108,7 @@ int Graph::findVertexByID(std::vector<Vertex>* vertices, int vertexID) {
 }
 
 unsigned long int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector<Vertex>* B) {
-    // Skal lige opdatere B edges hvis B ikke er lig med graph.B
+    // Sorts the edges from A if B has been changed.
     if (B != &this->B) {
         for (int i = 0; i < n0; i++) {
             this->A.at(i).updateEdgeOrder(B);
@@ -134,7 +118,6 @@ unsigned long int Graph::countCrossingsSweep(std::vector<Vertex>* A, std::vector
     std::vector<int> UL, LL;
     UL.reserve(A->size());
     LL.reserve(B->size());
-    // last occurence
     std::unordered_map<int, int> last_occurence;
     for (int i = 1; i <= A->size() + B->size(); i++) {
         last_occurence[i] = -1;
@@ -207,43 +190,7 @@ unsigned long int Graph::countCrossingsSweep() {
     return countCrossingsSweep(&A, &B);
 }
 
-unsigned long int Graph::countCrossingsSweep(std::string B_file) {
-    std::vector<Vertex> newB;
-    std::ifstream inputFile(B_file);
-    std::string line;
-    
-    while (std::getline(inputFile, line)) {
-        int vertexID;
-        if (std::sscanf(line.c_str(),"%d", &vertexID)) {
-            newB.push_back(B.at(findVertexIndex(vertexID)));
-        }
-    }
-    
-    for (int i = 0; i < n0; i++)
-    {
-        A.at(i).updateEdgeOrder(&newB);
-    }
-
-    return countCrossingsSweep(&A, &newB);
-}
-
-void Graph::switchVertices(int v1ID, int v2ID) {
-    if (v1ID < n0 || v2ID < n0) {
-        throw std::runtime_error("Vertices must be both be in the B graph");
-    }
-    try {
-        int v1_index = Graph::findVertexIndex(v1ID);
-        int v2_index = Graph::findVertexIndex(v2ID);
-        std::swap(B.at(v1_index), B.at(v2_index));
-    }
-    catch(const std::exception& e) {
-        std::cerr << e.what() << '\n';
-        return;
-    }
-}
-
-
-std::vector<std::vector<int> > Graph::createAdjacencyMatrix(){
+std::vector<std::vector<int> > Graph::createAdjacencyMatrix() {
     std::vector<std::vector<int> > adjacencyMatrix;
     adjacencyMatrix.assign(n0, std::vector<int>(n1, 0));
     for (auto edge : edges) {

@@ -176,21 +176,19 @@ int main(int argc, char* argv[]) {
     std::cout << "Number of crossings before: " << crossingsBefore << std::endl;
     
     std::vector<std::thread> threads;
-    for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
-    {
+    for (int i = 0; i < NUM_OF_MINIMIZERS; i++) {
         threads.push_back(std::thread(threadFunction, i, &graph, std::ref(crossingsAfter), std::ref(durations)));
     }
     for (auto& thread : threads) {
         thread.join();
     }
 
-    std::ofstream csvFile("Temp.csv", std::ios::app);
+    std::ofstream csvFile("solvers.csv", std::ios::app);
     if (!csvFile.is_open()) {
         std::cout << "Error :()" << std::endl;
     }
 
-    for (int i = 0; i < NUM_OF_MINIMIZERS; i++)
-    {
+    for (int i = 0; i < NUM_OF_MINIMIZERS; i++) {
         csvFile << filename << "," << i << "," << crossingsBefore << "," << durations[i] << "," << numEdges << "," << graph.getn0() << "," <<graph.getn1() << "," << density << "," << crossingsAfter[i] << std::endl;
     }
     csvFile.close();

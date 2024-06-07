@@ -4,9 +4,8 @@
 #include <iostream>
 #include <math.h>
 
-MedianRev::MedianRev(Graph* graph) : CrossingMinimizer(graph)
-{
-}
+MedianRev::MedianRev(Graph* graph) : CrossingMinimizer(graph) {}
+
 bool compareMEDREVVALS(const std::pair<float, Vertex>& a, const std::pair<float, Vertex>& b) {
     return a.first < b.first;
 }
@@ -15,11 +14,9 @@ void MedianRev::optimizeOrderMEDREV(std::vector<int>* vertexIndices) {
     return;
 }
 
-
 void MedianRev::handleSameMEDREVVal(std::vector<std::pair<float, Vertex> >* MedValues) {
     std::map<float, std::vector<int> > MedMap;
-    for (int i = 0; i < MedValues->size(); i++)
-    {
+    for (int i = 0; i < MedValues->size(); i++) {
         MedMap[MedValues->at(i).first].push_back(i); 
     }
 
@@ -48,7 +45,7 @@ void MedianRev::minimizeCrossings() {
         if (edgeIDs.empty()) {
             medianValue = 0;
         }
-        else if (edgeIDs.size() % 2){
+        else if (edgeIDs.size() % 2) {
             // if odd
             medianValue = edgeIDs[floor(edgeIDs.size())/2];
         } else {
@@ -61,18 +58,10 @@ void MedianRev::minimizeCrossings() {
 
     std::sort(medianValues.begin(), medianValues.end(), compareMEDREVVALS);
 
-    for (int i = 0; i < medianValues.size(); i++)
-    {
+    for (int i = 0; i < medianValues.size(); i++) {
         B.at(i) = medianValues.at(i).second;
     }
-    
     handleSameMEDREVVal(&medianValues);
-
 }
 
-
-
-
-MedianRev::~MedianRev()
-{
-}
+MedianRev::~MedianRev() {}

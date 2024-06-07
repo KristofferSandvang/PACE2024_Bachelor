@@ -6,21 +6,20 @@
 #include <algorithm>
 #include <unordered_map>
 
-class Assignment : public CrossingMinimizer
-{
-private:
-    std::vector<std::vector<int> > adjacencyMatrix;
-    std::vector<std::vector<int>> crossingMatrix;
-    std::vector<int> hungarianReduction();
-    int calculateCost(int i, int j, int n, int m);
-    void createCrossingMatrix(Graph* graph);
+class Assignment : public CrossingMinimizer {
+    private:
+        std::vector<std::vector<int> > adjacencyMatrix;
+        std::vector<std::vector<int> > crossingMatrix;
+        std::vector<int> hungarianReduction();
+        int calculateCost(int i, int j, int n, int m);
+        void createCrossingMatrix(Graph* graph);
 
-public:
-    Assignment(Graph* graph);
-    void minimizeCrossings() override;
-    ~Assignment();
-    using CrossingMinimizer::writeSolution;
-    using CrossingMinimizer::getNewB;
+    public:
+        Assignment(Graph* graph);
+        void minimizeCrossings() override;
+        ~Assignment();
+        using CrossingMinimizer::writeSolution;
+        using CrossingMinimizer::getNewB;
 };
 
 #endif
