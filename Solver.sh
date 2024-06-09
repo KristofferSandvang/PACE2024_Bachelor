@@ -38,19 +38,19 @@ if [ $? -ne 0 ]; then
 fi
 
 if [ $option_v -eq 1 ] && [ $option_c -eq 1 ]; then
-  ./Hybrid.o < $filename > solution.sol
-  visualizer $filename solution.sol
-  pace2024verify -c $filename solution.sol
-  rm solution.sol
+  ./Hybrid.o < $1 > "solution.sol"
+  visualizer $1 "solution.sol"
+  pace2024verify -c $1 "solution.sol"
+  rm "solution.sol"
 elif [ $option_v -eq 1 ]; then
-  ./Hybrid.o < $filename > solution.sol
-  visualizer $filename solution.sol 
-  rm solution.sol
+  ./Hybrid.o < $1 > "solution.sol"
+  visualizer $1 "solution.sol" 
+  rm "solution.sol"
 elif [ $option_c -eq 1 ]; then
-  ./Hybrid.o -c < $filename
-  pace2024verify -c $filename solution.sol
+  ./Hybrid.o -c < $1
+  pace2024verify -c $1 "solution.sol"
 else
-  ./Hybrid.o < $filename
+  ./Hybrid.o < $1
 fi
 
 rm Hybrid.o
