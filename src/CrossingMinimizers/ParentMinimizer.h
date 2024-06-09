@@ -11,7 +11,7 @@ class ParentMinimizer : public CrossingMinimizer {
     public:
         ParentMinimizer(Graph* graph);
         void minimizeCrossings() override;
-        ~ParentMinimizer();
+        virtual ~ParentMinimizer();
         using CrossingMinimizer::writeSolution;
         using CrossingMinimizer::getNewB;
 

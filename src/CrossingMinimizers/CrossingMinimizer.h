@@ -15,7 +15,7 @@ class CrossingMinimizer {
         void writeSolution();
         std::vector<Vertex>* getNewB();
         virtual void minimizeCrossings() = 0;
-        ~CrossingMinimizer();
+        virtual ~CrossingMinimizer();
 };
 
 #endif

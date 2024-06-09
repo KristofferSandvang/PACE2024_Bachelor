@@ -13,7 +13,7 @@ class OptimizedMedian : public CrossingMinimizer {
     public:
         OptimizedMedian(Graph* graph);
         void minimizeCrossings() override;
-        ~OptimizedMedian();
+        virtual ~OptimizedMedian();
         using CrossingMinimizer::writeSolution;
         using CrossingMinimizer::getNewB;
 };

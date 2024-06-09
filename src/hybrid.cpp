@@ -4,10 +4,7 @@
 #include "CrossingMinimizers/BarycenterMed.h"
 #include "CrossingMinimizers/OptimizedBC.h"
 #include "CrossingMinimizers/OptimizedMedian.h"
-#include "CrossingMinimizers/ParentMinimizer.h"
 #include "CrossingMinimizers/MedianBary.h"
-#include "CrossingMinimizers/BarycenterRev.h"
-#include "CrossingMinimizers/MedianRev.h"
 #include <algorithm>
 #include <csignal>
 #include <memory>

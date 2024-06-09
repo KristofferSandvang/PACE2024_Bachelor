@@ -12,7 +12,7 @@ class MedianBary : public CrossingMinimizer {
     public:
         MedianBary(Graph* graph);
         void minimizeCrossings() override;
-        ~MedianBary();
+        virtual ~MedianBary();
         using CrossingMinimizer::writeSolution;
         using CrossingMinimizer::getNewB;
 };

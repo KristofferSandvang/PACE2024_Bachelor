@@ -10,7 +10,7 @@ class BogoMinimizer : public CrossingMinimizer {
     public:
         BogoMinimizer(Graph* graph);
         void minimizeCrossings() override;
-        ~BogoMinimizer();
+        virtual ~BogoMinimizer();
         using CrossingMinimizer::writeSolution;
         using CrossingMinimizer::getNewB;
 };

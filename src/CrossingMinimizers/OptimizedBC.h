@@ -14,7 +14,7 @@ class OptimizedBC : public CrossingMinimizer
     public:
         OptimizedBC(Graph* graph);
         void minimizeCrossings() override;
-        ~OptimizedBC();
+        virtual ~OptimizedBC();
         using CrossingMinimizer::writeSolution;
         using CrossingMinimizer::getNewB;
 };

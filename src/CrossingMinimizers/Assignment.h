@@ -17,7 +17,7 @@ class Assignment : public CrossingMinimizer {
     public:
         Assignment(Graph* graph);
         void minimizeCrossings() override;
-        ~Assignment();
+        virtual ~Assignment();
         using CrossingMinimizer::writeSolution;
         using CrossingMinimizer::getNewB;
 };

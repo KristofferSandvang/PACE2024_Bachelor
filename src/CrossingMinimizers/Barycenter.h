@@ -10,7 +10,7 @@ class Barycenter : public CrossingMinimizer {
     public:
         Barycenter(Graph* graph);
         void minimizeCrossings() override;
-        ~Barycenter();
+        virtual ~Barycenter();
         using CrossingMinimizer::writeSolution;
         using CrossingMinimizer::getNewB;
 };

@@ -11,7 +11,7 @@ class MedianRev : public CrossingMinimizer {
     public:
         MedianRev(Graph* graph);
         void minimizeCrossings() override;
-        ~MedianRev();
+        virtual ~MedianRev();
         using CrossingMinimizer::writeSolution;
         using CrossingMinimizer::getNewB;
 };

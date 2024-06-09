@@ -10,7 +10,7 @@ class Median : public CrossingMinimizer {
     public:
         Median(Graph* graph);
         void minimizeCrossings() override;
-        ~Median();
+        virtual ~Median();
         using CrossingMinimizer::writeSolution;
         using CrossingMinimizer::getNewB;
 };
