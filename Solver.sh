@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 usage() {
-  echo "Usage: $0 [-s] [-c] <filename>"
+  echo "Usage: $0 [-v] [-c] <filename>"
   exit 1
 }
 
@@ -39,16 +39,17 @@ fi
 
 if [ $option_v -eq 1 ] && [ $option_c -eq 1 ]; then
   ./Hybrid.o < $1 > "solution.sol"
-  visualizer $1 "solution.sol"
-  pace2024verify -c $1 "solution.sol"
+  python visualizer/visualizer.py $1 "solution.sol" 
+  pace2024verifier -c $1 "solution.sol"
   rm "solution.sol"
 elif [ $option_v -eq 1 ]; then
   ./Hybrid.o < $1 > "solution.sol"
-  visualizer $1 "solution.sol" 
+  python visualizer/visualizer.py $1 "solution.sol" 
   rm "solution.sol"
 elif [ $option_c -eq 1 ]; then
-  ./Hybrid.o -c < $1
-  pace2024verify -c $1 "solution.sol"
+  ./Hybrid.o -c < $1 > "solution.sol"
+  pace2024verifier -c $1 "solution.sol"
+  rm "solution.sol"
 else
   ./Hybrid.o < $1
 fi

@@ -29,6 +29,9 @@ python3 solvers.py
 
 ## Compute a permutation of the nonfixed layer
 To compute a permutation of the nonfixer layer in a graph, you can simply run the script `Solver.sh`:
+
+We have included all the tests graphs provided by the [PACE 2024 challenge](https://pacechallenge.org/2024/), in the `tests/graphs/` directory. 
+ 
 #### For MacOS/Linux:
 ```
 ./Solver.sh path/to/graph.gr
@@ -43,7 +46,7 @@ To visualize a graph using the [PACE 2024 visualizer](https://pacechallenge.org/
 ./Solver.sh -v ./tests/graphs/tiny/website_20.gr
 ```
 ### Count crossings after
-To count the crossings a graph using the [PACE 2024 verifier](https://pacechallenge.org/2024/verifier/), you can use the option `-c`. For example:
+To count the crossings of a graph, using the [PACE 2024 verifier](https://pacechallenge.org/2024/verifier/), and our hybrid algorithm, you can use the option `-c`. For example:
 
 ```
 ./Solver.sh -c ./tests/graphs/tiny/website_20.gr
