@@ -11,7 +11,7 @@ class BarycenterRev : public CrossingMinimizer {
     public:
         BarycenterRev(Graph* graph);
         void minimizeCrossings() override;
-        ~BarycenterRev();
+        virtual ~BarycenterRev();
         using CrossingMinimizer::writeSolution;
         using CrossingMinimizer::getNewB;
 };
